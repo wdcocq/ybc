@@ -1,5 +1,4 @@
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ContainerProps {
@@ -15,35 +14,26 @@ pub struct ContainerProps {
 /// A simple container to center your content horizontally.
 ///
 /// [https://bulma.io/documentation/layout/container/](https://bulma.io/documentation/layout/container/)
-pub struct Container {
-    props: ContainerProps,
-}
+pub struct Container; 
 
 impl Component for Container {
     type Message = ();
     type Properties = ContainerProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("container");
-        classes.push(&self.props.classes);
-        if self.props.fluid {
+        classes.push(&props.classes);
+        if props.fluid {
             classes.push("is-fluid");
         }
         html! {
-            <div class=classes>
-                {self.props.children.clone()}
+            <div class={classes}>
+                {props.children.clone()}
             </div>
         }
     }

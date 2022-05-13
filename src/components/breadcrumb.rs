@@ -1,6 +1,5 @@
 use derive_more::Display;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 use crate::Alignment;
 
@@ -25,42 +24,33 @@ pub struct BreadcrumbProps {
 /// A simple breadcrumb component to improve your navigation experience.
 ///
 /// [https://bulma.io/documentation/components/breadcrumb/](https://bulma.io/documentation/components/breadcrumb/)
-pub struct Breadcrumb {
-    props: BreadcrumbProps,
-}
+pub struct Breadcrumb;
 
 impl Component for Breadcrumb {
     type Message = ();
     type Properties = BreadcrumbProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("breadcrumb");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if let Some(alignment) = &self.props.alignment {
+        if let Some(alignment) = &props.alignment {
             classes.push(&alignment.to_string());
         }
-        if let Some(separator) = &self.props.separator {
+        if let Some(separator) = &props.separator {
             classes.push(&separator.to_string());
         }
         html! {
-            <nav class=classes aria-label="breadcrumbs">
+            <nav class={classes} aria-label="breadcrumbs">
                 <ul>
-                    {self.props.children.clone()}
+                    {props.children.clone()}
                 </ul>
             </nav>
         }

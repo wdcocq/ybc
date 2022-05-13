@@ -30,7 +30,7 @@ struct App; // An application component.
 
 impl Component for App {
   /* .. snip .. */
-  fn view(&self) -> Html {
+  fn view(&self, ctx: &Context<Self>) -> Html {
     html!{
       <>
       <ybc::Navbar fixed=Top /* .. your navbar content here .. *//>

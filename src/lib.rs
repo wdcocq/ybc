@@ -39,10 +39,10 @@ pub use components::card::{
 pub use components::dropdown::{Dropdown, DropdownMsg, DropdownProps};
 pub use components::menu::{Menu, MenuLabel, MenuLabelProps, MenuList, MenuListProps, MenuProps};
 pub use components::message::{Message, MessageBody, MessageBodyProps, MessageHeader, MessageHeaderProps, MessageProps};
-pub use components::modal::{Modal, ModalCard, ModalCardProps, ModalCloseMsg, ModalCloser, ModalMsg, ModalProps};
+pub use components::modal::{Modal, ModalCard, ModalCardProps, ModalAgentMsg, ModalAgentMsgContext, ModalAgent, ModalMsg, ModalProps};
 pub use components::navbar::{
-    Navbar, NavbarDivider, NavbarDividerProps, NavbarDropdown, NavbarDropdownProps, NavbarFixed, NavbarItem, NavbarItemProps, NavbarItemTag,
-    NavbarMsg, NavbarProps,
+    Navbar, NavbarDivider, NavbarDividerProps, NavbarDropdown, NavbarDropdownProps, NavbarFixed, NavbarItem, NavbarItemProps, NavbarItemRouter,
+    NavbarItemTag, NavbarMsg, NavbarProps,
 };
 pub use components::pagination::{
     Pagination, PaginationEllipsis, PaginationItem, PaginationItemProps, PaginationItemRouter, PaginationItemType, PaginationProps,
@@ -53,8 +53,8 @@ pub use components::tabs::{Tabs, TabsProps};
 // elements
 pub use elements::block::{Block, BlockProps};
 pub use elements::button::{
-    Button, ButtonAnchor, ButtonAnchorProps, ButtonAnchorRouter, ButtonGroupSize, ButtonInputReset, ButtonInputResetProps, ButtonInputSubmit,
-    ButtonInputSubmitProps, ButtonProps, ButtonRouter, ButtonRouterProps, Buttons, ButtonsProps,
+    Button, ButtonAnchor, ButtonAnchorProps, ButtonGroupSize, ButtonInputReset, ButtonInputResetProps, ButtonInputSubmit, ButtonInputSubmitProps,
+    ButtonProps, ButtonRouter, ButtonRouterProps, Buttons, ButtonsProps,
 };
 pub use elements::content::{Content, ContentProps};
 pub use elements::delete::{Delete, DeleteProps};

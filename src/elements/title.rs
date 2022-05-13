@@ -2,7 +2,6 @@
 
 use derive_more::Display;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TitleProps {
@@ -24,39 +23,30 @@ pub struct TitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Title {
-    props: TitleProps,
-}
+pub struct Title; 
 
 impl Component for Title {
     type Message = ();
     type Properties = TitleProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("title");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if self.props.is_spaced {
+        if props.is_spaced {
             classes.push("is-spaced");
         }
-        let tag = self.props.tag.clone();
+        let tag = props.tag.clone();
         html! {
-            <@{tag} class=classes>
-                {self.props.children.clone()}
+            <@{tag} class={classes}>
+                {props.children.clone()}
             </@>
         }
     }
@@ -82,36 +72,27 @@ pub struct SubtitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Subtitle {
-    props: SubtitleProps,
-}
+pub struct Subtitle; 
 
 impl Component for Subtitle {
     type Message = ();
     type Properties = SubtitleProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("subtitle");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        let tag = self.props.tag.clone();
+        let tag = props.tag.clone();
         html! {
-            <@{tag} class=classes>
-                {self.props.children.clone()}
+            <@{tag} class={classes}>
+                {props.children.clone()}
             </@>
         }
     }

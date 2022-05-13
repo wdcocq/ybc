@@ -2,7 +2,6 @@
 
 use yew::events::MouseEvent;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct PanelProps {
@@ -18,33 +17,24 @@ pub struct PanelProps {
 /// A composable panel, for compact controls.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct Panel {
-    props: PanelProps,
-}
+pub struct Panel; 
 
 impl Component for Panel {
     type Message = ();
     type Properties = PanelProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("panel");
-        classes.push(&self.props.classes);
+        classes.push(&props.classes);
         html! {
-            <nav class=classes>
-                <p class="panel-heading">{self.props.heading.clone()}</p>
-                {self.props.children.clone()}
+            <nav class={classes}>
+                <p class="panel-heading">{props.heading.clone()}</p>
+                {props.children.clone()}
             </nav>
         }
     }
@@ -62,30 +52,21 @@ pub struct PanelTabsProps {
 /// A container for the navigation tabs of a panel.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct PanelTabs {
-    props: PanelTabsProps,
-}
+pub struct PanelTabs; 
 
 impl Component for PanelTabs {
     type Message = ();
     type Properties = PanelTabsProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         html! {
             <p class="panel-tabs">
-                {self.props.children.clone()}
+                {props.children.clone()}
             </p>
         }
     }
@@ -112,35 +93,26 @@ pub struct PanelBlockProps {
 /// An individual element of the panel.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct PanelBlock {
-    props: PanelBlockProps,
-}
+pub struct PanelBlock; 
 
 impl Component for PanelBlock {
     type Message = ();
     type Properties = PanelBlockProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("panel-block");
-        if self.props.active {
+        if props.active {
             classes.push("is-active");
         }
-        let tag = self.props.tag.clone();
+        let tag = props.tag.clone();
         html! {
-            <@{tag} class=classes onclick=self.props.onclick.clone()>
-                {self.props.children.clone()}
+            <@{tag} class={classes} onclick={props.onclick.clone()}>
+                {props.children.clone()}
             </@>
         }
     }

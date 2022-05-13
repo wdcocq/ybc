@@ -1,9 +1,7 @@
-use yew::events::InputData;
+use yew::events::InputEvent;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 use crate::Size;
-use std::borrow::Cow;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TextAreaProps {
@@ -50,55 +48,49 @@ pub struct TextAreaProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct TextArea {
-    link: ComponentLink<Self>,
-    props: TextAreaProps,
-}
+pub struct TextArea;
 
 impl Component for TextArea {
     type Message = String;
     type Properties = TextAreaProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { link, props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self 
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
         let mut classes = Classes::from("textarea");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if self.props.loading {
+        if props.loading {
             classes.push("is-loading");
         }
-        if self.props.r#static {
+        if props.r#static {
             classes.push("is-static");
         }
-        if self.props.fixed_size {
+        if props.fixed_size {
             classes.push("has-fixed-size");
         }
 
-        let rows = Cow::from(self.props.rows.to_string());
         html! {
             <textarea
-                name=self.props.name.clone()
-                value=self.props.value.clone()
-                oninput=self.link.callback(|input: InputData| input.value)
-                class=classes
-                rows=rows
-                placeholder=self.props.placeholder.clone()
-                disabled=self.props.disabled
-                readonly=self.props.readonly
+                name={props.name.clone()}
+                value={props.value.clone()}
+                oninput={link.callback(|e: InputEvent| e.data().unwrap_or_default())}
+                class={classes}
+                rows={props.rows.to_string()}
+                placeholder={props.placeholder.clone()}
+                disabled={props.disabled}
+                readonly={props.readonly}
                 />
         }
     }

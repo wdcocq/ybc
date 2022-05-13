@@ -1,5 +1,4 @@
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TableProps {
@@ -30,56 +29,47 @@ pub struct TableProps {
 /// An HTML table component.
 ///
 /// [https://bulma.io/documentation/elements/table/](https://bulma.io/documentation/elements/table/)
-pub struct Table {
-    props: TableProps,
-}
+pub struct Table; 
 
 impl Component for Table {
     type Message = ();
     type Properties = TableProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("table");
-        classes.push(&self.props.classes);
-        if self.props.bordered {
+        classes.push(&props.classes);
+        if props.bordered {
             classes.push("is-bordered");
         }
-        if self.props.striped {
+        if props.striped {
             classes.push("is-striped");
         }
-        if self.props.narrow {
+        if props.narrow {
             classes.push("is-narrow");
         }
-        if self.props.hoverable {
+        if props.hoverable {
             classes.push("is-hoverable");
         }
-        if self.props.fullwidth {
+        if props.fullwidth {
             classes.push("is-fullwidth");
         }
-        if self.props.scrollable {
+        if props.scrollable {
             html! {
                 <div class="table-container">
-                    <table class=classes>
-                        {self.props.children.clone()}
+                    <table class={classes}>
+                        {props.children.clone()}
                     </table>
                 </div>
             }
         } else {
             html! {
-                <table class=classes>
-                    {self.props.children.clone()}
+                <table class={classes}>
+                    {props.children.clone()}
                 </table>
             }
         }

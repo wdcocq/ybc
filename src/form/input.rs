@@ -1,9 +1,8 @@
 #![allow(clippy::redundant_closure_call)]
 
 use derive_more::Display;
-use yew::events::InputData;
+use yew::events::InputEvent;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 use crate::Size;
 
@@ -12,18 +11,24 @@ pub struct InputProps {
     /// The `name` attribute for this form element.
     pub name: String,
     /// The controlled value of this form element.
-    pub value: String,
+    pub value: Option<String>,
     /// The callback to be used for propagating changes to this element's value.
-    pub update: Callback<String>,
+    #[prop_or_default]
+    pub update: Callback<InputEvent>,
 
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The input type of this component.
-    #[prop_or_else(|| InputType::Text)]
+    #[prop_or(InputType::Text)]
     pub r#type: InputType,
     /// The placeholder value for this component.
     #[prop_or_default]
     pub placeholder: String,
+    /// Datalist id 
+    #[prop_or_default]
+    pub list: Option<String>,
+    #[prop_or(true)]
+    pub autocomplete: bool,
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<Size>,
@@ -51,53 +56,51 @@ pub struct InputProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct Input {
-    props: InputProps,
-    link: ComponentLink<Self>,
-}
+pub struct Input;
 
 impl Component for Input {
-    type Message = String;
+    type Message = InputEvent;
     type Properties = InputProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
+        let classes = classes!(
+            "input",
+            &props.classes,
+            props.size,
+            props.rounded.then(|| "is-rounded"),
+            props.loading.then(|| "is-loading"),
+            props.r#static.then(|| "is-static"),
+        );
 
-    fn view(&self) -> Html {
-        let mut classes = Classes::from("input");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
-            classes.push(&size.to_string());
-        }
-        if self.props.rounded {
-            classes.push("is-rounded");
-        }
-        if self.props.loading {
-            classes.push("is-loading");
-        }
-        if self.props.r#static {
-            classes.push("is-static");
-        }
+        let autocomplete = if props.autocomplete {
+            "on"
+        } else {
+            "off"
+        };
+
         html! {
             <input
-                name=self.props.name.clone()
-                value=self.props.value.clone()
-                oninput=self.link.callback(|input: InputData| input.value)
-                class=classes
-                type=self.props.r#type.to_string()
-                placeholder=self.props.placeholder.clone()
-                disabled=self.props.disabled
-                readonly=self.props.readonly
+                name={props.name.clone()}
+                value={props.value.clone()}
+                oninput={link.callback(std::convert::identity)}
+                class={classes}
+                type={props.r#type.to_string()}
+                placeholder={props.placeholder.clone()}
+                list={props.list.clone()}
+                autocomplete={autocomplete}
+                disabled={props.disabled}
+                readonly={props.readonly}
                 />
         }
     }

@@ -1,8 +1,8 @@
 #![allow(clippy::redundant_closure_call)]
 
-use yew::events::ChangeData;
+use web_sys::HtmlSelectElement;
+use yew::events::Event;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 use crate::Size;
 
@@ -11,9 +11,11 @@ pub struct SelectProps {
     /// The `name` attribute for this form element.
     pub name: String,
     /// The controlled value of this form element.
-    pub value: String,
+    #[prop_or_default]
+    pub value: Option<String>,
     /// The callback to be used for propagating changes to this element's value.
-    pub update: Callback<String>,
+    #[prop_or_default]
+    pub update: Callback<Event>,
 
     /// The `option` & `optgroup` tags of this select component.
     #[prop_or_default]
@@ -43,49 +45,41 @@ pub struct SelectProps {
 /// **NOTE WELL:** not all browsers will honor the value of the select element's value on initial
 /// load. So if you have an initial `value` set for this component, ensure that the corresponding
 /// option element also has the `selected=true` attribute.
-pub struct Select {
-    props: SelectProps,
-    link: ComponentLink<Self>,
-}
+pub struct Select;
 
 impl Component for Select {
-    type Message = String;
+    type Message = Event;
     type Properties = SelectProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
         let mut classes = Classes::from("select");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if self.props.loading {
+        if props.loading {
             classes.push("is-loading");
         }
         html! {
-            <div class=classes>
+            <div class={classes}>
                 <select
-                    name=self.props.name.clone()
-                    value=self.props.value.clone()
-                    disabled=self.props.disabled
-                    onchange=self.link.callback(|change: ChangeData| match change {
-                        ChangeData::Select(data) => data.value(),
-                        _ => unreachable!("invariant violation: received non-select change event from a select element"),
-                    })
+                    name={props.name.clone()}
+                    value={props.value.clone()}
+                    disabled={props.disabled}
+                    onchange={link.callback(|e: Event| e)}
                 >
-                    {self.props.children.clone()}
+                    {props.children.clone()}
                 </select>
             </div>
         }
@@ -135,59 +129,52 @@ pub struct MultiSelectProps {
 /// **NOTE WELL:** not all browsers will honor the value of the select element's value on initial
 /// load. So if you have an initial `value` set for this component, ensure that the corresponding
 /// option element also has the `selected=true` attribute.
-pub struct MultiSelect {
-    props: MultiSelectProps,
-    link: ComponentLink<Self>,
-}
+pub struct MultiSelect;
 
 impl Component for MultiSelect {
     type Message = Vec<String>;
     type Properties = MultiSelectProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
         let mut classes = Classes::from("select is-multiple");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if self.props.loading {
+        if props.loading {
             classes.push("is-loading");
         }
 
-        let size: String = self.props.list_size.to_string();
+        let size: String = props.list_size.to_string();
         html! {
-            <div class=classes>
+            <div class={classes}>
                 <select
-                    multiple=true
-                    size=size
-                    name=self.props.name.clone()
-                    value=self.props.value.join(",")
-                    disabled=self.props.disabled
-                    onchange=self.link.callback(|change: ChangeData| match change {
-                        ChangeData::Select(data) => {
-                            let opts = data.selected_options();
-                            (0..opts.length()).into_iter()
-                                .filter_map(|idx| opts.item(idx))
-                                .filter_map(|elem| elem.get_attribute("value").or_else(|| elem.text_content()))
-                                .collect::<Vec<_>>()
-                        }
-                        _ => unreachable!("invariant violation: received non-select change event from a select element"),
-                    })
+                    multiple={true}
+                    size={size}
+                    name={props.name.clone()}
+                    value={props.value.join(",")}
+                    disabled={props.disabled}
+                    onchange={link.callback(|e: Event| {
+                        let select: HtmlSelectElement = e.target_unchecked_into();
+                        let opts = select.selected_options();
+                        (0..opts.length()).into_iter()
+                            .filter_map(|idx| opts.item(idx))
+                            .filter_map(|elem| elem.get_attribute("value").or_else(|| elem.text_content()))
+                            .collect::<Vec<_>>()
+                    })}
                 >
-                    {self.props.children.clone()}
+                    {props.children.clone()}
                 </select>
             </div>
         }

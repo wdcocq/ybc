@@ -1,6 +1,5 @@
 use derive_more::Display;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct FieldProps {
@@ -50,70 +49,61 @@ pub struct FieldProps {
 }
 
 /// A container for form controls
-pub struct Field {
-    props: FieldProps,
-}
+pub struct Field; 
 
 impl Component for Field {
     type Message = ();
     type Properties = FieldProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("field");
-        classes.push(&self.props.classes);
-        if self.props.icons_left {
+        classes.push(&props.classes);
+        if props.icons_left {
             classes.push("has-icons-left");
         }
-        if self.props.icons_right {
+        if props.icons_right {
             classes.push("has-icons-right");
         }
-        if self.props.addons {
+        if props.addons {
             classes.push("has-addons");
         }
-        if let Some(align) = &self.props.addons_align {
+        if let Some(align) = &props.addons_align {
             classes.push(&align.to_string());
         }
-        if self.props.grouped {
+        if props.grouped {
             classes.push("is-grouped");
         }
-        if let Some(align) = &self.props.grouped_align {
+        if let Some(align) = &props.grouped_align {
             classes.push(&align.to_string());
         }
-        if self.props.multiline {
+        if props.multiline {
             classes.push("is-grouped-multiline");
         }
 
         // Build the label if label content is provided.
-        let label = match &self.props.label {
-            Some(label_content) => match &self.props.label_classes {
+        let label = match &props.label {
+            Some(label_content) => match &props.label_classes {
                 Some(label_classes_str) => {
                     let mut label_classes = label_classes_str.clone();
-                    if self.props.horizontal {
+                    if props.horizontal {
                         label_classes.push("field-label");
                         html! {
-                            <div class=label_classes>
+                            <div class={label_classes}>
                                 <label class="label">{label_content.clone()}</label>
                             </div>
                         }
                     } else {
                         label_classes.push("label");
-                        html! {<label class=label_classes>{label_content.clone()}</label>}
+                        html! {<label class={label_classes}>{label_content.clone()}</label>}
                     }
                 }
                 None => {
-                    if self.props.horizontal {
+                    if props.horizontal {
                         html! {<div class="field-label"><label class="label">{label_content.clone()}</label></div>}
                     } else {
                         html! {<label class="label">{label_content.clone()}</label>}
@@ -124,35 +114,35 @@ impl Component for Field {
         };
 
         // Build the help label if present.
-        let help = match &self.props.help {
-            Some(help_content) => match &self.props.help_classes {
+        let help = match &props.help {
+            Some(help_content) => match &props.help_classes {
                 Some(help_classes_str) => {
                     let mut help_classes = help_classes_str.clone();
                     help_classes.push("help");
-                    if self.props.help_has_error {
+                    if props.help_has_error {
                         help_classes.push("is-danger");
                     }
-                    html! {<label class=help_classes>{help_content.clone()}</label>}
+                    html! {<label class={help_classes}>{help_content.clone()}</label>}
                 }
                 None => {
                     let mut help_classes = Classes::from("help");
-                    if self.props.help_has_error {
+                    if props.help_has_error {
                         help_classes.push("is-danger");
                     }
-                    html! {<label class=help_classes>{help_content.clone()}</label>}
+                    html! {<label class={help_classes}>{help_content.clone()}</label>}
                 }
             },
             None => html! {},
         };
 
         // Build the body section.
-        let mut body = html! {<>{self.props.children.clone()}</>};
-        if self.props.horizontal {
+        let mut body = html! {<>{props.children.clone()}</>};
+        if props.horizontal {
             body = html! {<div class="field-body">{body}</div>}
         }
 
         html! {
-            <div class=classes>
+            <div class={classes}>
                 {label}
                 {body}
                 {help}

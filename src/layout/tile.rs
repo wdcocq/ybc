@@ -2,7 +2,6 @@
 
 use derive_more::Display;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TileProps {
@@ -33,41 +32,32 @@ pub struct TileProps {
 /// A single tile element to build 2-dimensional whatever-you-like grids.
 ///
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
-pub struct Tile {
-    props: TileProps,
-}
+pub struct Tile; 
 
 impl Component for Tile {
     type Message = ();
     type Properties = TileProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("tile");
-        classes.push(&self.props.classes);
-        if let Some(ctx) = &self.props.ctx {
+        classes.push(&props.classes);
+        if let Some(ctx) = &props.ctx {
             classes.push(&ctx.to_string());
         }
-        if self.props.vertical {
+        if props.vertical {
             classes.push("is-vertical");
         }
-        if let Some(size) = &self.props.size {
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
         html! {
-            <@{self.props.tag.clone()} class=classes>
-                {self.props.children.clone()}
+            <@{props.tag.clone()} class={classes}>
+                {props.children.clone()}
             </@>
         }
     }

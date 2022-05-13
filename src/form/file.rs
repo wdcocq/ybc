@@ -1,9 +1,7 @@
 #![allow(clippy::redundant_closure_call)]
 
-use web_sys::File as SysFile;
-use yew::events::ChangeData;
+use web_sys::{File as SysFile, HtmlInputElement};
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 use crate::{Alignment, Size};
 
@@ -57,76 +55,74 @@ pub struct FileProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct File {
-    props: FileProps,
-    link: ComponentLink<Self>,
-}
+pub struct File;
 
 impl Component for File {
     type Message = Vec<SysFile>;
     type Properties = FileProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
         let mut classes = Classes::from("file");
-        classes.push(&self.props.classes);
-        if self.props.has_name.is_some() {
+        classes.push(&props.classes);
+        if props.has_name.is_some() {
             classes.push("has-name");
         }
-        if self.props.right {
+        if props.right {
             classes.push("is-right");
         }
-        if self.props.fullwidth {
+        if props.fullwidth {
             classes.push("is-fullwidth");
         }
-        if self.props.boxed {
+        if props.boxed {
             classes.push("is-boxed");
         }
-        if let Some(size) = &self.props.size {
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
-        if let Some(alignment) = &self.props.alignment {
+        if let Some(alignment) = &props.alignment {
             classes.push(&alignment.to_string());
         }
-        let filenames = self
-            .props
+        let filenames = props
             .files
             .iter()
             .map(|file| html! {<span class="file-name">{file.name()}</span>})
             .collect::<Vec<_>>();
         html! {
-            <div class=classes>
+            <div class={classes}>
                 <label class="file-label">
                     <input
                         type="file"
                         class="file-input"
-                        name=self.props.name.clone()
-                        multiple=self.props.multiple
-                        onchange=self.link.callback(|data: ChangeData| match data {
-                            ChangeData::Files(list) => (0..list.length()).into_iter()
-                                .filter_map(|idx| list.item(idx))
-                                .collect::<Vec<_>>(),
-                            _ => unreachable!("invariant violation: received non-file change event from a file input element"),
-                        })
+                        name={props.name.clone()}
+                        multiple={props.multiple}
+                        onchange={link.callback(|e: Event| {
+                            let file = e.target_unchecked_into::<HtmlInputElement>();
+                            if let Some(list) = file.files() {
+                                (0..list.length()).into_iter()
+                                    .filter_map(|idx| list.item(idx))
+                                    .collect::<Vec<_>>()
+                            } else {
+                                vec![]
+                            }
+                        })}
                         />
                     <span class="file-cta">
                         <span class="file-icon">
-                            {self.props.selector_icon.clone()}
+                            {props.selector_icon.clone()}
                         </span>
                         <span class="file-label">
-                            {self.props.selector_label.clone()}
+                            {props.selector_label.clone()}
                         </span>
                     </span>
                     {filenames}

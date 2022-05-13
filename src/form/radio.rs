@@ -1,6 +1,5 @@
-use yew::events::InputData;
+use yew::events::InputEvent;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct RadioProps {
@@ -33,42 +32,37 @@ pub struct RadioProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct Radio {
-    props: RadioProps,
-    link: ComponentLink<Self>,
-}
+pub struct Radio;
 
 impl Component for Radio {
     type Message = String;
     type Properties = RadioProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.props.update.emit(msg);
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        ctx.props().update.emit(msg);
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        let link = ctx.link();
         let mut classes = Classes::from("radio");
-        classes.push(&self.props.classes);
+        classes.push(&props.classes);
         html! {
-            <label class=classes disabled=self.props.disabled>
+            <label class={classes} disabled={props.disabled}>
                 <input
                     type="radio"
-                    name=self.props.name.clone()
-                    value=self.props.value.clone()
-                    checked=self.props.checked_value.as_ref().map(|val| val == &self.props.value).unwrap_or(false)
-                    oninput=self.link.callback(|data: InputData| data.value)
-                    disabled=self.props.disabled
+                    name={props.name.clone()}
+                    value={props.value.clone()}
+                    checked={props.checked_value.as_ref().map(|val| val == &props.value).unwrap_or(false)}
+                    oninput={link.callback(|e: InputEvent| e.data().unwrap_or_default())}
+                    disabled={props.disabled}
                     />
-                {self.props.children.clone()}
+                {props.children.clone()}
             </label>
         }
     }

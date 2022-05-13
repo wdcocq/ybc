@@ -1,6 +1,5 @@
 use derive_more::Display;
 use yew::prelude::*;
-use yewtil::NeqAssign;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ImageProps {
@@ -16,35 +15,26 @@ pub struct ImageProps {
 /// A container for responsive images.
 ///
 /// [https://bulma.io/documentation/elements/image/](https://bulma.io/documentation/elements/image/)
-pub struct Image {
-    props: ImageProps,
-}
+pub struct Image; 
 
 impl Component for Image {
     type Message = ();
     type Properties = ImageProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props.neq_assign(props)
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
         let mut classes = Classes::from("image");
-        classes.push(&self.props.classes);
-        if let Some(size) = &self.props.size {
+        classes.push(&props.classes);
+        if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
         html! {
-            <figure class=classes>
-                {self.props.children.clone()}
+            <figure class={classes}>
+                {props.children.clone()}
             </figure>
         }
     }
