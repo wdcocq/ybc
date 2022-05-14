@@ -20,38 +20,23 @@ pub struct ColumnsProps {
 /// The container for a set of responsive columns.
 ///
 /// [https://bulma.io/documentation/columns/](https://bulma.io/documentation/columns/)
-pub struct Columns;
+#[function_component(Columns)]
+pub fn columns(ColumnsProps { children, classes, vcentered, multiline, centered }: &ColumnsProps) -> Html {
+    let classes = classes!(
+        classes,
+        "columns",
+        vcentered.then(|| "is-vcentered"),
+        multiline.then(|| "is-multiline"),
+        centered.then(|| "is-centered"),
+    );
 
-impl Component for Columns {
-    type Message = ();
-    type Properties = ColumnsProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("columns");
-        classes.push(&props.classes);
-        if props.vcentered {
-            classes.push("is-vcentered");
-        }
-        if props.multiline {
-            classes.push("is-multiline");
-        }
-        if props.centered {
-            classes.push("is-centered");
-        }
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -69,24 +54,13 @@ pub struct ColumnProps {
 /// This component has a very large number of valid class combinations which users may want.
 /// Modelling all of these is particularly for this component, so for now you are encouraged to
 /// add classes to this Component manually via the `classes` prop.
-pub struct Column;
+#[function_component(Column)]
+pub fn column(ColumnProps { children, classes }: &ColumnProps) -> Html {
+    let classes = classes!(classes, "column");
 
-impl Component for Column {
-    type Message = ();
-    type Properties = ColumnProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("column");
-        classes.push(&props.classes);
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
     }
 }

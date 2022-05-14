@@ -11,29 +11,17 @@ pub struct MessageProps {
 /// Colored message blocks, to emphasize part of your page.
 ///
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
-pub struct Message; 
+#[function_component(Message)]
+pub fn message(MessageProps { children, classes }: &MessageProps) -> Html {
+    let classes = classes!(classes, "message");
 
-impl Component for Message {
-    type Message = ();
-    type Properties = MessageProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("message");
-        classes.push(&props.classes);
-        html! {
-            <article class={classes}>
-                {props.children.clone()}
-            </article>
-        }
+    html! {
+        <article class={classes}>
+            {children.clone()}
+        </article>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -47,29 +35,17 @@ pub struct MessageHeaderProps {
 /// An optional message header that can hold a title and a delete element.
 ///
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
-pub struct MessageHeader; 
+#[function_component(MessageHeader)]
+pub fn message_header(MessageHeaderProps { children, classes }: &MessageHeaderProps) -> Html {
+    let classes = classes!(classes, "message-header");
 
-impl Component for MessageHeader {
-    type Message = ();
-    type Properties = MessageHeaderProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("message-header");
-        classes.push(&props.classes);
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -83,24 +59,13 @@ pub struct MessageBodyProps {
 /// A container for the body of a message.
 ///
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
-pub struct MessageBody; 
+#[function_component(MessageBody)]
+pub fn message_body(MessageBodyProps{ children, classes }: &MessageBodyProps) -> Html {
+    let classes = classes!(classes, "message-body");
 
-impl Component for MessageBody {
-    type Message = ();
-    type Properties = MessageBodyProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("message-body");
-        classes.push(&props.classes);
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
     }
 }

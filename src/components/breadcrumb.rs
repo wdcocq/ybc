@@ -24,36 +24,16 @@ pub struct BreadcrumbProps {
 /// A simple breadcrumb component to improve your navigation experience.
 ///
 /// [https://bulma.io/documentation/components/breadcrumb/](https://bulma.io/documentation/components/breadcrumb/)
-pub struct Breadcrumb;
+#[function_component(Breadcrumb)]
+pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separator }: &BreadcrumbProps) -> Html {
+    let classes = classes!(classes, "breadcrumb", size, alignment, seperator);
 
-impl Component for Breadcrumb {
-    type Message = ();
-    type Properties = BreadcrumbProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("breadcrumb");
-        classes.push(&props.classes);
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if let Some(alignment) = &props.alignment {
-            classes.push(&alignment.to_string());
-        }
-        if let Some(separator) = &props.separator {
-            classes.push(&separator.to_string());
-        }
-        html! {
-            <nav class={classes} aria-label="breadcrumbs">
-                <ul>
-                    {props.children.clone()}
-                </ul>
-            </nav>
-        }
+    html! {
+        <nav class={classes} aria-label="breadcrumbs">
+            <ul>
+                {children.clone()}
+            </ul>
+        </nav>
     }
 }
 
@@ -61,7 +41,7 @@ impl Component for Breadcrumb {
 ///
 /// https://bulma.io/documentation/components/breadcrumb/#sizes
 #[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "are-{}")]
+#[display(fmt = "is-{}")]
 pub enum BreadcrumbSize {
     #[display(fmt = "small")]
     Small,
@@ -69,6 +49,12 @@ pub enum BreadcrumbSize {
     Medium,
     #[display(fmt = "large")]
     Large,
+}
+
+impl From<BreadcrumbSize> for Classes {
+    fn from(size: BreadcrumbSize) -> Self {
+        size.to_string().into()
+    }
 }
 
 /// The 4 additional separators for a breadcrump.
@@ -85,4 +71,10 @@ pub enum BreadcrumbSeparator {
     Dot,
     #[display(fmt = "succeeds")]
     Succeeds,
+}
+
+impl From<BreadcrumbSeparator> for Classes {
+    fn from(seperator: BreadcrumbSeparator) -> Self {
+        separator.to_string().into()
+    }
 }

@@ -1,7 +1,6 @@
 use std::rc::Rc;
 
 use yew::prelude::*;
-// use yew_agent::*;
 
 /// Modal actions.
 #[derive(Debug)]
@@ -103,7 +102,6 @@ impl Component for Modal {
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -255,8 +253,8 @@ impl Reducible for ModalAgentMsg {
 // /// }
 // /// ```
 // ///
-// /// Next, in your component's `view` method, setup a callback to handle your component's close event.
-// /// ```rust
+// /// Next, in your component's `view` method, setup a callback to handle your component's close
+// event. /// ```rust
 // /// let closer = self.link.callback(|_| ModalCloseMsg("modal-0".into()));
 // /// // ... snip ...
 // /// <ModalCard
@@ -268,8 +266,8 @@ impl Reducible for ModalAgentMsg {
 // /// />
 // /// ```
 // ///
-// /// Finally, in your component's `update` method, send the `ModalCloseMsg` over to the agent which
-// /// will forward the message to the modal to cause it to close.
+// /// Finally, in your component's `update` method, send the `ModalCloseMsg` over to the agent
+// which /// will forward the message to the modal to cause it to close.
 // /// ```rust
 // /// fn update(&mut self, msg: Self::Message) -> ShouldRender {
 // ///     self.bridge.send(msg);
@@ -279,37 +277,6 @@ impl Reducible for ModalAgentMsg {
 // ///
 // /// This pattern allows you to communicate with a modal by its given ID, allowing
 // /// you to close the modal from anywhere in your application.
-// pub struct ModalCloser {
-//     link: AgentLink<Self>,
-//     subscribers: HashSet<HandlerId>,
-// }
-
-// impl Agent for ModalCloser {
-//     type Reach = Context<Self>;
-//     type Message = ();
-//     type Input = ModalCloseMsg; // The agent receives requests to close modals by ID.
-//     type Output = ModalCloseMsg; // The agent forwards the input to all registered modals.
-
-//     fn create(link: AgentLink<Self>) -> Self {
-//         Self { link, subscribers: HashSet::new() }
-//     }
-
-//     fn update(&mut self, _: Self::Message) {}
-
-//     fn handle_input(&mut self, msg: Self::Input, _: HandlerId) {
-//         for cmp in self.subscribers.iter() {
-//             self.link.respond(*cmp, msg.clone());
-//         }
-//     }
-
-//     fn connected(&mut self, id: HandlerId) {
-//         self.subscribers.insert(id);
-//     }
-
-//     fn disconnected(&mut self, id: HandlerId) {
-//         self.subscribers.remove(&id);
-//     }
-// }
 
 pub type ModalAgentMsgContext = UseReducerHandle<ModalAgentMsg>;
 

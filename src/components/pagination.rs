@@ -1,6 +1,6 @@
 use derive_more::Display;
-use yew::events::MouseEvent;
 use yew::prelude::*;
+use yew::{events::MouseEvent, html::IntoPropValue};
 
 use crate::{Alignment, Size};
 
@@ -30,42 +30,31 @@ pub struct PaginationProps {
 /// A responsive, usable, and flexible pagination component.
 ///
 /// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
-pub struct Pagination;
+#[function_component(Pagination)]
+pub fn pagination(
+    PaginationProps {
+        children,
+        classes,
+        size,
+        alignment,
+        rounded,
+        previous,
+        next,
+    }: &PaginationProps,
+) -> Html {
+    let classes = classes!(classes, "pagination", size, alignment, rounded.then(|| "is-rounded"));
 
-impl Component for Pagination {
-    type Message = ();
-    type Properties = PaginationProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("pagination");
-        classes.push(&props.classes);
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if let Some(alignment) = &props.alignment {
-            classes.push(&alignment.to_string());
-        }
-        if props.rounded {
-            classes.push("is-rounded");
-        }
-        html! {
-            <nav class={classes} role="navigation" aria-label="pagination">
-                {props.previous.clone()}
-                {props.next.clone()}
-                <ul class="pagination-list">
-                    {props.children.clone()}
-                </ul>
-            </nav>
-        }
+    html! {
+        <nav class={classes} role="navigation" aria-label="pagination">
+            {previous.clone()}
+            {next.clone()}
+            <ul class="pagination-list">
+                {children.clone()}
+            </ul>
+        </nav>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -77,33 +66,23 @@ pub struct PaginationItemProps {
     #[prop_or_default]
     pub label: String,
     /// The click handler for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
 }
 
 /// A pagination element representing a link to a page number, the previous page or the next page.
 ///
 /// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
-pub struct PaginationItem;
+#[function_component(PaginationItem)]
+pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick }: &PaginationItemProps) -> Html {
+    let classes = classes!(item_type);
 
-impl Component for PaginationItem {
-    type Message = ();
-    type Properties = PaginationItemProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        html! {
-            <a class={props.item_type.to_string()} aria-label={props.label.clone()} onclick={props.onclick.clone()}>
-                {props.children.clone()}
-            </a>
-        }
+    html! {
+        <a class={classes} aria-label={label} {onclick}>
+            {children.clone()}
+        </a>
     }
 }
-
 /// A pagination item type.
 #[derive(Clone, Debug, Display, PartialEq)]
 #[display(fmt = "pagination-{}")]
@@ -119,28 +98,22 @@ pub enum PaginationItemType {
     Previous,
 }
 
-//////////////////////////////////////////////////////////////////////////////
+impl From<PaginationItemType> for Classes {
+    fn from(item_type: PaginationItemType) -> Self {
+        item_type.to_string().into()
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 /// A horizontal ellipsis for pagination range separators.
 ///
 /// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
-pub struct PaginationEllipsis;
-
-impl Component for PaginationEllipsis {
-    type Message = ();
-    type Properties = ();
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {<span class="pagination-ellipsis">{"&hellip;"}</span>}
-    }
+#[function_component(PaginationEllipsis)]
+pub fn pagination_ellipsis() -> Html {
+    html! {<span class="pagination-ellipsis">{"&hellip;"}</span>}
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[cfg(feature = "router")]

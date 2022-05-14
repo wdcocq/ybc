@@ -9,7 +9,8 @@ pub struct PanelProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Option<Classes>,
-    /// The HTML content of this panel's heading; it is automatically wrapped in a `p.panel-heading`.
+    /// The HTML content of this panel's heading; it is automatically wrapped in a
+    /// `p.panel-heading`.
     #[prop_or_default]
     pub heading: Html,
 }
@@ -17,30 +18,18 @@ pub struct PanelProps {
 /// A composable panel, for compact controls.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct Panel; 
+#[function_component(Panel)]
+pub fn panel(PanelProps { children, classes, heading }: &PanelProps) -> Html {
+    let mut classes = classes!(classes, "panel");
 
-impl Component for Panel {
-    type Message = ();
-    type Properties = PanelProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("panel");
-        classes.push(&props.classes);
-        html! {
-            <nav class={classes}>
-                <p class="panel-heading">{props.heading.clone()}</p>
-                {props.children.clone()}
-            </nav>
-        }
+    html! {
+        <nav class={classes}>
+            <p class="panel-heading">{heading.clone()}</p>
+            {children.clone()}
+        </nav>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -52,27 +41,15 @@ pub struct PanelTabsProps {
 /// A container for the navigation tabs of a panel.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct PanelTabs; 
-
-impl Component for PanelTabs {
-    type Message = ();
-    type Properties = PanelTabsProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        html! {
-            <p class="panel-tabs">
-                {props.children.clone()}
-            </p>
-        }
+#[function_component(PanelTabs)]
+pub fn panel_tabs(PanelTabsProps { children }: &PanelTabsProps) -> Html {
+    html! {
+        <p class="panel-tabs">
+            {children.clone()}
+        </p>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -86,34 +63,20 @@ pub struct PanelBlockProps {
     #[prop_or_default]
     pub active: bool,
     /// The click handler for this element.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
 }
 
 /// An individual element of the panel.
 ///
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
-pub struct PanelBlock; 
+#[function_component(PanelBlock)]
+pub fn panel_block(PanelBlockProps { children, tag, active, onclick }: &PanelBlockProps) -> Html {
+    let classes = classes!("panel-block", active.then(|| "is-active"));
 
-impl Component for PanelBlock {
-    type Message = ();
-    type Properties = PanelBlockProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("panel-block");
-        if props.active {
-            classes.push("is-active");
-        }
-        let tag = props.tag.clone();
-        html! {
-            <@{tag} class={classes} onclick={props.onclick.clone()}>
-                {props.children.clone()}
-            </@>
-        }
+    html! {
+        <@{tag} class={classes} {onclick}>
+            {children.clone()}
+        </@>
     }
 }

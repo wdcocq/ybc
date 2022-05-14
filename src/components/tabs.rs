@@ -34,44 +34,35 @@ pub struct TabsProps {
 ///
 /// For integration with Yew Router, it is recommended that the `RouterButton` or `RouterAnchor`
 /// components be used as the individual tab elements for this component.
-pub struct Tabs; 
+#[function_component(Tabs)]
+pub fn tabs(
+    TabsProps {
+        children,
+        classes,
+        alignment,
+        size,
+        boxed,
+        toggle,
+        rounded,
+        fullwidth,
+    }: &TabsProps,
+) -> Html {
+    let classes = classes!(
+        classes,
+        "tabs",
+        alignment,
+        size,
+        boxed.then(|| "is-boxed"),
+        toggle.then(|| "is-toggle"),
+        rounded.then(|| "is-rounded"),
+        fullwidth.then(|| "is-fullwidth")
+    );
 
-impl Component for Tabs {
-    type Message = ();
-    type Properties = TabsProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("tabs");
-        classes.push(&props.classes);
-        if let Some(alignment) = &props.alignment {
-            classes.push(&alignment.to_string());
-        }
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if props.boxed {
-            classes.push("is-boxed");
-        }
-        if props.toggle {
-            classes.push("is-toggle");
-        }
-        if props.rounded {
-            classes.push("is-rounded");
-        }
-        if props.fullwidth {
-            classes.push("is-fullwidth");
-        }
-        html! {
-            <div class={classes}>
-                <ul>
-                    {props.children.clone()}
-                </ul>
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            <ul>
+                {props.children.clone()}
+            </ul>
+        </div>
     }
 }
