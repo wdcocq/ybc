@@ -14,6 +14,12 @@ pub enum Alignment {
     Right,
 }
 
+impl From<Alignment> for Classes {
+    fn from(alignment: Alignment) -> Self {
+        alignment.to_string().into()
+    }
+}
+
 /// Common size classes.
 #[derive(Clone, Copy, Debug, Display, PartialEq)]
 #[display(fmt = "is-{}")]
@@ -34,8 +40,8 @@ impl IntoPropValue<Cow<'static, str>> for Size {
     }
 }
 
-impl Into<Classes> for Size {
-    fn into(self) -> Classes {
-        self.to_string().into()
+impl From<Size> for Classes {
+    fn from(size: Size) -> Self {
+        size.to_string().into()
     }
 }

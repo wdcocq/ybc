@@ -58,7 +58,7 @@ pub use elements::button::{
 };
 pub use elements::content::{Content, ContentProps};
 pub use elements::delete::{Delete, DeleteProps};
-pub use elements::icon::{Icon, IconProps};
+pub use elements::icon::{Icon, IconProps, IconText, IconTextProps};
 pub use elements::image::{Image, ImageProps, ImageSize};
 pub use elements::notification::{Notification, NotificationProps};
 pub use elements::progress::{Progress, ProgressProps};
