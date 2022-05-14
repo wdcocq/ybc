@@ -75,7 +75,7 @@ pub fn panel_block(PanelBlockProps { children, tag, active, onclick }: &PanelBlo
     let classes = classes!("panel-block", active.then(|| "is-active"));
 
     html! {
-        <@{tag} class={classes} {onclick}>
+        <@{tag.clone()} class={classes} {onclick}>
             {children.clone()}
         </@>
     }

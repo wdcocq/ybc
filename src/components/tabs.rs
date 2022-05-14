@@ -61,7 +61,7 @@ pub fn tabs(
     html! {
         <div class={classes}>
             <ul>
-                {props.children.clone()}
+                {children.clone()}
             </ul>
         </div>
     }

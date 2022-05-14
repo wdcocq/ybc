@@ -75,16 +75,16 @@ pub struct PaginationItemProps {
 /// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
 #[function_component(PaginationItem)]
 pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick }: &PaginationItemProps) -> Html {
-    let classes = classes!(item_type);
+    let classes = classes!(*item_type);
 
     html! {
-        <a class={classes} aria-label={label} {onclick}>
+        <a class={classes} aria-label={label.clone()} {onclick}>
             {children.clone()}
         </a>
     }
 }
 /// A pagination item type.
-#[derive(Clone, Debug, Display, PartialEq)]
+#[derive(Clone, Copy, Debug, Display, PartialEq)]
 #[display(fmt = "pagination-{}")]
 pub enum PaginationItemType {
     /// A pagination link for a specific page number.

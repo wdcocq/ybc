@@ -26,7 +26,7 @@ pub struct BreadcrumbProps {
 /// [https://bulma.io/documentation/components/breadcrumb/](https://bulma.io/documentation/components/breadcrumb/)
 #[function_component(Breadcrumb)]
 pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separator }: &BreadcrumbProps) -> Html {
-    let classes = classes!(classes, "breadcrumb", size, alignment, seperator);
+    let classes = classes!(classes, "breadcrumb", size, alignment, separator);
 
     html! {
         <nav class={classes} aria-label="breadcrumbs">
@@ -74,7 +74,7 @@ pub enum BreadcrumbSeparator {
 }
 
 impl From<BreadcrumbSeparator> for Classes {
-    fn from(seperator: BreadcrumbSeparator) -> Self {
+    fn from(separator: BreadcrumbSeparator) -> Self {
         separator.to_string().into()
     }
 }
