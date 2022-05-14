@@ -11,29 +11,16 @@ pub struct MenuProps {
 /// A simple menu, for any type of vertical navigation.
 ///
 /// [https://bulma.io/documentation/components/menu/](https://bulma.io/documentation/components/menu/)
-pub struct Menu; 
-
-impl Component for Menu {
-    type Message = ();
-    type Properties = MenuProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("menu");
-        classes.push(&props.classes);
-        html! {
-            <aside class={classes}>
-                {props.children.clone()}
-            </aside>
-        }
+#[function_component(Menu)]
+pub fn menu(MenuProps { children, classes }: &MenuProps) -> Html {
+    let classes = classes!(classes, "menu");
+    html! {
+        <aside class={classes}>
+            {children.clone()}
+        </aside>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -48,29 +35,16 @@ pub struct MenuListProps {
 /// A container for menu list `li` elements.
 ///
 /// [https://bulma.io/documentation/components/menu/](https://bulma.io/documentation/components/menu/)
-pub struct MenuList; 
-
-impl Component for MenuList {
-    type Message = ();
-    type Properties = MenuListProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("menu-list");
-        classes.push(&props.classes);
-        html! {
-            <ul class={classes}>
-                {props.children.clone()}
-            </ul>
-        }
+#[function_component(MenuList)]
+pub fn menu_list(MenuListProps { children, classes }: &MenuListProps) -> Html {
+    let classes = classes!(classes, "menu-list");
+    html! {
+        <ul class={classes}>
+            {children.clone()}
+        </ul>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -78,31 +52,18 @@ pub struct MenuLabelProps {
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The text of the label.
-    #[prop_or_default]
     pub text: String,
 }
 
 /// A label for a section of the menu.
 ///
 /// [https://bulma.io/documentation/components/menu/](https://bulma.io/documentation/components/menu/)
-pub struct MenuLabel; 
-
-impl Component for MenuLabel {
-    type Message = ();
-    type Properties = MenuLabelProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("menu-label");
-        classes.push(&props.classes);
-        html! {
-            <p class={classes}>
-                {props.text.clone()}
-            </p>
-        }
+#[function_component(MenuLabel)]
+pub fn menu_label(MenuLabelProps { classes, text }: &MenuLabelProps) -> Html {
+    let classes = classes!(classes, "menu-label");
+    html! {
+        <p class={classes}>
+            {text.as_str()}
+        </p>
     }
 }
