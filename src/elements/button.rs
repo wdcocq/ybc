@@ -1,3 +1,4 @@
+use crate::Size;
 use derive_more::Display;
 use yew::events::{Event, FocusEvent, MouseEvent};
 use yew::prelude::*;
@@ -16,28 +17,14 @@ pub struct ButtonsProps {
 /// A container for a group of buttons.
 ///
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
-pub struct Buttons;
+#[function_component(Buttons)]
+pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html {
+    let classes = classes!(classes, "buttons", size);
 
-impl Component for Buttons {
-    type Message = ();
-    type Properties = ButtonsProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("buttons");
-        classes.push(&props.classes);
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
     }
 }
 
@@ -55,7 +42,12 @@ pub enum ButtonGroupSize {
     Large,
 }
 
-//////////////////////////////////////////////////////////////////////////////
+impl From<ButtonGroupSize> for Classes {
+    fn from(size: ButtonGroupSize) -> Self {
+        size.to_string().into()
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -67,6 +59,9 @@ pub struct ButtonProps {
     /// The click handler to use for this component.
     #[prop_or_else(Callback::noop)]
     pub onclick: Callback<MouseEvent>,
+    /// The size of the button
+    #[prop_or_default]
+    pub size: Option<Size>,
     /// Render a loading spinner within this component.
     #[prop_or_default]
     pub loading: bool,
@@ -76,41 +71,53 @@ pub struct ButtonProps {
     /// Disable this component.
     #[prop_or_default]
     pub disabled: bool,
+    /// Rounded corners
+    #[prop_or_default]
+    pub rounded: bool,
+    /// Invert color scheme
+    #[prop_or_default]
+    pub inverted: bool,
+    /// Provide an outline
+    #[prop_or_default]
+    pub outline: bool,
 }
 
 /// A button element.
 ///
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
-pub struct Button;
 
-impl Component for Button {
-    type Message = ();
-    type Properties = ButtonProps;
+#[function_component(Button)]
+pub fn button(
+    ButtonProps {
+        children,
+        classes,
+        onclick,
+        size,
+        loading,
+        r#static,
+        disabled,
+        rounded,
+        inverted,
+        outline,
+    }: &ButtonProps,
+) -> Html {
+    let classes = classes!(
+        classes,
+        "button",
+        size,
+        loading.then(|| "is-loading"),
+        r#static.then(|| "is-static"),
+        inverted.then(|| "is-inverted"),
+        outline.then(|| "is-outline"),
+        rounded.then(|| "is-rounded")
+    );
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("button");
-        classes.push(&props.classes);
-        if props.loading {
-            classes.push("is-loading")
-        }
-        if props.r#static {
-            classes.push("is-static")
-        }
-        html! {
-            <button class={classes} onclick={props.onclick.clone()} disabled={props.disabled}>
-                {props.children.clone()}
-            </button>
-        }
+    html! {
+        <button class={classes} {onclick} disabled={*disabled}>
+            {children.clone()}
+        </button>
     }
 }
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[cfg(feature = "router")]
 mod router {
@@ -186,7 +193,6 @@ mod router {
 pub use router::{ButtonRouter, ButtonRouterProps};
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ButtonAnchorProps {
@@ -209,6 +215,15 @@ pub struct ButtonAnchorProps {
     /// Disable this component.
     #[prop_or_default]
     pub disabled: bool,
+    /// Rounded corners
+    #[prop_or_default]
+    pub rounded: bool,
+    /// Invert color scheme
+    #[prop_or_default]
+    pub inverted: bool,
+    /// Provide an outline
+    #[prop_or_default]
+    pub outline: bool,
     /// An optional `rel` for when this element is using the `a` tag.
     #[prop_or_default]
     pub rel: Option<String>,
@@ -220,42 +235,46 @@ pub struct ButtonAnchorProps {
 /// An anchor element styled as a button.
 ///
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
-pub struct ButtonAnchor;
-
-impl Component for ButtonAnchor {
-    type Message = ();
-    type Properties = ButtonAnchorProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("button");
-        classes.push(&props.classes);
-        if props.loading {
-            classes.push("is-loading")
-        }
-        if props.r#static {
-            classes.push("is-static")
-        }
-        html! {
-            <a
-                class={classes}
-                onclick={props.onclick.clone()}
-                href={props.href.clone()}
-                rel={props.rel.clone().unwrap_or_default()}
-                target={props.target.clone().unwrap_or_default()}
-                disabled={props.disabled}
-            >
-                {props.children.clone()}
-            </a>
-        }
+#[function_component(ButtonAnchor)]
+pub fn button_anchor(
+    ButtonAnchorProps {
+        children,
+        classes,
+        href,
+        onclick,
+        loading,
+        r#static,
+        disabled,
+        rounded,
+        inverted,
+        outline,
+        rel,
+        target,
+    }: &ButtonAnchorProps,
+) -> Html {
+    let classes = classes!(
+        classes,
+        "button",
+        loading.then(|| "is-loading"),
+        r#static.then(|| "is-static"),
+        inverted.then(|| "is-inverted"),
+        outline.then(|| "is-outline"),
+        rounded.then(|| "is-rounded")
+    );
+    html! {
+        <a
+            class={classes}
+            {onclick}
+            href={href.clone()}
+            rel={rel.clone().unwrap_or_default()}
+            target={target.clone().unwrap_or_default()}
+            disabled={*disabled}
+        >
+            {children.clone()}
+        </a>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -274,38 +293,48 @@ pub struct ButtonInputSubmitProps {
     /// Disable this component.
     #[prop_or_default]
     pub disabled: bool,
+    /// Rounded corners
+    #[prop_or_default]
+    pub rounded: bool,
+    /// Invert color scheme
+    #[prop_or_default]
+    pub inverted: bool,
+    /// Provide an outline
+    #[prop_or_default]
+    pub outline: bool,
 }
 
 /// An input element with `type="submit"` styled as a button.
 ///
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
-pub struct ButtonInputSubmit;
+#[function_component(ButtonInputSubmit)]
+pub fn button_input(
+    ButtonInputSubmitProps {
+        classes,
+        onsubmit,
+        loading,
+        r#static,
+        disabled,
+        rounded,
+        inverted,
+        outline,
+    }: &ButtonInputSubmitProps,
+) -> Html {
+    let classes = classes!(
+        classes,
+        "button",
+        loading.then(|| "is-loading"),
+        r#static.then(|| "is-static"),
+        inverted.then(|| "is-inverted"),
+        outline.then(|| "is-outline"),
+        rounded.then(|| "is-rounded")
+    );
 
-impl Component for ButtonInputSubmit {
-    type Message = ();
-    type Properties = ButtonInputSubmitProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("button");
-        classes.push(&props.classes);
-        if props.loading {
-            classes.push("is-loading")
-        }
-        if props.r#static {
-            classes.push("is-static")
-        }
-        html! {
-            <input type="submit" class={classes} onsubmit={props.onsubmit.clone()} disabled={props.disabled}/>
-        }
+    html! {
+        <input type="submit" class={classes} {onsubmit} disabled={*disabled}/>
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -324,33 +353,44 @@ pub struct ButtonInputResetProps {
     /// Disable this component.
     #[prop_or_default]
     pub disabled: bool,
+    /// Rounded corners
+    #[prop_or_default]
+    pub rounded: bool,
+    /// Invert color scheme
+    #[prop_or_default]
+    pub inverted: bool,
+    /// Provide an outline
+    #[prop_or_default]
+    pub outline: bool,
 }
 
 /// An input element with `type="reset"` styled as a button.
 ///
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
-pub struct ButtonInputReset;
+#[function_component(ButtonInputReset)]
+pub fn button_input_reset(
+    ButtonInputResetProps {
+        classes,
+        onreset,
+        loading,
+        r#static,
+        disabled,
+        rounded,
+        inverted,
+        outline,
+    }: &ButtonInputResetProps,
+) -> Html {
+    let classes = classes!(
+        classes,
+        "button",
+        loading.then(|| "is-loading"),
+        r#static.then(|| "is-static"),
+        inverted.then(|| "is-inverted"),
+        outline.then(|| "is-outline"),
+        rounded.then(|| "is-rounded")
+    );
 
-impl Component for ButtonInputReset {
-    type Message = ();
-    type Properties = ButtonInputResetProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("button");
-        classes.push(&props.classes);
-        if props.loading {
-            classes.push("is-loading")
-        }
-        if props.r#static {
-            classes.push("is-static")
-        }
-        html! {
-            <input type="reset" class={classes} onreset={props.onreset.clone()} disabled={props.disabled}/>
-        }
+    html! {
+        <input type="reset" class={classes} {onreset} disabled={*disabled}/>
     }
 }

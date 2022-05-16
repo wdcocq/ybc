@@ -20,7 +20,7 @@ pub struct PanelProps {
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
 #[function_component(Panel)]
 pub fn panel(PanelProps { children, classes, heading }: &PanelProps) -> Html {
-    let mut classes = classes!(classes, "panel");
+    let classes = classes!(classes, "panel");
 
     html! {
         <nav class={classes}>

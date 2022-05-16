@@ -1,6 +1,6 @@
 use derive_more::Display;
+use yew::events::MouseEvent;
 use yew::prelude::*;
-use yew::{events::MouseEvent, html::IntoPropValue};
 
 use crate::{Alignment, Size};
 
@@ -83,6 +83,7 @@ pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick
         </a>
     }
 }
+
 /// A pagination item type.
 #[derive(Clone, Copy, Debug, Display, PartialEq)]
 #[display(fmt = "pagination-{}")]
