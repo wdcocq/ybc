@@ -330,7 +330,6 @@ pub fn navbar_dropdown(
 ) -> Html {
     let is_menu_active = use_reducer_eq(|| NavbarActive(false));
     let opencb = use_callback(|_, dispatcher| dispatcher.dispatch(NavbarActiveAction::Open), is_menu_active.dispatcher());
-
     let closecb = use_callback(
         |_, dispatcher| dispatcher.dispatch(NavbarActiveAction::Close),
         is_menu_active.dispatcher(),

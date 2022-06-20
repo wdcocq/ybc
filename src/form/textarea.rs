@@ -10,6 +10,7 @@ pub struct TextAreaProps {
     /// The controlled value of this form element.
     pub value: String,
     /// The callback to be used for propagating changes to this element's value.
+    #[prop_or_default]
     pub update: Callback<String>,
 
     #[prop_or_default]
@@ -55,7 +56,7 @@ impl Component for TextArea {
     type Properties = TextAreaProps;
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self 
+        Self
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
