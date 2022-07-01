@@ -42,7 +42,7 @@ pub fn pagination(
         next,
     }: &PaginationProps,
 ) -> Html {
-    let classes = classes!(classes, "pagination", size, alignment, rounded.then(|| "is-rounded"));
+    let classes = classes!(classes, "pagination", size, alignment, rounded.then_some("is-rounded"));
 
     html! {
         <nav class={classes} role="navigation" aria-label="pagination">

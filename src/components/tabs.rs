@@ -52,10 +52,10 @@ pub fn tabs(
         "tabs",
         alignment,
         size,
-        boxed.then(|| "is-boxed"),
-        toggle.then(|| "is-toggle"),
-        rounded.then(|| "is-rounded"),
-        fullwidth.then(|| "is-fullwidth")
+        boxed.then_some("is-boxed"),
+        toggle.then_some("is-toggle"),
+        rounded.then_some("is-rounded"),
+        fullwidth.then_some("is-fullwidth")
     );
 
     html! {

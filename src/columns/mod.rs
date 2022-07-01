@@ -25,9 +25,9 @@ pub fn columns(ColumnsProps { children, classes, vcentered, multiline, centered 
     let classes = classes!(
         classes,
         "columns",
-        vcentered.then(|| "is-vcentered"),
-        multiline.then(|| "is-multiline"),
-        centered.then(|| "is-centered"),
+        vcentered.then_some("is-vcentered"),
+        multiline.then_some("is-multiline"),
+        centered.then_some("is-centered"),
     );
 
     html! {

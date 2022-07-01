@@ -31,7 +31,7 @@ impl Reducible for NavbarActive {
 
 impl From<NavbarActive> for Classes {
     fn from(active: NavbarActive) -> Self {
-        classes!(active.then(|| "is-active"))
+        classes!(active.then_some("is-active"))
     }
 }
 
@@ -237,10 +237,10 @@ pub fn navbar_item(
     let mut classes = classes!(
         classes,
         "navbar-item",
-        has_dropdown.then(|| "has-dropdown"),
-        expanded.then(|| "is-expanded"),
-        tab.then(|| "is-tab"),
-        active.then(|| "is-active"),
+        has_dropdown.then_some("has-dropdown"),
+        expanded.then_some("is-expanded"),
+        tab.then_some("is-tab"),
+        active.then_some("is-active"),
     );
 
     match tag {
@@ -339,12 +339,12 @@ pub fn navbar_dropdown(
         classes,
         "navbar-item",
         "has-dropdown",
-        dropup.then(|| "has-dropdown-up"),
-        hoverable.then(|| "is-hoverable"),
+        dropup.then_some("has-dropdown-up"),
+        hoverable.then_some("is-hoverable"),
         *is_menu_active,
     );
-    let drop_classes = classes!("navbar-dropdown", right.then(|| "is-right"), boxed.then(|| "is-boxed"));
-    let link_classes = classes!("navbar-link", arrowless.then(|| "is-arrowless"));
+    let drop_classes = classes!("navbar-dropdown", right.then_some("is-right"), boxed.then_some("is-boxed"));
+    let link_classes = classes!("navbar-link", arrowless.then_some("is-arrowless"));
 
     html! {
         <div class={classes}>
@@ -397,8 +397,8 @@ mod router {
         let classes = classes!(
             classes,
             "navbar-item",
-            expanded.then(|| "is-expanded"),
-            tab.then(|| "is-tab"),
+            expanded.then_some("is-expanded"),
+            tab.then_some("is-tab"),
             route.filter(|route| route == to).map(|_| "is-active")
         );
 

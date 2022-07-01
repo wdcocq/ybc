@@ -105,11 +105,11 @@ pub fn button(
         classes,
         "button",
         size,
-        loading.then(|| "is-loading"),
-        r#static.then(|| "is-static"),
-        inverted.then(|| "is-inverted"),
-        outline.then(|| "is-outline"),
-        rounded.then(|| "is-rounded")
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+        inverted.then_some("is-inverted"),
+        outline.then_some("is-outline"),
+        rounded.then_some("is-rounded")
     );
 
     html! {
@@ -255,11 +255,11 @@ pub fn button_anchor(
     let classes = classes!(
         classes,
         "button",
-        loading.then(|| "is-loading"),
-        r#static.then(|| "is-static"),
-        inverted.then(|| "is-inverted"),
-        outline.then(|| "is-outline"),
-        rounded.then(|| "is-rounded")
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+        inverted.then_some("is-inverted"),
+        outline.then_some("is-outline"),
+        rounded.then_some("is-rounded")
     );
     html! {
         <a
@@ -323,11 +323,11 @@ pub fn button_input(
     let classes = classes!(
         classes,
         "button",
-        loading.then(|| "is-loading"),
-        r#static.then(|| "is-static"),
-        inverted.then(|| "is-inverted"),
-        outline.then(|| "is-outline"),
-        rounded.then(|| "is-rounded")
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+        inverted.then_some("is-inverted"),
+        outline.then_some("is-outline"),
+        rounded.then_some("is-rounded")
     );
 
     html! {
@@ -383,11 +383,11 @@ pub fn button_input_reset(
     let classes = classes!(
         classes,
         "button",
-        loading.then(|| "is-loading"),
-        r#static.then(|| "is-static"),
-        inverted.then(|| "is-inverted"),
-        outline.then(|| "is-outline"),
-        rounded.then(|| "is-rounded")
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+        inverted.then_some("is-inverted"),
+        outline.then_some("is-outline"),
+        rounded.then_some("is-rounded")
     );
 
     html! {

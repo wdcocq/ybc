@@ -24,7 +24,7 @@ pub struct InputProps {
     /// The placeholder value for this component.
     #[prop_or_default]
     pub placeholder: String,
-    /// Datalist id 
+    /// Datalist id
     #[prop_or_default]
     pub list: Option<String>,
     #[prop_or(true)]
@@ -78,16 +78,12 @@ impl Component for Input {
             "input",
             &props.classes,
             props.size,
-            props.rounded.then(|| "is-rounded"),
-            props.loading.then(|| "is-loading"),
-            props.r#static.then(|| "is-static"),
+            props.rounded.then_some("is-rounded"),
+            props.loading.then_some("is-loading"),
+            props.r#static.then_some("is-static"),
         );
 
-        let autocomplete = if props.autocomplete {
-            "on"
-        } else {
-            "off"
-        };
+        let autocomplete = if props.autocomplete { "on" } else { "off" };
 
         html! {
             <input

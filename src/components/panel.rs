@@ -72,7 +72,7 @@ pub struct PanelBlockProps {
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
 #[function_component(PanelBlock)]
 pub fn panel_block(PanelBlockProps { children, tag, active, onclick }: &PanelBlockProps) -> Html {
-    let classes = classes!("panel-block", active.then(|| "is-active"));
+    let classes = classes!("panel-block", active.then_some("is-active"));
 
     html! {
         <@{tag.clone()} class={classes} {onclick}>
