@@ -32,34 +32,14 @@ pub struct TileProps {
 /// A single tile element to build 2-dimensional whatever-you-like grids.
 ///
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
-pub struct Tile; 
+#[function_component(Tile)]
+pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
+    let classes = classes!(classes, "tile", ctx, size, vertial.then_some("is-vertial"));
 
-impl Component for Tile {
-    type Message = ();
-    type Properties = TileProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("tile");
-        classes.push(&props.classes);
-        if let Some(ctx) = &props.ctx {
-            classes.push(&ctx.to_string());
-        }
-        if props.vertical {
-            classes.push("is-vertical");
-        }
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        html! {
-            <@{props.tag.clone()} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
+    html! {
+        <@{props.tag.clone()} class={classes}>
+            {props.children.clone()}
+        </@>
     }
 }
 
@@ -75,6 +55,12 @@ pub enum TileCtx {
     Parent,
     #[display(fmt = "child")]
     Child,
+}
+
+impl From<TileCtx> for Classes {
+    fn from(ctx: TileCtx) -> Self {
+        Classes::from(ctx.to_string())
+    }
 }
 
 /// Tile size modifiers.
@@ -107,4 +93,10 @@ pub enum TileSize {
     Eleven,
     #[display(fmt = "12")]
     Twelve,
+}
+
+impl From<TileSize> for Classes {
+    fn from(size: TileSize) -> Self {
+        Classes::from(size.to_string())
+    }
 }
