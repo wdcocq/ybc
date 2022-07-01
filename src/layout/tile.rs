@@ -34,7 +34,7 @@ pub struct TileProps {
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
 #[function_component(Tile)]
 pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
-    let classes = classes!(classes, "tile", ctx, size, vertial.then_some("is-vertial"));
+    let classes = classes!(classes, "tile", ctx, size, vertial.then_some("is-vertical"));
 
     html! {
         <@{props.tag.clone()} class={classes}>
