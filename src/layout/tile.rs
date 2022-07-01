@@ -1,5 +1,7 @@
 #![allow(clippy::redundant_closure_call)]
 
+use std::borrow::Cow;
+
 use derive_more::Display;
 use yew::prelude::*;
 
@@ -11,7 +13,7 @@ pub struct TileProps {
     pub classes: Option<Classes>,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
-    pub tag: String,
+    pub tag: Cow<'static, str>,
     /// The context modifier to use for this tile element, else none.
     ///
     /// https://bulma.io/documentation/layout/tiles/#modifiers
@@ -34,11 +36,11 @@ pub struct TileProps {
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
 #[function_component(Tile)]
 pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
-    let classes = classes!(classes, "tile", ctx, size, vertial.then_some("is-vertical"));
+    let classes = classes!(classes, "tile", ctx, size, vertical.then_some("is-vertical"));
 
     html! {
-        <@{props.tag.clone()} class={classes}>
-            {props.children.clone()}
+        <@{tag.clone()} class={classes}>
+            {children.clone()}
         </@>
     }
 }
