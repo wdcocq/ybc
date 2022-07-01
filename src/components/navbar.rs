@@ -1,11 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
-
-use std::ops::Deref;
-
 use derive_more::{Deref, Display};
 use yew::prelude::*;
-
-use crate::components::dropdown::DropdownMsg;
 
 /// Reducer to keep menu active state.
 #[derive(Copy, Clone, Debug, Deref, PartialEq)]
@@ -53,6 +48,11 @@ pub struct NavbarProps {
     /// [https://bulma.io/documentation/components/navbar/#navbar-helper-classes](https://bulma.io/documentation/components/navbar/#navbar-helper-classes)
     #[prop_or_default]
     pub spaced: bool,
+    /// Adds a small amount of box-shadow around the navbar
+    ///
+    /// [https://bulma.io/documentation/components/navbar/#navbar-helper-classes](https://bulma.io/documentation/components/navbar/#navbar-helper-classes)
+    #[prop_or_default]
+    pub shading: bool,
     /// The contents of the navbar brand. The `navbar-burger` is automatically appended to the
     /// end of this content.
     ///
@@ -76,7 +76,7 @@ pub struct NavbarProps {
     #[prop_or_default]
     pub navburger_classes: Option<Classes>,
     /// Aria label of the navbar
-    #[prop_or_else(|| "main navigation".to_string())]
+    #[prop_or_else(|| "main navigation".into())]
     pub aria_label: String,
 }
 
@@ -90,6 +90,7 @@ pub fn navbar(
         fixed,
         transparent,
         spaced,
+        shading,
         padded,
         navbrand,
         navstart,
@@ -101,7 +102,14 @@ pub fn navbar(
 ) -> Html {
     let is_menu_active = use_reducer_eq(|| NavbarActive(false));
 
-    let classes = classes!(classes, "navbar", fixed);
+    let classes = classes!(
+        classes,
+        "navbar",
+        fixed,
+        transparent.then_some("is-transparent"),
+        spaced.then_some("is-spaced"),
+        shading.then_some("has-shadow")
+    );
     let nav_classes = classes!("navbar-menu", *is_menu_active);
     let burger_classes = classes!(navburger_classes, "navbar-burger", *is_menu_active);
 
@@ -234,7 +242,7 @@ pub fn navbar_item(
         target,
     }: &NavbarItemProps,
 ) -> Html {
-    let mut classes = classes!(
+    let classes = classes!(
         classes,
         "navbar-item",
         has_dropdown.then_some("has-dropdown"),
