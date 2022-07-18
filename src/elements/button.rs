@@ -57,7 +57,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The click handler to use for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     /// The size of the button
     #[prop_or_default]
@@ -132,12 +132,13 @@ mod router {
     {
         /// The Switched item representing the route.
         pub route: R,
-        /// Html inside the component.
-        #[prop_or_default]
         pub children: Children,
-        /// Classes to be added to component.
         #[prop_or_default]
         pub classes: Option<Classes>,
+        /// The click handler to use for this component.
+        /// The size of the button
+        #[prop_or_default]
+        pub size: Option<Size>,
         /// Render a loading spinner within this component.
         #[prop_or_default]
         pub loading: bool,
@@ -147,44 +148,55 @@ mod router {
         /// Disable this component.
         #[prop_or_default]
         pub disabled: bool,
+        /// Rounded corners
+        #[prop_or_default]
+        pub rounded: bool,
+        /// Invert color scheme
+        #[prop_or_default]
+        pub inverted: bool,
+        /// Provide an outline
+        #[prop_or_default]
+        pub outline: bool,
     }
 
     /// A Yew Router button element with Bulma styling.
-    pub struct ButtonRouter<R>
+    #[function_component(ButtonRouter)]
+    pub fn button_router<R>(
+        ButtonRouterProps {
+            route,
+            children,
+            classes,
+            size,
+            loading,
+            r#static,
+            disabled,
+            rounded,
+            inverted,
+            outline,
+        }: &ButtonRouterProps<R>,
+    ) -> Html
     where
         R: Routable + 'static,
     {
-        marker: std::marker::PhantomData<R>,
-    }
+        let classes = classes!(
+            classes,
+            "button",
+            size,
+            loading.then_some("is-loading"),
+            r#static.then_some("is-static"),
+            inverted.then_some("is-inverted"),
+            outline.then_some("is-outline"),
+            rounded.then_some("is-rounded")
+        );
 
-    impl<R> Component for ButtonRouter<R>
-    where
-        R: Routable + 'static,
-    {
-        type Message = ();
-        type Properties = ButtonRouterProps<R>;
-
-        fn create(_ctx: &Context<Self>) -> Self {
-            Self { marker: std::marker::PhantomData }
-        }
-
-        fn view(&self, ctx: &Context<Self>) -> Html {
-            let props = ctx.props();
-            let mut classes = Classes::from(&props.classes);
-            if !classes.contains("button") {
-                classes.push("button")
-            }
-            if props.loading {
-                classes.push("is-loading");
-            }
-            html! {
-                <Link<R>
-                    to={props.route.clone()}
-                    disabled={props.disabled}
-                    classes={classes}
-                    children={props.children.clone()}
-                />
-            }
+        html! {
+            <Link<R>
+                to={route.clone()}
+                disabled={*disabled}
+                classes={classes}
+            >
+                {children.clone()}
+            </Link<R>>
         }
     }
 }
@@ -204,7 +216,7 @@ pub struct ButtonAnchorProps {
     #[prop_or_default]
     pub href: String,
     /// The click handler to use for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     /// Render a loading spinner within this component.
     #[prop_or_default]
@@ -282,7 +294,7 @@ pub struct ButtonInputSubmitProps {
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The submit handler to use for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onsubmit: Callback<FocusEvent>,
     /// Render a loading spinner within this component.
     #[prop_or_default]
@@ -342,7 +354,7 @@ pub struct ButtonInputResetProps {
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The reset handler to use for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onreset: Callback<Event>,
     /// Render a loading spinner within this component.
     #[prop_or_default]
