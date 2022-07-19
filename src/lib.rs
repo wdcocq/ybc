@@ -50,7 +50,7 @@ pub use components::pagination::{
     Pagination, PaginationEllipsis, PaginationItem, PaginationItemProps, PaginationItemRouter, PaginationItemType, PaginationProps,
 };
 pub use components::panel::{Panel, PanelBlock, PanelBlockProps, PanelProps, PanelTabs, PanelTabsProps};
-pub use components::tabs::{Tabs, TabsProps};
+pub use components::tabs::{Tabs, TabsItem, TabsItemProps, TabsProps};
 
 // elements
 pub use elements::block::{Block, BlockProps};

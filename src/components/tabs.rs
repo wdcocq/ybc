@@ -66,3 +66,31 @@ pub fn tabs(
         </div>
     }
 }
+
+/// A tab item for the Tabs component
+///
+/// [https://bulma.io/documentation/components/tabs/](https://bulma.io/documentation/components/tabs/)
+///
+/// For integration with Yew Router, it is recommended that the `RouterButton` or `RouterAnchor`
+/// components be used as the individual tab elements for this component.
+#[derive(Debug, Clone, PartialEq, Properties)]
+pub struct TabsItemProps {
+    #[prop_or_default]
+    pub children: Children,
+    #[prop_or_default]
+    pub classes: Option<Classes>,
+    // Make this an active tab
+    #[prop_or_default]
+    pub active: bool,
+}
+
+#[function_component(TabsItem)]
+pub fn tabs_item(TabsItemProps { children, classes, active }: &TabsItemProps) -> Html {
+    let classes = classes!(classes, active.then_some("is-active"));
+
+    html! {
+        <li class={classes}>
+            {children.clone()}
+        </li>
+    }
+}
