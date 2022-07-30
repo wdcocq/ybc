@@ -12,6 +12,9 @@ pub struct InputProps {
     pub name: String,
     /// The controlled value of this form element.
     pub value: Option<String>,
+    /// NodeRef referencing the HtmlInputElement
+    #[prop_or_default]
+    pub r#ref: NodeRef,
     /// The callback to be used for propagating changes to this element's value.
     #[prop_or_default]
     pub update: Callback<InputEvent>,
@@ -56,49 +59,51 @@ pub struct InputProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct Input;
+#[function_component(Input)]
+pub fn input(
+    InputProps {
+        r#ref,
+        name,
+        value,
+        update,
+        classes,
+        r#type,
+        placeholder,
+        list,
+        autocomplete,
+        size,
+        rounded,
+        loading,
+        disabled,
+        readonly,
+        r#static,
+    }: &InputProps,
+) -> Html {
+    let classes = classes!(
+        "input",
+        classes,
+        size,
+        rounded.then_some("is-rounded"),
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+    );
 
-impl Component for Input {
-    type Message = InputEvent;
-    type Properties = InputProps;
+    let autocomplete = if *autocomplete { "on" } else { "off" };
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        ctx.props().update.emit(msg);
-        false
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let link = ctx.link();
-        let classes = classes!(
-            "input",
-            &props.classes,
-            props.size,
-            props.rounded.then_some("is-rounded"),
-            props.loading.then_some("is-loading"),
-            props.r#static.then_some("is-static"),
-        );
-
-        let autocomplete = if props.autocomplete { "on" } else { "off" };
-
-        html! {
-            <input
-                name={props.name.clone()}
-                value={props.value.clone()}
-                oninput={link.callback(std::convert::identity)}
-                class={classes}
-                type={props.r#type.to_string()}
-                placeholder={props.placeholder.clone()}
-                list={props.list.clone()}
-                autocomplete={autocomplete}
-                disabled={props.disabled}
-                readonly={props.readonly}
-                />
-        }
+    html! {
+        <input
+            ref={r#ref}
+            name={name.clone()}
+            value={value.clone()}
+            oninput={update}
+            class={classes}
+            type={r#type.to_string()}
+            placeholder={placeholder.clone()}
+            list={list.clone()}
+            autocomplete={autocomplete}
+            disabled={*disabled}
+            readonly={*readonly}
+            />
     }
 }
 
@@ -115,4 +120,6 @@ pub enum InputType {
     Email,
     #[display(fmt = "tel")]
     Tel,
+    #[display(fmt = "date")]
+    Date,
 }

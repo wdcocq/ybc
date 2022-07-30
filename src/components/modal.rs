@@ -1,9 +1,4 @@
-use std::{
-    borrow::{Borrow, Cow},
-    cell::RefCell,
-    collections::HashMap,
-    rc::Rc,
-};
+use std::{borrow::Cow, cell::RefCell, collections::HashMap, rc::Rc};
 
 use yew::prelude::*;
 
