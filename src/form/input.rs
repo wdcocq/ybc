@@ -4,7 +4,8 @@ use derive_more::Display;
 use yew::events::InputEvent;
 use yew::prelude::*;
 
-use crate::Size;
+use crate::common::Color;
+use crate::{BackgroundColor, Size};
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct InputProps {
@@ -14,11 +15,10 @@ pub struct InputProps {
     pub value: Option<String>,
     /// NodeRef referencing the HtmlInputElement
     #[prop_or_default]
-    pub r#ref: NodeRef,
+    pub input_ref: NodeRef,
     /// The callback to be used for propagating changes to this element's value.
     #[prop_or_default]
     pub update: Callback<InputEvent>,
-
     #[prop_or_default]
     pub classes: Option<Classes>,
     /// The input type of this component.
@@ -35,6 +35,12 @@ pub struct InputProps {
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<Size>,
+    /// The color of the border
+    #[prop_or_default]
+    pub color: Option<Color>,
+    /// The background color of the input
+    #[prop_or_default]
+    pub bg_color: Option<BackgroundColor>,
     /// Use rounded appearance.
     #[prop_or_default]
     pub rounded: bool,
@@ -62,7 +68,7 @@ pub struct InputProps {
 #[function_component(Input)]
 pub fn input(
     InputProps {
-        r#ref,
+        input_ref,
         name,
         value,
         update,
@@ -77,12 +83,16 @@ pub fn input(
         disabled,
         readonly,
         r#static,
+        color,
+        bg_color,
     }: &InputProps,
 ) -> Html {
     let classes = classes!(
         "input",
         classes,
         size,
+        color,
+        bg_color,
         rounded.then_some("is-rounded"),
         loading.then_some("is-loading"),
         r#static.then_some("is-static"),
@@ -92,7 +102,7 @@ pub fn input(
 
     html! {
         <input
-            ref={r#ref}
+            ref={input_ref}
             name={name.clone()}
             value={value.clone()}
             oninput={update}

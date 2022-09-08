@@ -31,7 +31,7 @@ mod layout;
 pub use columns::{Column, ColumnProps, Columns, ColumnsProps};
 
 // common
-pub use common::{Alignment, Size};
+pub use common::{Alignment, BackgroundColor, Color, Size, TextColor};
 
 // components
 pub use components::breadcrumb::{Breadcrumb, BreadcrumbProps, BreadcrumbSeparator, BreadcrumbSize};
