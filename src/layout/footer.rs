@@ -11,7 +11,7 @@ pub struct FooterProps {
 /// A simple responsive footer which can include anything.
 ///
 /// [https://bulma.io/documentation/layout/footer/](https://bulma.io/documentation/layout/footer/)
-pub struct Footer; 
+pub struct Footer;
 
 impl Component for Footer {
     type Message = ();

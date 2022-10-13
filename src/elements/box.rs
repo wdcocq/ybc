@@ -11,7 +11,7 @@ pub struct BoxProps {
 /// A white box to contain other elements.
 ///
 /// [https://bulma.io/documentation/elements/box/](https://bulma.io/documentation/elements/box/)
-pub struct Box; 
+pub struct Box;
 
 impl Component for Box {
     type Message = ();

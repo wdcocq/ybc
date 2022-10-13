@@ -49,7 +49,7 @@ pub struct FieldProps {
 }
 
 /// A container for form controls
-pub struct Field; 
+pub struct Field;
 
 impl Component for Field {
     type Message = ();

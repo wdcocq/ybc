@@ -14,7 +14,7 @@ pub struct ContainerProps {
 /// A simple container to center your content horizontally.
 ///
 /// [https://bulma.io/documentation/layout/container/](https://bulma.io/documentation/layout/container/)
-pub struct Container; 
+pub struct Container;
 
 impl Component for Container {
     type Message = ();

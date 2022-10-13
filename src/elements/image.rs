@@ -15,7 +15,7 @@ pub struct ImageProps {
 /// A container for responsive images.
 ///
 /// [https://bulma.io/documentation/elements/image/](https://bulma.io/documentation/elements/image/)
-pub struct Image; 
+pub struct Image;
 
 impl Component for Image {
     type Message = ();

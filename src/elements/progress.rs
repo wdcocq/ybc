@@ -17,7 +17,7 @@ pub struct ProgressProps {
 /// A native HTML progress bar.
 ///
 /// [https://bulma.io/documentation/elements/progress/](https://bulma.io/documentation/elements/progress/)
-pub struct Progress; 
+pub struct Progress;
 
 impl Component for Progress {
     type Message = ();

@@ -29,7 +29,7 @@ pub struct TableProps {
 /// An HTML table component.
 ///
 /// [https://bulma.io/documentation/elements/table/](https://bulma.io/documentation/elements/table/)
-pub struct Table; 
+pub struct Table;
 
 impl Component for Table {
     type Message = ();

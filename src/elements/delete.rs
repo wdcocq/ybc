@@ -19,7 +19,7 @@ pub struct DeleteProps {
 /// A versatile delete cross.
 ///
 /// [https://bulma.io/documentation/elements/delete/](https://bulma.io/documentation/elements/delete/)
-pub struct Delete; 
+pub struct Delete;
 
 impl Component for Delete {
     type Message = ();

@@ -30,7 +30,7 @@ pub struct TagProps {
 /// A small tag label to insert anywhere.
 ///
 /// [https://bulma.io/documentation/elements/tag/](https://bulma.io/documentation/elements/tag/)
-pub struct Tag; 
+pub struct Tag;
 
 impl Component for Tag {
     type Message = ();
@@ -63,7 +63,6 @@ impl Component for Tag {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TagsProps {
@@ -79,7 +78,7 @@ pub struct TagsProps {
 /// A container for a list of tags.
 ///
 /// [https://bulma.io/documentation/elements/tag/](https://bulma.io/documentation/elements/tag/)
-pub struct Tags; 
+pub struct Tags;
 
 impl Component for Tags {
     type Message = ();

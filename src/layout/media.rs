@@ -16,7 +16,7 @@ pub struct MediaProps {
 /// A UI element for repeatable and nestable content.
 ///
 /// [https://bulma.io/documentation/layout/media-object/](https://bulma.io/documentation/layout/media-object/)
-pub struct Media; 
+pub struct Media;
 
 impl Component for Media {
     type Message = ();
@@ -39,7 +39,6 @@ impl Component for Media {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct MediaLeftProps {
@@ -55,7 +54,7 @@ pub struct MediaLeftProps {
 /// Elements to be grouped to the left of the media container.
 ///
 /// [https://bulma.io/documentation/layout/media-object/](https://bulma.io/documentation/layout/media-object/)
-pub struct MediaLeft; 
+pub struct MediaLeft;
 
 impl Component for MediaLeft {
     type Message = ();
@@ -78,7 +77,6 @@ impl Component for MediaLeft {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct MediaRightProps {
@@ -94,7 +92,7 @@ pub struct MediaRightProps {
 /// Elements to be grouped to the right of the media container.
 ///
 /// [https://bulma.io/documentation/layout/media-object/](https://bulma.io/documentation/layout/media-object/)
-pub struct MediaRight; 
+pub struct MediaRight;
 
 impl Component for MediaRight {
     type Message = ();
@@ -117,7 +115,6 @@ impl Component for MediaRight {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct MediaContentProps {
@@ -133,7 +130,7 @@ pub struct MediaContentProps {
 /// Elements to be grouped as the center body of the media container.
 ///
 /// [https://bulma.io/documentation/layout/media-object/](https://bulma.io/documentation/layout/media-object/)
-pub struct MediaContent; 
+pub struct MediaContent;
 
 impl Component for MediaContent {
     type Message = ();

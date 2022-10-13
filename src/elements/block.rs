@@ -11,7 +11,7 @@ pub struct BlockProps {
 /// Bulma’s most basic spacer block
 ///
 /// [https://bulma.io/documentation/elements/block/](https://bulma.io/documentation/elements/block/)
-pub struct Block; 
+pub struct Block;
 
 impl Component for Block {
     type Message = ();

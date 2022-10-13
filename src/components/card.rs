@@ -36,7 +36,7 @@ pub struct CardHeaderProps {
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardHeader)]
-pub fn card_header(CardHeaderProps{ children, classes }: &CardHeaderProps) -> Html {
+pub fn card_header(CardHeaderProps { children, classes }: &CardHeaderProps) -> Html {
     let classes = classes!(classes, "card-header");
 
     html! {
@@ -60,7 +60,7 @@ pub struct CardImageProps {
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardImage)]
-pub fn card_image(CardImageProps{ children, classes }: &CardImageProps) -> Html {
+pub fn card_image(CardImageProps { children, classes }: &CardImageProps) -> Html {
     let classes = classes!(classes, "card-image");
 
     html! {
@@ -84,7 +84,7 @@ pub struct CardContentProps {
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardContent)]
-pub fn card_content(CardContentProps{ children, classes }: &CardContentProps) -> Html {
+pub fn card_content(CardContentProps { children, classes }: &CardContentProps) -> Html {
     let classes = classes!(classes, "card-content");
 
     html! {
@@ -108,7 +108,7 @@ pub struct CardFooterProps {
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardFooter)]
-pub fn card_footer(CardFooterProps{ children, classes }: &CardFooterProps) -> Html {
+pub fn card_footer(CardFooterProps { children, classes }: &CardFooterProps) -> Html {
     let classes = classes!(classes, "card-footer");
 
     html! {

@@ -127,7 +127,7 @@ pub enum BaseColor<const P: usize> {
     #[display(fmt = "danger-dark")]
     DangerDark,
     #[display(fmt = "{_0}")]
-    Custom(&'static str)
+    Custom(&'static str),
 }
 
 impl From<Color> for Classes {

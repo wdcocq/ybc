@@ -38,7 +38,7 @@ pub use components::breadcrumb::{Breadcrumb, BreadcrumbProps, BreadcrumbSeparato
 pub use components::card::{
     Card, CardContent, CardContentProps, CardFooter, CardFooterProps, CardHeader, CardHeaderProps, CardImage, CardImageProps, CardProps,
 };
-pub use components::dropdown::{Dropdown, DropdownMsg, DropdownProps};
+pub use components::dropdown::{ControlledDropdown, ControlledDropdownProps, Dropdown, DropdownDivider, DropdownItem, DropdownProps};
 pub use components::menu::{Menu, MenuLabel, MenuLabelProps, MenuList, MenuListProps, MenuProps};
 pub use components::message::{Message, MessageBody, MessageBodyProps, MessageHeader, MessageHeaderProps, MessageProps};
 pub use components::modal::{Modal, ModalAgent, ModalAgentProvider, ModalAgentProviderProps, ModalCard, ModalCardProps, ModalProps};
@@ -88,3 +88,6 @@ pub use layout::level::{Level, LevelItem, LevelItemProps, LevelLeft, LevelLeftPr
 pub use layout::media::{Media, MediaContent, MediaContentProps, MediaLeft, MediaLeftProps, MediaProps, MediaRight, MediaRightProps};
 pub use layout::section::{Section, SectionProps, SectionSize};
 pub use layout::tile::{Tile, TileCtx, TileProps, TileSize};
+
+#[cfg(feature = "router")]
+pub use components::dropdown::DropdownLink;

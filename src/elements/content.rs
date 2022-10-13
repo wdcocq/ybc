@@ -16,7 +16,7 @@ pub struct ContentProps {
 /// A single component to wrap WYSIWYG generated content, where only HTML tags are available.
 ///
 /// [https://bulma.io/documentation/elements/content/](https://bulma.io/documentation/elements/content/)
-pub struct Content; 
+pub struct Content;
 
 impl Component for Content {
     type Message = ();

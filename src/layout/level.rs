@@ -16,7 +16,7 @@ pub struct LevelProps {
 /// A multi-purpose horizontal level, which can contain almost any other element.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct Level; 
+pub struct Level;
 
 impl Component for Level {
     type Message = ();
@@ -39,7 +39,6 @@ impl Component for Level {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct LevelLeftProps {
@@ -55,7 +54,7 @@ pub struct LevelLeftProps {
 /// A container for level elements to be grouped to the left of the container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelLeft; 
+pub struct LevelLeft;
 
 impl Component for LevelLeft {
     type Message = ();
@@ -78,7 +77,6 @@ impl Component for LevelLeft {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct LevelRightProps {
@@ -94,7 +92,7 @@ pub struct LevelRightProps {
 /// A container for level elements to be grouped to the right of the container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelRight; 
+pub struct LevelRight;
 
 impl Component for LevelRight {
     type Message = ();
@@ -117,7 +115,6 @@ impl Component for LevelRight {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct LevelItemProps {
@@ -133,7 +130,7 @@ pub struct LevelItemProps {
 /// An individual element of a level container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelItem; 
+pub struct LevelItem;
 
 impl Component for LevelItem {
     type Message = ();

@@ -15,7 +15,7 @@ pub struct SectionProps {
 /// A simple container to divide your page into sections.
 ///
 /// [https://bulma.io/documentation/layout/section/](https://bulma.io/documentation/layout/section/)
-pub struct Section; 
+pub struct Section;
 
 impl Component for Section {
     type Message = ();

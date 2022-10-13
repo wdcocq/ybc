@@ -23,7 +23,7 @@ pub struct TitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Title; 
+pub struct Title;
 
 impl Component for Title {
     type Message = ();
@@ -53,7 +53,6 @@ impl Component for Title {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct SubtitleProps {
@@ -72,7 +71,7 @@ pub struct SubtitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Subtitle; 
+pub struct Subtitle;
 
 impl Component for Subtitle {
     type Message = ();

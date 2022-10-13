@@ -106,7 +106,7 @@ pub fn input(
         <input
             ref={input_ref}
             name={name.clone()}
-            value={value.clone()}
+            value={value.clone().unwrap_or_else(|| String::from("").into())}
             oninput={update}
             class={classes}
             type={r#type.to_string()}

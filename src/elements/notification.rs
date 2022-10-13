@@ -11,7 +11,7 @@ pub struct NotificationProps {
 /// Bold notification blocks, to alert your users of something.
 ///
 /// [https://bulma.io/documentation/elements/notification/](https://bulma.io/documentation/elements/notification/)
-pub struct Notification; 
+pub struct Notification;
 
 impl Component for Notification {
     type Message = ();

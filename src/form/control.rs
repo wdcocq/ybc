@@ -19,7 +19,7 @@ pub struct ControlProps {
 /// A container with which you can wrap the form controls.
 ///
 /// [https://bulma.io/documentation/form/general/](https://bulma.io/documentation/form/general/)
-pub struct Control; 
+pub struct Control;
 
 impl Component for Control {
     type Message = ();

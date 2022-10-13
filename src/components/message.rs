@@ -60,7 +60,7 @@ pub struct MessageBodyProps {
 ///
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
 #[function_component(MessageBody)]
-pub fn message_body(MessageBodyProps{ children, classes }: &MessageBodyProps) -> Html {
+pub fn message_body(MessageBodyProps { children, classes }: &MessageBodyProps) -> Html {
     let classes = classes!(classes, "message-body");
 
     html! {

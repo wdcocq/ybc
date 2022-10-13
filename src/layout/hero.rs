@@ -24,8 +24,8 @@ pub struct HeroProps {
     #[prop_or_default]
     pub foot_classes: Option<Classes>,
     /// If you are using a [fixed navbar](https://bulma.io/documentation/components/navbar/#fixed-navbar),
-    /// you can use the `fixed_nav=true` modifier on the hero for it to occupy the viewport height minus
-    /// the navbar height.
+    /// you can use the `fixed_nav=true` modifier on the hero for it to occupy the viewport height
+    /// minus the navbar height.
     ///
     /// https://bulma.io/documentation/layout/hero/#fullheight-with-navbar
     #[prop_or_default]
@@ -41,7 +41,7 @@ pub struct HeroProps {
 /// An imposing hero banner to showcase something.
 ///
 /// [https://bulma.io/documentation/layout/hero/](https://bulma.io/documentation/layout/hero/)
-pub struct Hero; 
+pub struct Hero;
 
 impl Component for Hero {
     type Message = ();
