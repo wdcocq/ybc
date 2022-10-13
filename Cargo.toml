@@ -13,15 +13,22 @@ version = "0.2.1"
 [dependencies]
 derive_more = "0.99.9"
 log = "*"
-web-sys = {version = "0.3", features = ["Element", "File", "HtmlCollection", "HtmlSelectElement", "HtmlInputElement"]}
-yew = {git = "https://github.com/yewstack/yew"}
-yew-agent = {git = "https://github.com/yewstack/yew"}
-yew-router = {git = "https://github.com/yewstack/yew", optional = true}
+serde = { version = "1.0", optional = true }
+web-sys = { version = "0.3", features = [
+    "Element",
+    "File",
+    "HtmlCollection",
+    "HtmlSelectElement",
+    "HtmlInputElement",
+] }
+yew = { git = "https://github.com/yewstack/yew" }
+yew-agent = { git = "https://github.com/yewstack/yew" }
+yew-router = { git = "https://github.com/yewstack/yew", optional = true }
 
 [features]
 default = ["router"]
 docinclude = [] # Used only for activating `doc(include="...")` on nightly.
-router = ["yew-router"]
+router = ["yew-router", "dep:serde"]
 
 [package.metadata.docs.rs]
 features = ["docinclude"] # Activate `docinclude` during docs.rs build.
