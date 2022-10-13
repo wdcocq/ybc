@@ -158,9 +158,12 @@ mod router {
         /// Route that will be pushed when the anchor is clicked.
         pub to: R,
         /// Route query data
+        #[prop_or_default]
         pub query: Option<Q>,
+        #[prop_or_default]
         pub disabled: bool,
         /// [`NodeRef`] for the <a> element.
+        #[prop_or_default]
         pub anchor_ref: NodeRef,
     }
 
