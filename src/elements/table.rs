@@ -5,7 +5,7 @@ pub struct TableProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// Add borders to all the cells.
     #[prop_or_default]
     pub bordered: bool,
@@ -29,49 +29,43 @@ pub struct TableProps {
 /// An HTML table component.
 ///
 /// [https://bulma.io/documentation/elements/table/](https://bulma.io/documentation/elements/table/)
-pub struct Table;
 
-impl Component for Table {
-    type Message = ();
-    type Properties = TableProps;
+#[function_component(Table)]
+pub fn table(
+    TableProps {
+        children,
+        classes,
+        bordered,
+        striped,
+        narrow,
+        hoverable,
+        fullwidth,
+        scrollable,
+    }: &TableProps,
+) -> Html {
+    let classes = classes!(
+        classes.clone(),
+        "table",
+        bordered.then_some("is-bordered"),
+        striped.then_some("is-striped"),
+        narrow.then_some("is-narrow"),
+        hoverable.then_some("is-hoverable"),
+        fullwidth.then_some("is-fullwidth")
+    );
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("table");
-        classes.push(&props.classes);
-        if props.bordered {
-            classes.push("is-bordered");
-        }
-        if props.striped {
-            classes.push("is-striped");
-        }
-        if props.narrow {
-            classes.push("is-narrow");
-        }
-        if props.hoverable {
-            classes.push("is-hoverable");
-        }
-        if props.fullwidth {
-            classes.push("is-fullwidth");
-        }
-        if props.scrollable {
-            html! {
-                <div class="table-container">
-                    <table class={classes}>
-                        {props.children.clone()}
-                    </table>
-                </div>
-            }
-        } else {
-            html! {
+    if *scrollable {
+        html! {
+            <div class="table-container">
                 <table class={classes}>
-                    {props.children.clone()}
+                    {children.clone()}
                 </table>
-            }
+            </div>
+        }
+    } else {
+        html! {
+            <table class={classes}>
+                {children.clone()}
+            </table>
         }
     }
 }

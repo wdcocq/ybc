@@ -8,7 +8,7 @@ pub struct PanelProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML content of this panel's heading; it is automatically wrapped in a
     /// `p.panel-heading`.
     #[prop_or_default]
@@ -20,7 +20,7 @@ pub struct PanelProps {
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
 #[function_component(Panel)]
 pub fn panel(PanelProps { children, classes, heading }: &PanelProps) -> Html {
-    let classes = classes!(classes, "panel");
+    let classes = classes!(classes.clone(), "panel");
 
     html! {
         <nav class={classes}>
