@@ -1,7 +1,5 @@
 #![allow(clippy::redundant_closure_call)]
 
-use std::rc::Rc;
-
 use derive_more::Display;
 use yew::events::InputEvent;
 use yew::prelude::*;
@@ -14,7 +12,7 @@ pub struct InputProps {
     /// The `name` attribute for this form element.
     pub name: String,
     /// The controlled value of this form element.
-    pub value: Option<Rc<str>>,
+    pub value: Option<AttrValue>,
     /// NodeRef referencing the HtmlInputElement
     #[prop_or_default]
     pub input_ref: NodeRef,
