@@ -97,36 +97,43 @@ pub fn dropdown(DropdownProps { children, classes, hoverable, trigger_html }: &D
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
-pub enum DropdownItemTags {
-    A(Rc<str>),
-    Div,
-}
-
 #[derive(Debug, Clone, PartialEq, Properties)]
 pub struct DropdownItemProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
-    #[prop_or_else(|| DropdownItemTags::Div)]
-    pub tag: DropdownItemTags,
 }
 
 #[function_component(DropdownItem)]
-pub fn dropdown_item(DropdownItemProps { children, classes, tag }: &DropdownItemProps) -> Html {
+pub fn dropdown_item(DropdownItemProps { children, classes }: &DropdownItemProps) -> Html {
     let classes = classes!("dropdown-item", classes.clone());
-    match tag {
-        DropdownItemTags::A(href) => html! {
-            <a class={classes} href={href.clone()}>
-                {children.clone()}
-            </a>
-        },
-        DropdownItemTags::Div => html! {
-            <div class={classes}>
-                {children.clone()}
-            </div>
-        },
+    html! {
+        <div class={classes}>
+            {children.clone()}
+        </div>
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Properties)]
+pub struct DropdownAnchorProps {
+    #[prop_or_default]
+    pub children: Children,
+    #[prop_or_default]
+    pub classes: Classes,
+    #[prop_or_default]
+    pub href: Option<Rc<str>>,
+    #[prop_or_default]
+    pub onclick: Callback<MouseEvent>,
+}
+
+#[function_component(DropdownAnchor)]
+pub fn dropdown_anchor(DropdownAnchorProps { children, classes, href, onclick }: &DropdownAnchorProps) -> Html {
+    let classes = classes!("dropdown-item", classes.clone());
+    html! {
+        <a class={classes} href={href.clone()} {onclick}>
+            {children.clone()}
+        </a>
     }
 }
 

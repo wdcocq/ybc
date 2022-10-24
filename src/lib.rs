@@ -38,7 +38,10 @@ pub use components::breadcrumb::{Breadcrumb, BreadcrumbProps, BreadcrumbSeparato
 pub use components::card::{
     Card, CardContent, CardContentProps, CardFooter, CardFooterProps, CardHeader, CardHeaderProps, CardImage, CardImageProps, CardProps,
 };
-pub use components::dropdown::{ControlledDropdown, ControlledDropdownProps, Dropdown, DropdownDivider, DropdownItem, DropdownProps};
+pub use components::dropdown::{
+    ControlledDropdown, ControlledDropdownProps, Dropdown, DropdownAnchor, DropdownAnchorProps, DropdownDivider, DropdownItem, DropdownItemProps,
+    DropdownProps,
+};
 pub use components::menu::{Menu, MenuLabel, MenuLabelProps, MenuList, MenuListProps, MenuProps};
 pub use components::message::{Message, MessageBody, MessageBodyProps, MessageHeader, MessageHeaderProps, MessageProps};
 pub use components::modal::{Modal, ModalAgent, ModalAgentProvider, ModalAgentProviderProps, ModalCard, ModalCardProps, ModalProps};

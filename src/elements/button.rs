@@ -55,7 +55,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The click handler to use for this component.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
@@ -102,7 +102,7 @@ pub fn button(
     }: &ButtonProps,
 ) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "button",
         size,
         loading.then_some("is-loading"),
