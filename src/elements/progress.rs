@@ -5,7 +5,7 @@ use yew::prelude::*;
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ProgressProps {
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The maximum amount of progress; the 100% value.
     #[prop_or_else(|| 1.0)]
     pub max: f32,
@@ -30,7 +30,7 @@ impl Component for Progress {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         let mut classes = Classes::from("progress");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         let max = props.max.to_string();
         let value = props.value.to_string();
         let value_txt = html! {{format!("{}%", value)}};

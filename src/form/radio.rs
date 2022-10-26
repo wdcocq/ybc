@@ -6,20 +6,20 @@ pub struct RadioProps {
     /// The `name` attribute for this form element.
     ///
     /// All members of the same radio group must have the same value for their `name` attribute.
-    pub name: String,
+    pub name: AttrValue,
     /// The `value` attribute for this form element.
     ///
     /// This is different from other form elements, as this value does not change. It represents
     /// the value to be used for the radio group overall when this element is selected.
-    pub value: String,
+    pub value: AttrValue,
     /// The value of the currently selected radio of this radio group.
-    pub checked_value: Option<String>,
+    pub checked_value: Option<AttrValue>,
     /// The callback to be used for propagating changes to the selected radio of the radio group.
     pub update: Callback<String>,
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// Disable this component.
     #[prop_or_default]
     pub disabled: bool,
@@ -32,38 +32,31 @@ pub struct RadioProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct Radio;
+#[function_component(Radio)]
+pub fn radio(
+    RadioProps {
+        name,
+        value,
+        checked_value,
+        update,
+        children,
+        classes,
+        disabled,
+    }: &RadioProps,
+) -> Html {
+    let classes = classes!(classes.clone(), "radio");
 
-impl Component for Radio {
-    type Message = String;
-    type Properties = RadioProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        ctx.props().update.emit(msg);
-        false
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let link = ctx.link();
-        let mut classes = Classes::from("radio");
-        classes.push(&props.classes);
-        html! {
-            <label class={classes} disabled={props.disabled}>
-                <input
-                    type="radio"
-                    name={props.name.clone()}
-                    value={props.value.clone()}
-                    checked={props.checked_value.as_ref().map(|val| val == &props.value).unwrap_or(false)}
-                    oninput={link.callback(|e: InputEvent| e.data().unwrap_or_default())}
-                    disabled={props.disabled}
-                    />
-                {props.children.clone()}
-            </label>
-        }
+    html! {
+        <label class={classes} disabled={*disabled}>
+            <input
+                type="radio"
+                {name}
+                {value}
+                checked={matches!(checked_value, Some(v) if v == value)}
+                oninput={update.reform(|e: InputEvent| e.data().unwrap_or_default())}
+                disabled={*disabled}
+                />
+            {children.clone()}
+        </label>
     }
 }

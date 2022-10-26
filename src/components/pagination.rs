@@ -10,7 +10,7 @@ pub struct PaginationProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<Size>,
@@ -42,7 +42,7 @@ pub fn pagination(
         next,
     }: &PaginationProps,
 ) -> Html {
-    let classes = classes!(classes, "pagination", size, alignment, rounded.then_some("is-rounded"));
+    let classes = classes!(classes.clone(), "pagination", size, alignment, rounded.then_some("is-rounded"));
 
     html! {
         <nav class={classes} role="navigation" aria-label="pagination">

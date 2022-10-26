@@ -20,7 +20,7 @@ pub struct InputProps {
     #[prop_or_default]
     pub update: Callback<InputEvent>,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The input type of this component.
     #[prop_or(InputType::Text)]
     pub r#type: InputType,
@@ -89,7 +89,7 @@ pub fn input(
 ) -> Html {
     let classes = classes!(
         "input",
-        classes,
+        classes.clone(),
         size,
         color,
         bg_color,

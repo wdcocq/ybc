@@ -5,7 +5,7 @@ pub struct MessageProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// Colored message blocks, to emphasize part of your page.
@@ -13,7 +13,7 @@ pub struct MessageProps {
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
 #[function_component(Message)]
 pub fn message(MessageProps { children, classes }: &MessageProps) -> Html {
-    let classes = classes!(classes, "message");
+    let classes = classes!(classes.clone(), "message");
 
     html! {
         <article class={classes}>
@@ -29,7 +29,7 @@ pub struct MessageHeaderProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// An optional message header that can hold a title and a delete element.
@@ -37,7 +37,7 @@ pub struct MessageHeaderProps {
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
 #[function_component(MessageHeader)]
 pub fn message_header(MessageHeaderProps { children, classes }: &MessageHeaderProps) -> Html {
-    let classes = classes!(classes, "message-header");
+    let classes = classes!(classes.clone(), "message-header");
 
     html! {
         <div class={classes}>
@@ -53,7 +53,7 @@ pub struct MessageBodyProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A container for the body of a message.
@@ -61,7 +61,7 @@ pub struct MessageBodyProps {
 /// [https://bulma.io/documentation/components/message/](https://bulma.io/documentation/components/message/)
 #[function_component(MessageBody)]
 pub fn message_body(MessageBodyProps { children, classes }: &MessageBodyProps) -> Html {
-    let classes = classes!(classes, "message-body");
+    let classes = classes!(classes.clone(), "message-body");
 
     html! {
         <div class={classes}>

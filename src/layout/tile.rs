@@ -10,7 +10,7 @@ pub struct TileProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
     pub tag: Cow<'static, str>,
@@ -36,7 +36,7 @@ pub struct TileProps {
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
 #[function_component(Tile)]
 pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
-    let classes = classes!(classes, "tile", ctx, size, vertical.then_some("is-vertical"));
+    let classes = classes!(classes.clone(), "tile", ctx, size, vertical.then_some("is-vertical"));
 
     html! {
         <@{tag.clone()} class={classes}>

@@ -6,7 +6,7 @@ pub struct SectionProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// A size modifier to control spacing.
     #[prop_or_default]
     pub size: Option<SectionSize>,
@@ -28,7 +28,7 @@ impl Component for Section {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         let mut classes = Classes::from("section");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }

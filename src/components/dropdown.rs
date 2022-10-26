@@ -10,7 +10,7 @@ pub struct ControlledDropdownProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// Make this dropdown triggerable based on hover.
     #[prop_or_default]
     pub hoverable: bool,
@@ -70,7 +70,7 @@ pub struct DropdownProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// Make this dropdown triggerable based on hover.
     #[prop_or_default]
     pub hoverable: bool,

@@ -14,7 +14,7 @@ pub struct TextAreaProps {
     pub update: Callback<String>,
 
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The placeholder value for this component.
     #[prop_or_default]
     pub placeholder: String,
@@ -68,7 +68,7 @@ impl Component for TextArea {
         let props = ctx.props();
         let link = ctx.link();
         let mut classes = Classes::from("textarea");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }

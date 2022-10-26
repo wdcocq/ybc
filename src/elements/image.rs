@@ -6,7 +6,7 @@ pub struct ImageProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<ImageSize>,
@@ -28,7 +28,7 @@ impl Component for Image {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         let mut classes = Classes::from("image");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }

@@ -1,4 +1,4 @@
-use std::{borrow::Cow, cell::RefCell, collections::HashMap, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
 use yew::prelude::*;
 
@@ -13,7 +13,7 @@ pub struct ModalProps {
     #[prop_or_default]
     pub trigger: Option<Html>,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A classic modal overlay, in which you can include any content you want.
@@ -45,7 +45,7 @@ pub fn modal(ModalProps { children, classes, id, trigger }: &ModalProps) -> Html
     );
 
     let is_active = modal_agent.is_active(id);
-    let classes = classes!("modal", classes, is_active.then_some("is-active"));
+    let classes = classes!("modal", classes.clone(), is_active.then_some("is-active"));
 
     html! {
         <>
@@ -84,7 +84,7 @@ pub struct ModalCardProps {
     #[prop_or_default]
     pub trigger: Option<Html>,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A classic modal with a header, body, and footer section.
@@ -116,7 +116,7 @@ pub fn modal_card(ModalCardProps { classes, id, title, children, footer, trigger
     );
 
     let is_active = modal_agent.is_active(id);
-    let classes = classes!("modal", classes, is_active.then_some("is-active"));
+    let classes = classes!("modal", classes.clone(), is_active.then_some("is-active"));
 
     html! {
         <>
@@ -147,13 +147,13 @@ pub fn modal_card(ModalCardProps { classes, id, title, children, footer, trigger
 
 #[derive(Clone, Debug, Default, PartialEq)]
 struct ModalAgentContext {
-    modals: RefCell<HashMap<Cow<'static, str>, bool>>,
+    modals: RefCell<HashMap<AttrValue, bool>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 enum ModalAgentContextMsg {
-    Open(Cow<'static, str>),
-    Close(Cow<'static, str>),
+    Open(AttrValue),
+    Close(AttrValue),
 }
 
 impl Reducible for ModalAgentContext {
@@ -194,14 +194,14 @@ impl ModalAgent {
 
     pub fn open<T>(&self, id: T)
     where
-        T: Into<Cow<'static, str>>,
+        T: Into<AttrValue>,
     {
         self.0.dispatch(ModalAgentContextMsg::Open(id.into()));
     }
 
     pub fn close<T>(&self, id: T)
     where
-        T: Into<Cow<'static, str>>,
+        T: Into<AttrValue>,
     {
         self.0.dispatch(ModalAgentContextMsg::Close(id.into()));
     }

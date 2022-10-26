@@ -5,7 +5,7 @@ pub struct LabelProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     #[prop_or_default]
     pub horizontal: bool,
 }
@@ -14,11 +14,11 @@ pub struct LabelProps {
 pub fn label(LabelProps { children, classes, horizontal }: &LabelProps) -> Html {
     html! {
         if *horizontal {
-            <div class={classes!(classes, "field-label")}>
+            <div class={classes!(classes.clone(), "field-label")}>
                 <label class="label">{children.clone()}</label>
             </div>
         } else {
-            <label class={classes!(classes, "label")}>{children.clone()}</label>
+            <label class={classes!(classes.clone(), "label")}>{children.clone()}</label>
         }
     }
 }

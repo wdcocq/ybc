@@ -8,7 +8,7 @@ pub struct ButtonsProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The size for all buttons within this group.
     #[prop_or_default]
     pub size: Option<ButtonGroupSize>,
@@ -19,7 +19,7 @@ pub struct ButtonsProps {
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
 #[function_component(Buttons)]
 pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html {
-    let classes = classes!(classes, "buttons", size);
+    let classes = classes!(classes.clone(), "buttons", size);
 
     html! {
         <div class={classes}>
@@ -134,7 +134,7 @@ mod router {
         pub route: R,
         pub children: Children,
         #[prop_or_default]
-        pub classes: Option<Classes>,
+        pub classes: Classes,
         /// The click handler to use for this component.
         /// The size of the button
         #[prop_or_default]
@@ -179,7 +179,7 @@ mod router {
         R: Routable + 'static,
     {
         let classes = classes!(
-            classes,
+            classes.clone(),
             "button",
             size,
             loading.then_some("is-loading"),
@@ -211,7 +211,7 @@ pub struct ButtonAnchorProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The `href` attribute value to use for this component.
     #[prop_or_default]
     pub href: String,
@@ -265,7 +265,7 @@ pub fn button_anchor(
     }: &ButtonAnchorProps,
 ) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "button",
         loading.then_some("is-loading"),
         r#static.then_some("is-static"),
@@ -273,6 +273,7 @@ pub fn button_anchor(
         outline.then_some("is-outline"),
         rounded.then_some("is-rounded")
     );
+
     html! {
         <a
             class={classes}
@@ -292,7 +293,7 @@ pub fn button_anchor(
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ButtonInputSubmitProps {
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The submit handler to use for this component.
     #[prop_or_default]
     pub onsubmit: Callback<SubmitEvent>,
@@ -333,7 +334,7 @@ pub fn button_input(
     }: &ButtonInputSubmitProps,
 ) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "button",
         loading.then_some("is-loading"),
         r#static.then_some("is-static"),
@@ -352,7 +353,7 @@ pub fn button_input(
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ButtonInputResetProps {
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The reset handler to use for this component.
     #[prop_or_default]
     pub onreset: Callback<Event>,
@@ -393,7 +394,7 @@ pub fn button_input_reset(
     }: &ButtonInputResetProps,
 ) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "button",
         loading.then_some("is-loading"),
         r#static.then_some("is-static"),

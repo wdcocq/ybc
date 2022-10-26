@@ -8,7 +8,7 @@ pub struct IconProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The click handler to use for this component.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
@@ -25,7 +25,7 @@ pub struct IconProps {
 /// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
 #[function_component(Icon)]
 pub fn icon(IconProps { children, classes, onclick, size, alignment }: &IconProps) -> Html {
-    let classes = classes!(classes, "icon", size, alignment);
+    let classes = classes!(classes.clone(), "icon", size, alignment);
 
     html! {
         <span class={classes} {onclick}>
@@ -38,7 +38,7 @@ pub struct IconTextProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The click handler to use for this component.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
@@ -49,7 +49,7 @@ pub struct IconTextProps {
 /// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
 #[function_component(IconText)]
 pub fn icon_text(IconTextProps { children, classes, onclick }: &IconTextProps) -> Html {
-    let classes = classes!(classes, "icon-text");
+    let classes = classes!(classes.clone(), "icon-text");
 
     html! {
         <span class={classes} {onclick}>

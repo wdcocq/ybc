@@ -24,7 +24,7 @@ pub struct SelectProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 
     /// The size of this component.
     #[prop_or_default]
@@ -62,7 +62,7 @@ pub fn select(
         disabled,
     }: &SelectProps,
 ) -> Html {
-    let classes = classes!("select", classes, size, loading.then_some("is-loading"));
+    let classes = classes!("select", classes.clone(), size, loading.then_some("is-loading"));
 
     html! {
         <div class={classes}>
@@ -97,7 +97,7 @@ pub struct MultiSelectProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 
     /// The size of this component.
     #[prop_or_default]
@@ -139,7 +139,7 @@ pub fn multi_select(
         disabled,
     }: &MultiSelectProps,
 ) -> Html {
-    let classes = classes!("select", "is-multiple", classes, size, loading.then_some("is-loading"));
+    let classes = classes!("select", "is-multiple", classes.clone(), size, loading.then_some("is-loading"));
 
     let update = update.reform(|e: Event| {
         let select = e.target_unchecked_into::<HtmlSelectElement>();

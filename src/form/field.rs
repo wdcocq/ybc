@@ -6,19 +6,19 @@ pub struct FieldProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// A text label for the field.
     #[prop_or_default]
-    pub label: Option<String>,
+    pub label: Option<AttrValue>,
     /// Extra classes for the label container.
     #[prop_or_default]
-    pub label_classes: Option<Classes>,
+    pub label_classes: Classes,
     /// A help message for the field.
     #[prop_or_default]
-    pub help: Option<String>,
+    pub help: Option<AttrValue>,
     /// Extra classes for the help message container.
     #[prop_or_default]
-    pub help_classes: Option<Classes>,
+    pub help_classes: Classes,
     /// A convenience bool to add the `is-danger` class to the help classes when `true`.
     #[prop_or_default]
     pub help_has_error: bool,
@@ -49,105 +49,68 @@ pub struct FieldProps {
 }
 
 /// A container for form controls
-pub struct Field;
+#[function_component(Field)]
+pub fn field(
+    FieldProps {
+        children,
+        classes,
+        label,
+        label_classes,
+        help,
+        help_classes,
+        help_has_error,
+        icons_left,
+        icons_right,
+        addons,
+        addons_align,
+        grouped,
+        grouped_align,
+        multiline,
+        horizontal,
+    }: &FieldProps,
+) -> Html {
+    let classes = classes!(
+        classes.clone(),
+        "field",
+        icons_left.then_some("has-icons-left"),
+        icons_right.then_some("has-icons-right"),
+        addons.then_some("has-addons"),
+        addons_align,
+        grouped.then_some("is-grouped"),
+        grouped_align,
+        multiline.then_some("is-grouped-multiline"),
+    );
 
-impl Component for Field {
-    type Message = ();
-    type Properties = FieldProps;
+    let label = html! {
+        if let Some(label) = label {
+            if *horizontal {
+                <div class={classes!(label_classes.clone(), "field-label")}>
+                    <label class="label">{label}</label>
+                </div>
+            } else {
+                <label class={classes!(label_classes.clone(), "label")}>{label}</label>
+            }
+        }
+    };
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
+    let help = html! {
+        if let Some(help) = help {
+            <label class={classes!(help_classes.clone(), "help", help_has_error.then_some("is-danger"))}>
+               {help}
+            </label>
+        }
+    };
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("field");
-        classes.push(&props.classes);
-        if props.icons_left {
-            classes.push("has-icons-left");
-        }
-        if props.icons_right {
-            classes.push("has-icons-right");
-        }
-        if props.addons {
-            classes.push("has-addons");
-        }
-        if let Some(align) = &props.addons_align {
-            classes.push(&align.to_string());
-        }
-        if props.grouped {
-            classes.push("is-grouped");
-        }
-        if let Some(align) = &props.grouped_align {
-            classes.push(&align.to_string());
-        }
-        if props.multiline {
-            classes.push("is-grouped-multiline");
-        }
-
-        // Build the label if label content is provided.
-        let label = match &props.label {
-            Some(label_content) => match &props.label_classes {
-                Some(label_classes_str) => {
-                    let mut label_classes = label_classes_str.clone();
-                    if props.horizontal {
-                        label_classes.push("field-label");
-                        html! {
-                            <div class={label_classes}>
-                                <label class="label">{label_content.clone()}</label>
-                            </div>
-                        }
-                    } else {
-                        label_classes.push("label");
-                        html! {<label class={label_classes}>{label_content.clone()}</label>}
-                    }
-                }
-                None => {
-                    if props.horizontal {
-                        html! {<div class="field-label"><label class="label">{label_content.clone()}</label></div>}
-                    } else {
-                        html! {<label class="label">{label_content.clone()}</label>}
-                    }
-                }
-            },
-            None => html! {},
-        };
-
-        // Build the help label if present.
-        let help = match &props.help {
-            Some(help_content) => match &props.help_classes {
-                Some(help_classes_str) => {
-                    let mut help_classes = help_classes_str.clone();
-                    help_classes.push("help");
-                    if props.help_has_error {
-                        help_classes.push("is-danger");
-                    }
-                    html! {<label class={help_classes}>{help_content.clone()}</label>}
-                }
-                None => {
-                    let mut help_classes = Classes::from("help");
-                    if props.help_has_error {
-                        help_classes.push("is-danger");
-                    }
-                    html! {<label class={help_classes}>{help_content.clone()}</label>}
-                }
-            },
-            None => html! {},
-        };
-
-        // Build the body section.
-        let mut body = html! {<>{props.children.clone()}</>};
-        if props.horizontal {
-            body = html! {<div class="field-body">{body}</div>}
-        }
-
-        html! {
-            <div class={classes}>
-                {label}
-                {body}
-                {help}
-            </div>
-        }
+    html! {
+        <div class={classes}>
+            {label}
+            if *horizontal {
+                <div class="field-body">{children.clone()}</div>
+            } else {
+                {children.clone()}
+            }
+            {help}
+        </div>
     }
 }
 
@@ -163,6 +126,12 @@ pub enum AddonsAlign {
     Right,
 }
 
+impl From<AddonsAlign> for Classes {
+    fn from(align: AddonsAlign) -> Self {
+        align.to_string().into()
+    }
+}
+
 /// The two alignment options available for grouped field controls.
 ///
 /// https://bulma.io/documentation/form/general/
@@ -173,6 +142,12 @@ pub enum GroupedAlign {
     Centered,
     #[display(fmt = "right")]
     Right,
+}
+
+impl From<GroupedAlign> for Classes {
+    fn from(align: GroupedAlign) -> Self {
+        align.to_string().into()
+    }
 }
 
 /// The three sizes available for horizontal field labels.
@@ -187,4 +162,10 @@ pub enum LabelSize {
     Medium,
     #[display(fmt = "large")]
     Large,
+}
+
+impl From<LabelSize> for Classes {
+    fn from(size: LabelSize) -> Self {
+        size.to_string().into()
+    }
 }

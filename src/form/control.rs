@@ -7,7 +7,7 @@ pub struct ControlProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
     pub tag: String,
@@ -19,28 +19,13 @@ pub struct ControlProps {
 /// A container with which you can wrap the form controls.
 ///
 /// [https://bulma.io/documentation/form/general/](https://bulma.io/documentation/form/general/)
-pub struct Control;
+#[function_component(Control)]
+pub fn conttrol(ControlProps { children, classes, tag, expanded }: &ControlProps) -> Html {
+    let classes = classes!(classes.clone(), "control", expanded.then_some("is-expanded"));
 
-impl Component for Control {
-    type Message = ();
-    type Properties = ControlProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("control");
-        classes.push(&props.classes);
-        if props.expanded {
-            classes.push("is-expanded");
-        }
-        let tag = props.tag.clone();
-        html! {
-            <@{tag} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
+    html! {
+        <@{tag.clone()} class={classes}>
+            {children.clone()}
+        </@>
     }
 }

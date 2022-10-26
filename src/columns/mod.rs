@@ -5,7 +5,7 @@ pub struct ColumnsProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// Align child columns vertically.
     #[prop_or_default]
     pub vcentered: bool,
@@ -23,7 +23,7 @@ pub struct ColumnsProps {
 #[function_component(Columns)]
 pub fn columns(ColumnsProps { children, classes, vcentered, multiline, centered }: &ColumnsProps) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "columns",
         vcentered.then_some("is-vcentered"),
         multiline.then_some("is-multiline"),
@@ -44,7 +44,7 @@ pub struct ColumnProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A flexbox-based responsive column.
@@ -56,7 +56,7 @@ pub struct ColumnProps {
 /// add classes to this Component manually via the `classes` prop.
 #[function_component(Column)]
 pub fn column(ColumnProps { children, classes }: &ColumnProps) -> Html {
-    let classes = classes!(classes, "column");
+    let classes = classes!(classes.clone(), "column");
 
     html! {
         <div class={classes}>

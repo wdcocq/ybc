@@ -5,24 +5,24 @@ use yew::prelude::*;
 pub struct HeroProps {
     /// Extra classes for the hero container.
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The contents of the hero-head section.
     #[prop_or_default]
     pub head: Option<Html>,
     /// Optional classes to add to the hero-head container.
     #[prop_or_default]
-    pub head_classes: Option<Classes>,
+    pub head_classes: Classes,
     /// The contents of the hero-body section.
     pub body: Html,
     /// Optional classes to add to the hero-body container.
     #[prop_or_default]
-    pub body_classes: Option<Classes>,
+    pub body_classes: Classes,
     /// The contents of the hero-foot section.
     #[prop_or_default]
     pub foot: Option<Html>,
     /// Optional classes to add to the hero-foot container.
     #[prop_or_default]
-    pub foot_classes: Option<Classes>,
+    pub foot_classes: Classes,
     /// If you are using a [fixed navbar](https://bulma.io/documentation/components/navbar/#fixed-navbar),
     /// you can use the `fixed_nav=true` modifier on the hero for it to occupy the viewport height
     /// minus the navbar height.
@@ -41,56 +41,45 @@ pub struct HeroProps {
 /// An imposing hero banner to showcase something.
 ///
 /// [https://bulma.io/documentation/layout/hero/](https://bulma.io/documentation/layout/hero/)
-pub struct Hero;
+#[function_component(Hero)]
+pub fn hero(
+    HeroProps {
+        classes,
+        head,
+        head_classes,
+        body,
+        body_classes,
+        foot,
+        foot_classes,
+        fixed_nav,
+        bold,
+        size,
+    }: &HeroProps,
+) -> Html {
+    let classes = classes!(
+        classes.clone(),
+        "hero",
+        fixed_nav.then_some("is-fullheight-with-navbar"),
+        bold.then_some("is-bold"),
+        size,
+    );
 
-impl Component for Hero {
-    type Message = ();
-    type Properties = HeroProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("hero");
-        classes.push(&props.classes);
-        if props.fixed_nav {
-            classes.push("is-fullheight-with-navbar");
-        }
-        if props.bold {
-            classes.push("is-bold");
-        }
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-
-        // Build the header section.
-        let head = if let Some(head) = &props.head {
-            let mut classes = Classes::from("hero-head");
-            classes.push(&props.head_classes);
-            html! {<div class={classes}>{head.clone()}</div>}
-        } else {
-            html! {}
-        };
-        // Build the footer section.
-        let foot = if let Some(foot) = &props.foot {
-            let mut classes = Classes::from("hero-foot");
-            classes.push(&props.foot_classes);
-            html! {<div class={classes}>{foot.clone()}</div>}
-        } else {
-            html! {}
-        };
-
-        let mut body_classes = Classes::from("hero-body");
-        body_classes.push(&props.body_classes);
-        html! {
-            <section class={classes}>
-                {head}
-                <div class={body_classes}>{props.body.clone()}</div>
-                {foot}
-            </section>
-        }
+    html! {
+        <section class={classes}>
+            if let Some(head) = head {
+                <div class={classes!(head_classes.clone(), "hero-head")}>
+                    {head.clone()}
+                </div>
+            }
+            <div class={classes!(body_classes.clone(), "hero-body")}>
+                {body.clone()}
+            </div>
+            if let Some(foot) = foot {
+                <div class={classes!(foot_classes.clone(), "hero-foot")}>
+                    {foot.clone()}
+                </div>
+            }
+        </section>
     }
 }
 
@@ -108,4 +97,10 @@ pub enum HeroSize {
     Fullheight,
     #[display(fmt = "fullheight-with-navbar")]
     FullheightWithNavbar,
+}
+
+impl From<HeroSize> for Classes {
+    fn from(size: HeroSize) -> Self {
+        size.to_string().into()
+    }
 }

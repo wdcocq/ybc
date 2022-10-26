@@ -5,7 +5,7 @@ pub struct CardProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// An all-around flexible and composable component; this is the card container.
@@ -13,7 +13,7 @@ pub struct CardProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(Card)]
 pub fn card(CardProps { children, classes }: &CardProps) -> Html {
-    let classes = classes!(classes, "card");
+    let classes = classes!(classes.clone(), "card");
 
     html! {
         <div class={classes}>
@@ -29,7 +29,7 @@ pub struct CardHeaderProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A container for card header content; rendered as a horizontal bar with a shadow.
@@ -37,7 +37,7 @@ pub struct CardHeaderProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardHeader)]
 pub fn card_header(CardHeaderProps { children, classes }: &CardHeaderProps) -> Html {
-    let classes = classes!(classes, "card-header");
+    let classes = classes!(classes.clone(), "card-header");
 
     html! {
         <header class={classes}>
@@ -53,7 +53,7 @@ pub struct CardImageProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A fullwidth container for a responsive image.
@@ -61,7 +61,7 @@ pub struct CardImageProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardImage)]
 pub fn card_image(CardImageProps { children, classes }: &CardImageProps) -> Html {
-    let classes = classes!(classes, "card-image");
+    let classes = classes!(classes.clone(), "card-image");
 
     html! {
         <div class={classes}>
@@ -77,7 +77,7 @@ pub struct CardContentProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A container for any other content as the body of the card.
@@ -85,7 +85,7 @@ pub struct CardContentProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardContent)]
 pub fn card_content(CardContentProps { children, classes }: &CardContentProps) -> Html {
-    let classes = classes!(classes, "card-content");
+    let classes = classes!(classes.clone(), "card-content");
 
     html! {
         <div class={classes}>
@@ -101,7 +101,7 @@ pub struct CardFooterProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
 }
 
 /// A container for card footer content; rendered as a horizontal list of controls.
@@ -109,7 +109,7 @@ pub struct CardFooterProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardFooter)]
 pub fn card_footer(CardFooterProps { children, classes }: &CardFooterProps) -> Html {
-    let classes = classes!(classes, "card-footer");
+    let classes = classes!(classes.clone(), "card-footer");
 
     html! {
         <footer class={classes}>

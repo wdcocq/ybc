@@ -8,7 +8,7 @@ pub struct TitleProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "h3".into())]
     pub tag: String,
@@ -36,7 +36,7 @@ impl Component for Title {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         let mut classes = Classes::from("title");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }
@@ -59,7 +59,7 @@ pub struct SubtitleProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "h3".into())]
     pub tag: String,
@@ -84,7 +84,7 @@ impl Component for Subtitle {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         let mut classes = Classes::from("subtitle");
-        classes.push(&props.classes);
+        classes.push(props.classes.clone());
         if let Some(size) = &props.size {
             classes.push(&size.to_string());
         }

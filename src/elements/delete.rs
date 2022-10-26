@@ -7,37 +7,25 @@ pub struct DeleteProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "button".into())]
     pub tag: String,
     /// The click handler to use for this component.
-    #[prop_or_else(Callback::noop)]
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
 }
 
 /// A versatile delete cross.
 ///
 /// [https://bulma.io/documentation/elements/delete/](https://bulma.io/documentation/elements/delete/)
-pub struct Delete;
+#[function_component(Delete)]
+pub fn delete(DeleteProps { children, classes, tag, onclick }: &DeleteProps) -> Html {
+    let classes = classes!(classes.clone(), "delete");
 
-impl Component for Delete {
-    type Message = ();
-    type Properties = DeleteProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("delete");
-        classes.push(&props.classes);
-        let tag = props.tag.clone();
-        html! {
-            <@{tag} class={classes} onclick={props.onclick.clone()}>
-                {props.children.clone()}
-            </@>
-        }
+    html! {
+        <@{tag.clone()} class={classes} {onclick}>
+            {children.clone()}
+        </@>
     }
 }

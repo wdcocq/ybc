@@ -9,7 +9,7 @@ pub struct BreadcrumbProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<BreadcrumbSize>,
@@ -26,7 +26,7 @@ pub struct BreadcrumbProps {
 /// [https://bulma.io/documentation/components/breadcrumb/](https://bulma.io/documentation/components/breadcrumb/)
 #[function_component(Breadcrumb)]
 pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separator }: &BreadcrumbProps) -> Html {
-    let classes = classes!(classes, "breadcrumb", size, alignment, separator);
+    let classes = classes!(classes.clone(), "breadcrumb", size, alignment, separator);
 
     html! {
         <nav class={classes} aria-label="breadcrumbs">

@@ -7,7 +7,7 @@ pub struct TabsProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     /// The alignment of this component.
     #[prop_or_default]
     pub alignment: Option<Alignment>,
@@ -48,7 +48,7 @@ pub fn tabs(
     }: &TabsProps,
 ) -> Html {
     let classes = classes!(
-        classes,
+        classes.clone(),
         "tabs",
         alignment,
         size,
@@ -78,7 +78,7 @@ pub struct TabsItemProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub classes: Option<Classes>,
+    pub classes: Classes,
     // Make this an active tab
     #[prop_or_default]
     pub active: bool,
@@ -86,7 +86,7 @@ pub struct TabsItemProps {
 
 #[function_component(TabsItem)]
 pub fn tabs_item(TabsItemProps { children, classes, active }: &TabsItemProps) -> Html {
-    let classes = classes!(classes, active.then_some("is-active"));
+    let classes = classes!(classes.clone(), active.then_some("is-active"));
 
     html! {
         <li class={classes}>
