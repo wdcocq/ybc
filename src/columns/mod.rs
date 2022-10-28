@@ -15,19 +15,32 @@ pub struct ColumnsProps {
     /// Center all child columns within their row.
     #[prop_or_default]
     pub centered: bool,
+    // Remove gaps between columns
+    #[prop_or_default]
+    pub gapless: bool,
 }
 
 /// The container for a set of responsive columns.
 ///
 /// [https://bulma.io/documentation/columns/](https://bulma.io/documentation/columns/)
 #[function_component(Columns)]
-pub fn columns(ColumnsProps { children, classes, vcentered, multiline, centered }: &ColumnsProps) -> Html {
+pub fn columns(
+    ColumnsProps {
+        children,
+        classes,
+        vcentered,
+        multiline,
+        centered,
+        gapless,
+    }: &ColumnsProps,
+) -> Html {
     let classes = classes!(
         classes.clone(),
         "columns",
         vcentered.then_some("is-vcentered"),
         multiline.then_some("is-multiline"),
         centered.then_some("is-centered"),
+        gapless.then_some("is-gapless"),
     );
 
     html! {
@@ -45,6 +58,8 @@ pub struct ColumnProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
+    #[prop_or_default]
+    pub narrow: bool,
 }
 
 /// A flexbox-based responsive column.
@@ -55,8 +70,8 @@ pub struct ColumnProps {
 /// Modelling all of these is particularly for this component, so for now you are encouraged to
 /// add classes to this Component manually via the `classes` prop.
 #[function_component(Column)]
-pub fn column(ColumnProps { children, classes }: &ColumnProps) -> Html {
-    let classes = classes!(classes.clone(), "column");
+pub fn column(ColumnProps { children, classes, narrow }: &ColumnProps) -> Html {
+    let classes = classes!(classes.clone(), "column", narrow.then_some("is-narrow"));
 
     html! {
         <div class={classes}>
