@@ -6,17 +6,20 @@ pub struct CardProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
+    /// NodeRef to the card `<div>`
+    #[prop_or_default]
+    pub card_ref: NodeRef,
 }
 
 /// An all-around flexible and composable component; this is the card container.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(Card)]
-pub fn card(CardProps { children, classes }: &CardProps) -> Html {
+pub fn card(CardProps { children, classes, card_ref }: &CardProps) -> Html {
     let classes = classes!(classes.clone(), "card");
 
     html! {
-        <div class={classes}>
+        <div ref={card_ref} class={classes}>
             {children.clone()}
         </div>
     }

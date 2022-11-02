@@ -6,6 +6,9 @@ pub struct TableProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
+    /// NodeRef to the `<table>` element
+    #[prop_or_default]
+    pub table_ref: NodeRef,
     /// Add borders to all the cells.
     #[prop_or_default]
     pub bordered: bool,
@@ -35,6 +38,7 @@ pub fn table(
     TableProps {
         children,
         classes,
+        table_ref,
         bordered,
         striped,
         narrow,
@@ -56,14 +60,14 @@ pub fn table(
     if *scrollable {
         html! {
             <div class="table-container">
-                <table class={classes}>
+                <table ref={table_ref} class={classes}>
                     {children.clone()}
                 </table>
             </div>
         }
     } else {
         html! {
-            <table class={classes}>
+            <table ref={table_ref} class={classes}>
                 {children.clone()}
             </table>
         }
