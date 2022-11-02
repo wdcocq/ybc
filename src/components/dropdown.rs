@@ -17,8 +17,14 @@ pub struct ControlledDropdownProps {
     /// The content of the trigger.
     #[prop_or_default]
     pub trigger_html: Html,
-    /// Can be used to active or get the current active state of the dropdown
-    pub active: UseStateHandle<bool>,
+    /// Whether to provide a background trigger to close the dropdown
+    #[prop_or(true)]
+    pub close_trigger: bool,
+    /// When active show the dropdown menu
+    pub active: bool,
+    /// Called when either of the triggers is clicked
+    #[prop_or_default]
+    pub activated: Callback<bool>,
 }
 
 /// An interactive dropdown menu for discoverable content. Can be controlled from outside through
@@ -26,7 +32,17 @@ pub struct ControlledDropdownProps {
 ///
 /// [https://bulma.io/documentation/components/dropdown/](https://bulma.io/documentation/components/dropdown/)
 #[function_component(ControlledDropdown)]
-pub fn activated_dropdown(ControlledDropdownProps { children, classes, hoverable, trigger_html, active }: &ControlledDropdownProps) -> Html {
+pub fn controlled_dropdown(
+    ControlledDropdownProps {
+        children,
+        classes,
+        hoverable,
+        trigger_html,
+        close_trigger,
+        active,
+        activated,
+    }: &ControlledDropdownProps,
+) -> Html {
     let classes = classes!(
         "dropdown",
         classes.clone(),
@@ -34,23 +50,13 @@ pub fn activated_dropdown(ControlledDropdownProps { children, classes, hoverable
         active.then_some("is-active"),
     );
 
-    let opencb = Callback::from({
-        let active = active.clone();
-        move |_| active.set(true)
-    });
-
-    let closecb = Callback::from({
-        let active = active.clone();
-        move |_| active.set(false)
-    });
-
     html! {
         <div class={classes}>
-            if **active {
-                <div onclick={closecb}
+            if *active && *close_trigger &&! *hoverable {
+                <div onclick={activated.reform(|_| false)}
                      style="z-index:10;background-color:rgba(0,0,0,0);position:fixed;top:0;bottom:0;left:0;right:0;"/>
             }
-            <div class="dropdown-trigger" onclick={opencb}>
+            <div class="dropdown-trigger" onclick={activated.reform(|_| true)}>
                 {trigger_html.clone()}
             </div>
             <div class="dropdown-menu" role="menu">
@@ -91,7 +97,9 @@ pub fn dropdown(DropdownProps { children, classes, hoverable, trigger_html }: &D
             classes={classes.clone()}
             hoverable={*hoverable}
             trigger_html={trigger_html.clone()}
-            {active}>
+            close_trigger=true
+            active={*active}
+            activated={move |a| active.set(a)}>
             {children.clone()}
         </ControlledDropdown>
     }
