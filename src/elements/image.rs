@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -15,81 +15,62 @@ pub struct ImageProps {
 /// A container for responsive images.
 ///
 /// [https://bulma.io/documentation/elements/image/](https://bulma.io/documentation/elements/image/)
-pub struct Image;
-
-impl Component for Image {
-    type Message = ();
-    type Properties = ImageProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("image");
-        classes.push(props.classes.clone());
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        html! {
-            <figure class={classes}>
-                {props.children.clone()}
-            </figure>
-        }
-    }
+#[function_component(Image)]
+pub fn image(ImageProps { children, classes, size }: &ImageProps) -> Html {
+    basic_comp!(<figure>, children, classes.clone(), "image", size)
 }
 
 /// Available placeholder sizes for figures.
 ///
 /// https://bulma.io/documentation/elements/image/
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum ImageSize {
-    #[display(fmt = "16x16")]
+    #[strum(to_string = "is-16x16")]
     Is16x16,
-    #[display(fmt = "24x24")]
+    #[strum(to_string = "is-24x24")]
     Is24x24,
-    #[display(fmt = "32x32")]
+    #[strum(to_string = "is-32x32")]
     Is32x32,
-    #[display(fmt = "48x48")]
+    #[strum(to_string = "is-48x48")]
     Is48x48,
-    #[display(fmt = "64x64")]
+    #[strum(to_string = "is-64x64")]
     Is64x64,
-    #[display(fmt = "96x96")]
+    #[strum(to_string = "is-96x96")]
     Is96x96,
-    #[display(fmt = "128x128")]
+    #[strum(to_string = "is-128x128")]
     Is128x128,
-    #[display(fmt = "Square")]
+    #[strum(to_string = "is-Square")]
     IsSquare,
-    #[display(fmt = "1by1")]
+    #[strum(to_string = "is-1by1")]
     Is1by1,
-    #[display(fmt = "5by4")]
+    #[strum(to_string = "is-5by4")]
     Is5by4,
-    #[display(fmt = "4by3")]
+    #[strum(to_string = "is-4by3")]
     Is4by3,
-    #[display(fmt = "3by2")]
+    #[strum(to_string = "is-3by2")]
     Is3by2,
-    #[display(fmt = "5by3")]
+    #[strum(to_string = "is-5by3")]
     Is5by3,
-    #[display(fmt = "16by9")]
+    #[strum(to_string = "is-16by9")]
     Is16by9,
-    #[display(fmt = "2by1")]
+    #[strum(to_string = "is-2by1")]
     Is2by1,
-    #[display(fmt = "3by1")]
+    #[strum(to_string = "is-3by1")]
     Is3by1,
-    #[display(fmt = "4by5")]
+    #[strum(to_string = "is-4by5")]
     Is4by5,
-    #[display(fmt = "3by4")]
+    #[strum(to_string = "is-3by4")]
     Is3by4,
-    #[display(fmt = "2by3")]
+    #[strum(to_string = "is-2by3")]
     Is2by3,
-    #[display(fmt = "3by5")]
+    #[strum(to_string = "is-3by5")]
     Is3by5,
-    #[display(fmt = "9by16")]
+    #[strum(to_string = "is-9by16")]
     Is9by16,
-    #[display(fmt = "1by2")]
+    #[strum(to_string = "is-1by2")]
     Is1by2,
-    #[display(fmt = "1by3")]
+    #[strum(to_string = "is-1by3")]
     Is1by3,
 }
+
+impl_classes_from!(ImageSize);

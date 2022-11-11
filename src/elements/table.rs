@@ -57,16 +57,14 @@ pub fn table(
         fullwidth.then_some("is-fullwidth")
     );
 
-    if *scrollable {
-        html! {
+    html! {
+        if *scrollable {
             <div class="table-container">
                 <table ref={table_ref} class={classes}>
                     {children.clone()}
                 </table>
             </div>
-        }
-    } else {
-        html! {
+        } else {
             <table ref={table_ref} class={classes}>
                 {children.clone()}
             </table>

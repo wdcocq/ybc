@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::events::MouseEvent;
 use yew::prelude::*;
 
@@ -85,26 +85,20 @@ pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick
 }
 
 /// A pagination item type.
-#[derive(Clone, Copy, Debug, Display, PartialEq)]
-#[display(fmt = "pagination-{}")]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq)]
 pub enum PaginationItemType {
     /// A pagination link for a specific page number.
-    #[display(fmt = "link")]
+    #[strum(to_string = "pagination-link")]
     Link,
     /// A pagination button for the next page.
-    #[display(fmt = "next")]
+    #[strum(to_string = "pagination-next")]
     Next,
     /// A pagination button for the previous page.
-    #[display(fmt = "previous")]
+    #[strum(to_string = "pagination-previous")]
     Previous,
 }
 
-impl From<PaginationItemType> for Classes {
-    fn from(item_type: PaginationItemType) -> Self {
-        item_type.to_string().into()
-    }
-}
-
+impl_classes_from!(PaginationItemType);
 //////////////////////////////////////////////////////////////////////////////
 
 /// A horizontal ellipsis for pagination range separators.
@@ -138,35 +132,15 @@ mod router {
     }
 
     /// A Yew Router link for use in a `Pagination` component.
-    pub struct PaginationItemRouter<R>
-    where
-        R: Routable + 'static,
-    {
-        marker: std::marker::PhantomData<R>,
-    }
 
-    impl<R> Component for PaginationItemRouter<R>
-    where
-        R: Routable + 'static,
-    {
-        type Message = ();
-        type Properties = RouterProps<R>;
-
-        fn create(_ctx: &Context<Self>) -> Self {
-            Self { marker: std::marker::PhantomData }
-        }
-
-        #[allow(deprecated)]
-        fn view(&self, ctx: &Context<Self>) -> Html {
-            let props = ctx.props();
-
-            html! {
-                <Link<R>
-                    to={props.route.clone()}
-                    children={props.children.clone()}
-                    classes={classes!(props.item_type.to_string())}
-                />
-            }
+    #[function_component(PaginationItemRouter)]
+    pub fn pagination_item_router<R: Routable + 'static>(RouterProps { route, children, item_type }: &RouterProps<R>) -> Html {
+        html! {
+            <Link<R>
+                to={route.clone()}
+                children={children.clone()}
+                classes={classes!(item_type)}
+            />
         }
     }
 }

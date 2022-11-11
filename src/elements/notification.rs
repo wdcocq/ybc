@@ -11,24 +11,7 @@ pub struct NotificationProps {
 /// Bold notification blocks, to alert your users of something.
 ///
 /// [https://bulma.io/documentation/elements/notification/](https://bulma.io/documentation/elements/notification/)
-pub struct Notification;
-
-impl Component for Notification {
-    type Message = ();
-    type Properties = NotificationProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("notification");
-        classes.push(props.classes.clone());
-        html! {
-            <div class={classes}>
-                {props.children.clone()}
-            </div>
-        }
-    }
+#[function_component(Notification)]
+pub fn notification(NotificationProps { children, classes }: &NotificationProps) -> Html {
+    basic_comp!(<div>, children, classes.clone(), "notification")
 }

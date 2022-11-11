@@ -16,11 +16,5 @@ pub struct ContainerProps {
 /// [https://bulma.io/documentation/layout/container/](https://bulma.io/documentation/layout/container/)
 #[function_component(Container)]
 pub fn container(ContainerProps { children, classes, fluid }: &ContainerProps) -> Html {
-    let classes = classes!(classes.clone(), "container", fluid.then_some("is-fluid"));
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div>, children, classes.clone(), "container", fluid.then_some("is-fluid"))
 }

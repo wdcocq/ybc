@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 use crate::Alignment;
@@ -40,41 +40,29 @@ pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separato
 /// The 3 sizes available for a breadcrumb.
 ///
 /// https://bulma.io/documentation/components/breadcrumb/#sizes
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum BreadcrumbSize {
-    #[display(fmt = "small")]
+    #[strum(to_string = "is-small")]
     Small,
-    #[display(fmt = "medium")]
+    #[strum(to_string = "is-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "is-large")]
     Large,
-}
-
-impl From<BreadcrumbSize> for Classes {
-    fn from(size: BreadcrumbSize) -> Self {
-        size.to_string().into()
-    }
 }
 
 /// The 4 additional separators for a breadcrump.
 ///
 /// https://bulma.io/documentation/components/breadcrumb/#alternative-separators
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "has-{}-separator")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum BreadcrumbSeparator {
-    #[display(fmt = "arrow")]
+    #[strum(to_string = "has-arrow-seperator")]
     Arrow,
-    #[display(fmt = "bullet")]
+    #[strum(to_string = "has-bullet-seperator")]
     Bullet,
-    #[display(fmt = "dot")]
+    #[strum(to_string = "has-dot-seperator")]
     Dot,
-    #[display(fmt = "succeeds")]
+    #[strum(to_string = "has-succeeds-seperator")]
     Succeeds,
 }
 
-impl From<BreadcrumbSeparator> for Classes {
-    fn from(separator: BreadcrumbSeparator) -> Self {
-        separator.to_string().into()
-    }
-}
+impl_classes_from!(BreadcrumbSize, BreadcrumbSeparator);

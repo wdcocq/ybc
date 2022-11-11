@@ -12,13 +12,13 @@ pub struct LabelProps {
 
 #[function_component(Label)]
 pub fn label(LabelProps { children, classes, horizontal }: &LabelProps) -> Html {
-    html! {
-        if *horizontal {
+    if *horizontal {
+        html! {
             <div class={classes!(classes.clone(), "field-label")}>
                 <label class="label">{children.clone()}</label>
             </div>
-        } else {
-            <label class={classes!(classes.clone(), "label")}>{children.clone()}</label>
         }
+    } else {
+        basic_comp!(<label>, children, classes.clone(), "label")
     }
 }

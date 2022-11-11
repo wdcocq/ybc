@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
 
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -11,7 +11,7 @@ pub struct TitleProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "h3".into())]
-    pub tag: String,
+    pub tag: AttrValue,
     /// Maintain the normal spacing between titles and subtitles.
     #[prop_or_default]
     pub is_spaced: bool,
@@ -23,33 +23,9 @@ pub struct TitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Title;
-
-impl Component for Title {
-    type Message = ();
-    type Properties = TitleProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("title");
-        classes.push(props.classes.clone());
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if props.is_spaced {
-            classes.push("is-spaced");
-        }
-        let tag = props.tag.clone();
-        html! {
-            <@{tag} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
+#[function_component(Title)]
+pub fn title(TitleProps { children, classes, tag, is_spaced, size }: &TitleProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "title", size, is_spaced.then_some("is-spaced"))
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -62,7 +38,7 @@ pub struct SubtitleProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "h3".into())]
-    pub tag: String,
+    pub tag: AttrValue,
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<HeaderSize>,
@@ -71,48 +47,28 @@ pub struct SubtitleProps {
 /// A simple heading to add depth to your page.
 ///
 /// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
-pub struct Subtitle;
-
-impl Component for Subtitle {
-    type Message = ();
-    type Properties = SubtitleProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("subtitle");
-        classes.push(props.classes.clone());
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        let tag = props.tag.clone();
-        html! {
-            <@{tag} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
+#[function_component(Subtitle)]
+pub fn subtitle(SubtitleProps { children, classes, tag, size }: &SubtitleProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "subtitle", size)
 }
 
 /// The six sizes available for titles & subtitles.
 ///
 /// https://bulma.io/documentation/elements/title/#sizes
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum HeaderSize {
-    #[display(fmt = "1")]
+    #[strum(to_string = "is-1")]
     Is1,
-    #[display(fmt = "2")]
+    #[strum(to_string = "is-2")]
     Is2,
-    #[display(fmt = "3")]
+    #[strum(to_string = "is-3")]
     Is3,
-    #[display(fmt = "4")]
+    #[strum(to_string = "is-4")]
     Is4,
-    #[display(fmt = "5")]
+    #[strum(to_string = "is-5")]
     Is5,
-    #[display(fmt = "6")]
+    #[strum(to_string = "is-6")]
     Is6,
 }
+
+impl_classes_from!(HeaderSize);

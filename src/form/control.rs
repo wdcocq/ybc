@@ -10,7 +10,7 @@ pub struct ControlProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
-    pub tag: String,
+    pub tag: AttrValue,
     /// A modifier to have the controlled element fill up the remaining space.
     #[prop_or_default]
     pub expanded: bool,
@@ -21,11 +21,5 @@ pub struct ControlProps {
 /// [https://bulma.io/documentation/form/general/](https://bulma.io/documentation/form/general/)
 #[function_component(Control)]
 pub fn conttrol(ControlProps { children, classes, tag, expanded }: &ControlProps) -> Html {
-    let classes = classes!(classes.clone(), "control", expanded.then_some("is-expanded"));
-
-    html! {
-        <@{tag.clone()} class={classes}>
-            {children.clone()}
-        </@>
-    }
+    basic_comp!(<@tag>, children, classes.clone(), "control", expanded.then_some("is-expanded"))
 }

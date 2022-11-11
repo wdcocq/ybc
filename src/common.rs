@@ -1,50 +1,31 @@
-use derive_more::Display;
-use std::borrow::Cow;
-use yew::{html::IntoPropValue, Classes};
+use strum::IntoStaticStr;
+use yew::prelude::*;
 
 /// Common alignment classes.
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum Alignment {
-    #[display(fmt = "left")]
+    #[strum(to_string = "is-left")]
     Left,
-    #[display(fmt = "centered")]
+    #[strum(to_string = "is-centered")]
     Centered,
-    #[display(fmt = "right")]
+    #[strum(to_string = "is-right")]
     Right,
 }
 
-impl From<Alignment> for Classes {
-    fn from(alignment: Alignment) -> Self {
-        alignment.to_string().into()
-    }
-}
-
 /// Common size classes.
-#[derive(Clone, Copy, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum Size {
-    #[display(fmt = "small")]
+    #[strum(to_string = "is-small")]
     Small,
-    #[display(fmt = "normal")]
+    #[strum(to_string = "is-normal")]
     Normal,
-    #[display(fmt = "medium")]
+    #[strum(to_string = "is-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "is-large")]
     Large,
 }
 
-impl IntoPropValue<Cow<'static, str>> for Size {
-    fn into_prop_value(self) -> Cow<'static, str> {
-        Cow::from(self.to_string())
-    }
-}
-
-impl From<Size> for Classes {
-    fn from(size: Size) -> Self {
-        size.to_string().into()
-    }
-}
+impl_classes_from!(Alignment, Size);
 
 enum ColorPrinter {
     Common,
@@ -62,88 +43,86 @@ pub type TextColor = BaseColor<{ ColorPrinter::Text as usize }>;
 pub type BackgroundColor = BaseColor<{ ColorPrinter::Background as usize }>;
 
 /// Don't use this type directly, use [`Color`], [`TextColor`] or [`BackgroundColor`] instead
-#[derive(Clone, Copy, Debug, Display, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum BaseColor<const P: usize> {
-    #[display(fmt = "white")]
+    #[strum(to_string = "white")]
     White,
-    #[display(fmt = "white-bis")]
+    #[strum(to_string = "white-bis")]
     WhiteBis,
-    #[display(fmt = "white-ter")]
+    #[strum(to_string = "white-ter")]
     WhiteTer,
-    #[display(fmt = "grey")]
+    #[strum(to_string = "grey")]
     Grey,
-    #[display(fmt = "grey-lighter")]
+    #[strum(to_string = "grey-lighter")]
     GreyLighter,
-    #[display(fmt = "grey-light")]
+    #[strum(to_string = "grey-light")]
     GreyLight,
-    #[display(fmt = "grey-dark")]
+    #[strum(to_string = "grey-dark")]
     GreyDark,
-    #[display(fmt = "grey-darker")]
+    #[strum(to_string = "grey-darker")]
     GreyDarker,
-    #[display(fmt = "black-ter")]
+    #[strum(to_string = "black-ter")]
     BlackTer,
-    #[display(fmt = "black-bis")]
+    #[strum(to_string = "black-bis")]
     BlackBis,
-    #[display(fmt = "black")]
+    #[strum(to_string = "black")]
     Black,
-    #[display(fmt = "light")]
+    #[strum(to_string = "light")]
     Light,
-    #[display(fmt = "dark")]
+    #[strum(to_string = "dark")]
     Dark,
-    #[display(fmt = "primary")]
+    #[strum(to_string = "primary")]
     Primary,
-    #[display(fmt = "primary-light")]
+    #[strum(to_string = "primary-light")]
     PrimaryLight,
-    #[display(fmt = "primary-dark")]
+    #[strum(to_string = "primary-dark")]
     PrimaryDark,
-    #[display(fmt = "link")]
+    #[strum(to_string = "link")]
     Link,
-    #[display(fmt = "link-light")]
+    #[strum(to_string = "link-light")]
     LinkLight,
-    #[display(fmt = "link-dark")]
+    #[strum(to_string = "link-dark")]
     LinkDark,
-    #[display(fmt = "info")]
+    #[strum(to_string = "info")]
     Info,
-    #[display(fmt = "info-light")]
+    #[strum(to_string = "info-light")]
     InfoLight,
-    #[display(fmt = "info-dark")]
+    #[strum(to_string = "info-dark")]
     InfoDark,
-    #[display(fmt = "success")]
+    #[strum(to_string = "success")]
     Success,
-    #[display(fmt = "success-light")]
+    #[strum(to_string = "success-light")]
     SuccessLight,
-    #[display(fmt = "success-dark")]
+    #[strum(to_string = "success-dark")]
     SuccessDark,
-    #[display(fmt = "warning")]
+    #[strum(to_string = "warning")]
     Warning,
-    #[display(fmt = "warning-light")]
+    #[strum(to_string = "warning-light")]
     WarningLight,
-    #[display(fmt = "warning-dark")]
+    #[strum(to_string = "warning-dark")]
     WarningDark,
-    #[display(fmt = "danger")]
+    #[strum(to_string = "danger")]
     Danger,
-    #[display(fmt = "danger-light")]
+    #[strum(to_string = "danger-light")]
     DangerLight,
-    #[display(fmt = "danger-dark")]
+    #[strum(to_string = "danger-dark")]
     DangerDark,
-    #[display(fmt = "{_0}")]
-    Custom(&'static str),
 }
 
 impl From<Color> for Classes {
     fn from(color: Color) -> Self {
-        format!("is-{}", color).into()
+        format!("is-{}", <&'static str>::from(color)).into()
     }
 }
 
 impl From<TextColor> for Classes {
     fn from(color: TextColor) -> Self {
-        format!("has-text-{}", color).into()
+        format!("has-text-{}", <&'static str>::from(color)).into()
     }
 }
 
 impl From<BackgroundColor> for Classes {
     fn from(color: BackgroundColor) -> Self {
-        format!("has-background-{}", color).into()
+        format!("has-background-{}", <&'static str>::from(color)).into()
     }
 }

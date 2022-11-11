@@ -1,5 +1,3 @@
-use std::rc::Rc;
-
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -52,7 +50,7 @@ pub fn controlled_dropdown(
 
     html! {
         <div class={classes}>
-            if *active && *close_trigger &&! *hoverable {
+            if *active && *close_trigger && !*hoverable {
                 <div onclick={activated.reform(|_| false)}
                      style="z-index:10;background-color:rgba(0,0,0,0);position:fixed;top:0;bottom:0;left:0;right:0;"/>
             }
@@ -115,12 +113,7 @@ pub struct DropdownItemProps {
 
 #[function_component(DropdownItem)]
 pub fn dropdown_item(DropdownItemProps { children, classes }: &DropdownItemProps) -> Html {
-    let classes = classes!("dropdown-item", classes.clone());
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div>, children, classes.clone(), "dropdown-item")
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -130,19 +123,14 @@ pub struct DropdownAnchorProps {
     #[prop_or_default]
     pub classes: Classes,
     #[prop_or_default]
-    pub href: Option<Rc<str>>,
+    pub href: Option<AttrValue>,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component(DropdownAnchor)]
 pub fn dropdown_anchor(DropdownAnchorProps { children, classes, href, onclick }: &DropdownAnchorProps) -> Html {
-    let classes = classes!("dropdown-item", classes.clone());
-    html! {
-        <a class={classes} href={href.clone()} {onclick}>
-            {children.clone()}
-        </a>
-    }
+    basic_comp!(<a [{href} {onclick}]>, children, classes.clone(), "dropdown-item")
 }
 
 #[function_component(DropdownDivider)]

@@ -10,7 +10,7 @@ pub struct DeleteProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "button".into())]
-    pub tag: String,
+    pub tag: AttrValue,
     /// The click handler to use for this component.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
@@ -21,11 +21,5 @@ pub struct DeleteProps {
 /// [https://bulma.io/documentation/elements/delete/](https://bulma.io/documentation/elements/delete/)
 #[function_component(Delete)]
 pub fn delete(DeleteProps { children, classes, tag, onclick }: &DeleteProps) -> Html {
-    let classes = classes!(classes.clone(), "delete");
-
-    html! {
-        <@{tag.clone()} class={classes} {onclick}>
-            {children.clone()}
-        </@>
-    }
+    basic_comp!(<@tag [{onclick}]>, children, classes.clone(), "delete")
 }

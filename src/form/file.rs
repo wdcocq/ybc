@@ -8,7 +8,7 @@ use crate::{Alignment, Size};
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct FileProps {
     /// The `name` attribute for this form element.
-    pub name: String,
+    pub name: AttrValue,
     /// The controlled form value for the currently selected files.
     pub files: Vec<SysFile>,
     /// The callback to be used for propagating changes to this form element.
@@ -16,7 +16,7 @@ pub struct FileProps {
 
     /// The display text for the file selector.
     #[prop_or_else(|| "Choose a file...".into())]
-    pub selector_label: String,
+    pub selector_label: AttrValue,
     /// The HTML contents to use for the file selector icon.
     #[prop_or_default]
     pub selector_icon: Html,
@@ -27,7 +27,7 @@ pub struct FileProps {
     /// `has-name` class will be added to this form element and the given value will be used as a
     /// placeholder until files are selected.
     #[prop_or_default]
-    pub has_name: Option<String>,
+    pub has_name: bool,
     /// Move the CTA element to the right side of the component.
     #[prop_or_default]
     pub right: bool,
@@ -55,79 +55,71 @@ pub struct FileProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct File;
+#[function_component(File)]
+pub fn file(
+    FileProps {
+        name,
+        files,
+        update,
+        selector_label,
+        selector_icon,
+        classes,
+        has_name,
+        right,
+        fullwidth,
+        boxed,
+        multiple,
+        size,
+        alignment,
+    }: &FileProps,
+) -> Html {
+    let classes = classes!(
+        classes.clone(),
+        "file",
+        has_name.then_some("has-name"),
+        right.then_some("is-right"),
+        fullwidth.then_some("is-fullwidth"),
+        boxed.then_some("is-boxed"),
+        size,
+        alignment
+    );
 
-impl Component for File {
-    type Message = Vec<SysFile>;
-    type Properties = FileProps;
+    let onchange = update.reform(|e: Event| {
+        let file = e.target_unchecked_into::<HtmlInputElement>();
+        if let Some(list) = file.files() {
+            (0..list.length())
+                .into_iter()
+                .filter_map(|idx| list.item(idx))
+                .collect::<Vec<_>>()
+        } else {
+            vec![]
+        }
+    });
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        ctx.props().update.emit(msg);
-        false
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let link = ctx.link();
-        let mut classes = Classes::from("file");
-        classes.push(props.classes.clone());
-        if props.has_name.is_some() {
-            classes.push("has-name");
-        }
-        if props.right {
-            classes.push("is-right");
-        }
-        if props.fullwidth {
-            classes.push("is-fullwidth");
-        }
-        if props.boxed {
-            classes.push("is-boxed");
-        }
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if let Some(alignment) = &props.alignment {
-            classes.push(&alignment.to_string());
-        }
-        let filenames = props
-            .files
-            .iter()
-            .map(|file| html! {<span class="file-name">{file.name()}</span>})
-            .collect::<Vec<_>>();
-        html! {
-            <div class={classes}>
-                <label class="file-label">
-                    <input
-                        type="file"
-                        class="file-input"
-                        name={props.name.clone()}
-                        multiple={props.multiple}
-                        onchange={link.callback(|e: Event| {
-                            let file = e.target_unchecked_into::<HtmlInputElement>();
-                            if let Some(list) = file.files() {
-                                (0..list.length()).into_iter()
-                                    .filter_map(|idx| list.item(idx))
-                                    .collect::<Vec<_>>()
-                            } else {
-                                vec![]
-                            }
-                        })}
-                        />
-                    <span class="file-cta">
-                        <span class="file-icon">
-                            {props.selector_icon.clone()}
-                        </span>
-                        <span class="file-label">
-                            {props.selector_label.clone()}
-                        </span>
+    html! {
+        <div class={classes}>
+            <label class="file-label">
+                <input
+                    type="file"
+                    class="file-input"
+                    {name}
+                    multiple={*multiple}
+                    {onchange}
+                    />
+                <span class="file-cta">
+                    <span class="file-icon">
+                        {selector_icon.clone()}
                     </span>
-                    {filenames}
-                </label>
-            </div>
-        }
+                    <span class="file-label">
+                        {selector_label.clone()}
+                    </span>
+                </span>
+                if *has_name {
+                    { for files.iter().map(|file| html! {
+                        <span classes="file-name">{file.name()}</span>
+                    })}
+                }
+            </label>
+        </div>
     }
 }

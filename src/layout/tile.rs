@@ -1,8 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
 
-use std::borrow::Cow;
-
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -13,7 +11,7 @@ pub struct TileProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
-    pub tag: Cow<'static, str>,
+    pub tag: AttrValue,
     /// The context modifier to use for this tile element, else none.
     ///
     /// https://bulma.io/documentation/layout/tiles/#modifiers
@@ -36,69 +34,51 @@ pub struct TileProps {
 /// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
 #[function_component(Tile)]
 pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
-    let classes = classes!(classes.clone(), "tile", ctx, size, vertical.then_some("is-vertical"));
-
-    html! {
-        <@{tag.clone()} class={classes}>
-            {children.clone()}
-        </@>
-    }
+    basic_comp!(<@tag>, children, classes.clone(), "tile", ctx, size, vertical.then_some("is-vertical"))
 }
 
 /// Tile context modifiers.
 ///
 /// https://bulma.io/documentation/layout/tiles/#modifiers
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum TileCtx {
-    #[display(fmt = "ancestor")]
+    #[strum(to_string = "is-ancestor")]
     Ancestor,
-    #[display(fmt = "parent")]
+    #[strum(to_string = "is-parent")]
     Parent,
-    #[display(fmt = "child")]
+    #[strum(to_string = "is-child")]
     Child,
-}
-
-impl From<TileCtx> for Classes {
-    fn from(ctx: TileCtx) -> Self {
-        Classes::from(ctx.to_string())
-    }
 }
 
 /// Tile size modifiers.
 ///
 /// https://bulma.io/documentation/layout/tiles/#modifiers
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum TileSize {
-    #[display(fmt = "1")]
+    #[strum(to_string = "is-1")]
     One,
-    #[display(fmt = "2")]
+    #[strum(to_string = "is-2")]
     Two,
-    #[display(fmt = "3")]
+    #[strum(to_string = "is-3")]
     Three,
-    #[display(fmt = "4")]
+    #[strum(to_string = "is-4")]
     Four,
-    #[display(fmt = "5")]
+    #[strum(to_string = "is-5")]
     Five,
-    #[display(fmt = "6")]
+    #[strum(to_string = "is-6")]
     Six,
-    #[display(fmt = "7")]
+    #[strum(to_string = "is-7")]
     Seven,
-    #[display(fmt = "8")]
+    #[strum(to_string = "is-8")]
     Eight,
-    #[display(fmt = "9")]
+    #[strum(to_string = "is-9")]
     Nine,
-    #[display(fmt = "10")]
+    #[strum(to_string = "is-10")]
     Ten,
-    #[display(fmt = "11")]
+    #[strum(to_string = "is-11")]
     Eleven,
-    #[display(fmt = "12")]
+    #[strum(to_string = "is-12")]
     Twelve,
 }
 
-impl From<TileSize> for Classes {
-    fn from(size: TileSize) -> Self {
-        Classes::from(size.to_string())
-    }
-}
+impl_classes_from!(TileSize, TileCtx);

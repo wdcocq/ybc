@@ -5,7 +5,7 @@ use yew::prelude::*;
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ModalProps {
     /// The ID of this modal, used for triggering close events from other parts of the app.
-    pub id: String,
+    pub id: AttrValue,
     /// The content of the `"modal-content"` element.
     #[prop_or_default]
     pub children: Children,
@@ -20,32 +20,42 @@ pub struct ModalProps {
 ///
 /// [https://bulma.io/documentation/components/modal/](https://bulma.io/documentation/components/modal/)
 ///
-/// See the docs on the `ModalCloser` agent to be able to close your modal instance from anywhere
+/// See the docs on [`ModalAgent`] to be able to open and close your modal instance from anywhere
 /// in your app for maximum flexibility.
 #[function_component(Modal)]
 pub fn modal(ModalProps { children, classes, id, trigger }: &ModalProps) -> Html {
-    let modal_agent = use_context::<ModalAgent>().expect("Failed to get ModalAgent");
-    let opencb = use_callback(
+    let modal_agent = use_modal_agent();
+    let active = use_state(|| false);
+
+    use_effect_with_deps(
         {
-            let modal_agent = modal_agent.clone();
-            move |_, id: &String| {
-                modal_agent.open(id.clone());
-            }
-        },
-        id.clone(),
-    );
-    let closecb = use_callback(
-        {
-            let modal_agent = modal_agent.clone();
-            move |_, id: &String| {
-                modal_agent.close(id.clone());
+            let active = active.setter();
+            move |id: &AttrValue| {
+                if let Some(modal_agent) = &modal_agent {
+                    modal_agent.register(id.clone(), move |s| active.set(s));
+                }
+
+                let id = id.clone();
+                move || {
+                    if let Some(modal_agent) = modal_agent {
+                        modal_agent.unregister(&id);
+                    }
+                }
             }
         },
         id.clone(),
     );
 
-    let is_active = modal_agent.is_active(id);
-    let classes = classes!("modal", classes.clone(), is_active.then_some("is-active"));
+    let opencb = {
+        let active = active.setter();
+        move |_| active.set(true)
+    };
+    let closecb = {
+        let active = active.setter();
+        move |_| active.set(false)
+    };
+
+    let classes = classes!("modal", classes.clone(), active.then_some("is-active"));
 
     html! {
         <>
@@ -70,9 +80,9 @@ pub fn modal(ModalProps { children, classes, id, trigger }: &ModalProps) -> Html
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct ModalCardProps {
     /// The ID of this modal, used for triggering close events from other parts of the app.
-    pub id: String,
+    pub id: AttrValue,
     /// The title of this modal.
-    pub title: String,
+    pub title: AttrValue,
     /// The content to be placed in the `modal-card-body` not including the modal-card-header /
     /// modal-card-title, which is handled by the `title` prop.
     #[prop_or_default]
@@ -91,32 +101,42 @@ pub struct ModalCardProps {
 ///
 /// [https://bulma.io/documentation/components/modal/](https://bulma.io/documentation/components/modal/)
 ///
-/// See the docs on the `ModalCloser` agent to be able to close your modal instance from anywhere
+/// See the docs on [`ModalAgent`] to be able to open and close your modal instance from anywhere
 /// in your app for maximum flexibility.
 #[function_component(ModalCard)]
 pub fn modal_card(ModalCardProps { classes, id, title, children, footer, trigger }: &ModalCardProps) -> Html {
-    let modal_agent = use_context::<ModalAgent>().expect("Failed to get ModalAgent");
-    let opencb = use_callback(
+    let modal_agent = use_modal_agent();
+    let active = use_state(|| false);
+
+    use_effect_with_deps(
         {
-            let modal_agent = modal_agent.clone();
-            move |_, id: &String| {
-                modal_agent.open(id.clone());
-            }
-        },
-        id.clone(),
-    );
-    let closecb = use_callback(
-        {
-            let modal_agent = modal_agent.clone();
-            move |_, id: &String| {
-                modal_agent.close(id.clone());
+            let active = active.setter();
+            move |id: &AttrValue| {
+                if let Some(modal_agent) = &modal_agent {
+                    modal_agent.register(id.clone(), move |s| active.set(s));
+                }
+
+                let id = id.clone();
+                move || {
+                    if let Some(modal_agent) = modal_agent {
+                        modal_agent.unregister(&id);
+                    }
+                }
             }
         },
         id.clone(),
     );
 
-    let is_active = modal_agent.is_active(id);
-    let classes = classes!("modal", classes.clone(), is_active.then_some("is-active"));
+    let opencb = {
+        let active = active.setter();
+        move |_| active.set(true)
+    };
+    let closecb = {
+        let active = active.setter();
+        move |_| active.set(false)
+    };
+
+    let classes = classes!("modal", classes.clone(), active.then_some("is-active"));
 
     html! {
         <>
@@ -145,82 +165,62 @@ pub fn modal_card(ModalCardProps { classes, id, title, children, footer, trigger
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-struct ModalAgentContext {
-    modals: RefCell<HashMap<AttrValue, bool>>,
-}
+//////////////////////////////////////////////////////////////////////////////////
 
+/// An agent used to open and close [`Modal`] & [`ModalCard`] instances by ID.
+/// Requires a [`ModalAgentProvider`] to be present.
+/// Can be retrieved with [`use_modal_agent()`]
 #[derive(Clone, Debug, PartialEq)]
-enum ModalAgentContextMsg {
-    Open(AttrValue),
-    Close(AttrValue),
+pub struct ModalAgent {
+    callbacks: Rc<RefCell<HashMap<AttrValue, Callback<bool>>>>,
 }
-
-impl Reducible for ModalAgentContext {
-    type Action = ModalAgentContextMsg;
-
-    fn reduce(mut self: Rc<Self>, action: Self::Action) -> Rc<Self> {
-        let (id, state) = match action {
-            ModalAgentContextMsg::Open(id) => (id, true),
-            ModalAgentContextMsg::Close(id) => (id, false),
-        };
-
-        Rc::make_mut(&mut self)
-            .modals
-            .borrow_mut()
-            .entry(id)
-            .and_modify(|v| *v = state)
-            .or_insert(state);
-
-        self
-    }
-}
-
-// // //////////////////////////////////////////////////////////////////////////////
-// // //////////////////////////////////////////////////////////////////////////////
-
-/// An agent used for being able to open and close `Modal` & `ModalCard` instances by ID.
-/// Requires a `ModalAgentProvider` to be present
-#[derive(Clone, Debug, PartialEq)]
-pub struct ModalAgent(UseReducerHandle<ModalAgentContext>);
 
 impl ModalAgent {
-    pub fn is_active<T>(&self, id: T) -> bool
-    where
-        T: std::hash::Hash + Eq + AsRef<str>,
-    {
-        (*self.0).modals.borrow().get(id.as_ref()).copied().unwrap_or_default()
-    }
-
-    pub fn open<T>(&self, id: T)
+    pub fn register<T, F>(&self, id: T, callback: F)
     where
         T: Into<AttrValue>,
+        F: Into<Callback<bool>>,
     {
-        self.0.dispatch(ModalAgentContextMsg::Open(id.into()));
+        self.callbacks.borrow_mut().insert(id.into(), callback.into());
     }
 
-    pub fn close<T>(&self, id: T)
+    pub fn unregister<T: ?Sized>(&self, id: &T)
     where
-        T: Into<AttrValue>,
+        T: AsRef<str>,
     {
-        self.0.dispatch(ModalAgentContextMsg::Close(id.into()));
+        self.callbacks.borrow_mut().remove(id.as_ref());
+    }
+
+    pub fn update<T: ?Sized>(&self, id: &T, active: bool)
+    where
+        T: AsRef<str>,
+    {
+        if let Some(callback) = self.callbacks.borrow().get(id.as_ref()) {
+            callback.emit(active);
+        }
     }
 }
 
 #[derive(Properties, Debug, PartialEq)]
 pub struct ModalAgentProviderProps {
-    #[prop_or_default]
     pub children: Children,
 }
 
-/// A provider for `ModalAgent`
+/// A provider for [`ModalAgent`]
 #[function_component(ModalAgentProvider)]
 pub fn modal_agent_provider(ModalAgentProviderProps { children }: &ModalAgentProviderProps) -> Html {
-    let modal_agent_context = use_reducer_eq(ModalAgentContext::default);
+    let modal_agent = ModalAgent { callbacks: use_mut_ref(Default::default) };
 
     html! {
-        <ContextProvider<ModalAgent> context={ModalAgent(modal_agent_context)}>
+        <ContextProvider<ModalAgent> context={modal_agent}>
             {children.clone()}
         </ContextProvider<ModalAgent>>
     }
+}
+
+/// Hook to retrieve a [`ModalAgent`].
+/// Returns `None`` if no [`ModalAgentProvider`] is present.
+#[hook]
+pub fn use_modal_agent() -> Option<ModalAgent> {
+    use_context::<ModalAgent>()
 }

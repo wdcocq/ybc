@@ -13,11 +13,5 @@ pub struct BoxProps {
 /// [https://bulma.io/documentation/elements/box/](https://bulma.io/documentation/elements/box/)
 #[function_component(Box)]
 pub fn r#box(BoxProps { children, classes }: &BoxProps) -> Html {
-    let classes = classes!(classes.clone(), "box");
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div>, children, classes.clone(), "box")
 }

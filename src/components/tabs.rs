@@ -86,11 +86,5 @@ pub struct TabsItemProps {
 
 #[function_component(TabsItem)]
 pub fn tabs_item(TabsItemProps { children, classes, active }: &TabsItemProps) -> Html {
-    let classes = classes!(classes.clone(), active.then_some("is-active"));
-
-    html! {
-        <li class={classes}>
-            {children.clone()}
-        </li>
-    }
+    basic_comp!(<li>, children, classes.clone(), active.then_some("is-active"))
 }

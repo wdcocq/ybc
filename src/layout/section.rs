@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -15,39 +15,20 @@ pub struct SectionProps {
 /// A simple container to divide your page into sections.
 ///
 /// [https://bulma.io/documentation/layout/section/](https://bulma.io/documentation/layout/section/)
-pub struct Section;
-
-impl Component for Section {
-    type Message = ();
-    type Properties = SectionProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("section");
-        classes.push(props.classes.clone());
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        html! {
-            <section class={classes}>
-                {props.children.clone()}
-            </section>
-        }
-    }
+#[function_component(Section)]
+pub fn section(SectionProps { children, classes, size }: &SectionProps) -> Html {
+    basic_comp!(<section>, children, classes.clone(), "section", size)
 }
 
 /// The 2 sizes available for sections, which controls spacing.
 ///
 /// [https://bulma.io/documentation/layout/section/](https://bulma.io/documentation/layout/section/)
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum SectionSize {
-    #[display(fmt = "medium")]
+    #[strum(to_string = "is-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "is-large")]
     Large,
 }
+
+impl_classes_from!(SectionSize);

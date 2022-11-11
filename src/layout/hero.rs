@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -86,21 +86,16 @@ pub fn hero(
 /// The 4 sizes available for heros.
 ///
 /// [https://bulma.io/documentation/layout/hero/#sizes](https://bulma.io/documentation/layout/hero/#sizes)
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum HeroSize {
-    #[display(fmt = "medium")]
+    #[strum(to_string = "is-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "is-large")]
     Large,
-    #[display(fmt = "fullheight")]
+    #[strum(to_string = "is-fullheight")]
     Fullheight,
-    #[display(fmt = "fullheight-with-navbar")]
+    #[strum(to_string = "is-fullheight-with-navbar")]
     FullheightWithNavbar,
 }
 
-impl From<HeroSize> for Classes {
-    fn from(size: HeroSize) -> Self {
-        size.to_string().into()
-    }
-}
+impl_classes_from!(HeroSize);

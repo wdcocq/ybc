@@ -26,7 +26,7 @@ pub struct CheckboxProps {
 /// component via callback.
 #[function_component(Checkbox)]
 pub fn checkbox(CheckboxProps { name, checked, update, children, classes, disabled }: &CheckboxProps) -> Html {
-    let classes = classes!("checkbox", classes.clone());
+    let classes = classes!(classes.clone(), "checkbox");
     let checked = *checked;
 
     html! {

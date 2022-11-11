@@ -1,5 +1,5 @@
 use crate::Size;
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::events::{Event, MouseEvent, SubmitEvent};
 use yew::prelude::*;
 
@@ -19,34 +19,23 @@ pub struct ButtonsProps {
 /// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
 #[function_component(Buttons)]
 pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html {
-    let classes = classes!(classes.clone(), "buttons", size);
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div>, children, classes.clone(), "buttons", size)
 }
 
 /// The 3 sizes available for a button group.
 ///
 /// https://bulma.io/documentation/elements/button/#sizes
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "are-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum ButtonGroupSize {
-    #[display(fmt = "small")]
+    #[strum(to_string = "are-small")]
     Small,
-    #[display(fmt = "medium")]
+    #[strum(to_string = "are-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "are-large")]
     Large,
 }
 
-impl From<ButtonGroupSize> for Classes {
-    fn from(size: ButtonGroupSize) -> Self {
-        size.to_string().into()
-    }
-}
+impl_classes_from!(ButtonGroupSize);
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -101,7 +90,9 @@ pub fn button(
         outline,
     }: &ButtonProps,
 ) -> Html {
-    let classes = classes!(
+    basic_comp!(
+        <button [{onclick} disabled={*disabled}]>,
+        children,
         classes.clone(),
         "button",
         size,
@@ -110,13 +101,7 @@ pub fn button(
         inverted.then_some("is-inverted"),
         outline.then_some("is-outline"),
         rounded.then_some("is-rounded")
-    );
-
-    html! {
-        <button class={classes} {onclick} disabled={*disabled}>
-            {children.clone()}
-        </button>
-    }
+    )
 }
 
 #[cfg(feature = "router")]
@@ -193,7 +178,7 @@ mod router {
             <Link<R>
                 to={route.clone()}
                 disabled={*disabled}
-                classes={classes}
+                {classes}
             >
                 {children.clone()}
             </Link<R>>
@@ -214,7 +199,7 @@ pub struct ButtonAnchorProps {
     pub classes: Classes,
     /// The `href` attribute value to use for this component.
     #[prop_or_default]
-    pub href: String,
+    pub href: AttrValue,
     /// The click handler to use for this component.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
@@ -238,10 +223,10 @@ pub struct ButtonAnchorProps {
     pub outline: bool,
     /// An optional `rel` for when this element is using the `a` tag.
     #[prop_or_default]
-    pub rel: Option<String>,
+    pub rel: Option<AttrValue>,
     /// An optional `target` for when this element is using the `a` tag.
     #[prop_or_default]
-    pub target: Option<String>,
+    pub target: Option<AttrValue>,
 }
 
 /// An anchor element styled as a button.
@@ -264,7 +249,9 @@ pub fn button_anchor(
         target,
     }: &ButtonAnchorProps,
 ) -> Html {
-    let classes = classes!(
+    basic_comp!(
+        <a [{onclick} {href} {rel} {target} disabled={*disabled}]>,
+        children,
         classes.clone(),
         "button",
         loading.then_some("is-loading"),
@@ -272,20 +259,7 @@ pub fn button_anchor(
         inverted.then_some("is-inverted"),
         outline.then_some("is-outline"),
         rounded.then_some("is-rounded")
-    );
-
-    html! {
-        <a
-            class={classes}
-            {onclick}
-            href={href.clone()}
-            rel={rel.clone().unwrap_or_default()}
-            target={target.clone().unwrap_or_default()}
-            disabled={*disabled}
-        >
-            {children.clone()}
-        </a>
-    }
+    )
 }
 
 //////////////////////////////////////////////////////////////////////////////

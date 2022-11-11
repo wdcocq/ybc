@@ -16,13 +16,7 @@ pub struct CardProps {
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(Card)]
 pub fn card(CardProps { children, classes, card_ref }: &CardProps) -> Html {
-    let classes = classes!(classes.clone(), "card");
-
-    html! {
-        <div ref={card_ref} class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div [ref={card_ref}]>, children, classes.clone(), "card")
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -33,18 +27,27 @@ pub struct CardHeaderProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
+    #[prop_or_default]
+    pub icon: Option<Html>,
 }
 
 /// A container for card header content; rendered as a horizontal bar with a shadow.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardHeader)]
-pub fn card_header(CardHeaderProps { children, classes }: &CardHeaderProps) -> Html {
+pub fn card_header(CardHeaderProps { children, classes, icon }: &CardHeaderProps) -> Html {
     let classes = classes!(classes.clone(), "card-header");
 
     html! {
         <header class={classes}>
-            {children.clone()}
+            <p class="card-header-title">
+                {children.clone()}
+            </p>
+            if let Some(icon) = icon {
+                <span class="card-header-icon">
+                    {icon.clone()}
+                </span>
+            }
         </header>
     }
 }
@@ -52,7 +55,7 @@ pub fn card_header(CardHeaderProps { children, classes }: &CardHeaderProps) -> H
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
-pub struct CardImageProps {
+pub struct CardChildProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
@@ -63,60 +66,22 @@ pub struct CardImageProps {
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardImage)]
-pub fn card_image(CardImageProps { children, classes }: &CardImageProps) -> Html {
-    let classes = classes!(classes.clone(), "card-image");
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-#[derive(Clone, Debug, Properties, PartialEq)]
-pub struct CardContentProps {
-    #[prop_or_default]
-    pub children: Children,
-    #[prop_or_default]
-    pub classes: Classes,
+pub fn card_image(CardChildProps { children, classes }: &CardChildProps) -> Html {
+    basic_comp!(<div>, children, classes.clone(), "card-image")
 }
 
 /// A container for any other content as the body of the card.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardContent)]
-pub fn card_content(CardContentProps { children, classes }: &CardContentProps) -> Html {
-    let classes = classes!(classes.clone(), "card-content");
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-#[derive(Clone, Debug, Properties, PartialEq)]
-pub struct CardFooterProps {
-    #[prop_or_default]
-    pub children: Children,
-    #[prop_or_default]
-    pub classes: Classes,
+pub fn card_content(CardChildProps { children, classes }: &CardChildProps) -> Html {
+    basic_comp!(<div>, children, classes.clone(), "card-content")
 }
 
 /// A container for card footer content; rendered as a horizontal list of controls.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardFooter)]
-pub fn card_footer(CardFooterProps { children, classes }: &CardFooterProps) -> Html {
-    let classes = classes!(classes.clone(), "card-footer");
-
-    html! {
-        <footer class={classes}>
-            {children.clone()}
-        </footer>
-    }
+pub fn card_footer(CardChildProps { children, classes }: &CardChildProps) -> Html {
+    basic_comp!(<footer>, children, classes.clone(), "card-footer")
 }

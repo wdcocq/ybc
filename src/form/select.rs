@@ -9,13 +9,13 @@ use crate::Size;
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct SelectProps {
     /// The `name` attribute for this form element.
-    pub name: String,
+    pub name: AttrValue,
     /// NodeRef referencing the HtmlSelectElement
     #[prop_or_default]
     pub r#ref: NodeRef,
     /// The controlled value of this form element.
     #[prop_or_default]
-    pub value: Option<String>,
+    pub value: Option<AttrValue>,
     /// The callback to be used for propagating changes to this element's value.
     #[prop_or_default]
     pub update: Callback<Event>,
@@ -62,16 +62,16 @@ pub fn select(
         disabled,
     }: &SelectProps,
 ) -> Html {
-    let classes = classes!("select", classes.clone(), size, loading.then_some("is-loading"));
+    let classes = classes!(classes.clone(), "select", size, loading.then_some("is-loading"));
 
     html! {
         <div class={classes}>
             <select
                 ref={r#ref}
-                name={name.clone()}
-                value={value.clone()}
+                {name}
+                {value}
                 disabled={*disabled}
-                onchange={update.clone()}
+                onchange={update}
             >
                 {children.clone()}
             </select>
@@ -84,9 +84,9 @@ pub fn select(
 #[derive(Properties, Clone, PartialEq)]
 pub struct MultiSelectProps {
     /// The `name` attribute for this form element.
-    pub name: String,
+    pub name: AttrValue,
     /// The controlled value of this form element.
-    pub value: Vec<String>,
+    pub value: Vec<AttrValue>,
     /// The callback to be used for propagating changes to this element's value.
     pub update: Callback<Vec<String>>,
 
@@ -139,9 +139,9 @@ pub fn multi_select(
         disabled,
     }: &MultiSelectProps,
 ) -> Html {
-    let classes = classes!("select", "is-multiple", classes.clone(), size, loading.then_some("is-loading"));
+    let classes = classes!(classes.clone(), "select", "is-multiple", size, loading.then_some("is-loading"));
 
-    let update = update.reform(|e: Event| {
+    let onchange = update.reform(|e: Event| {
         let select = e.target_unchecked_into::<HtmlSelectElement>();
         let opts = select.selected_options();
         (0..opts.length())
@@ -155,12 +155,12 @@ pub fn multi_select(
         <div class={classes}>
             <select
                 ref={r#ref}
-                multiple={true}
+                multiple=true
                 size={list_size.to_string()}
-                name={name.clone()}
+                {name}
                 value={value.join(",")}
                 disabled={*disabled}
-                onchange={update}
+                {onchange}
             >
                 {children.clone()}
             </select>

@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
 
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::events::InputEvent;
 use yew::prelude::*;
 
@@ -10,7 +10,7 @@ use crate::{BackgroundColor, Size};
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct InputProps {
     /// The `name` attribute for this form element.
-    pub name: String,
+    pub name: AttrValue,
     /// The controlled value of this form element.
     pub value: Option<AttrValue>,
     /// NodeRef referencing the HtmlInputElement
@@ -26,10 +26,10 @@ pub struct InputProps {
     pub r#type: InputType,
     /// The placeholder value for this component.
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     /// Datalist id
     #[prop_or_default]
-    pub list: Option<String>,
+    pub list: Option<AttrValue>,
     #[prop_or(true)]
     pub autocomplete: bool,
     /// The size of this component.
@@ -99,18 +99,19 @@ pub fn input(
     );
 
     let autocomplete = if *autocomplete { "on" } else { "off" };
+    let r#type: &'static str = r#type.into();
 
     html! {
         <input
             ref={input_ref}
-            name={name.clone()}
-            value={value.clone().unwrap_or_else(|| String::from("").into())}
+            {name}
+            {value}
             oninput={update}
             class={classes}
-            type={r#type.to_string()}
-            placeholder={placeholder.clone()}
-            list={list.clone()}
-            autocomplete={autocomplete}
+            type={r#type}
+            {placeholder}
+            {list}
+            {autocomplete}
             disabled={*disabled}
             readonly={*readonly}
             />
@@ -120,16 +121,16 @@ pub fn input(
 /// The 4 allowed types for an input component.
 ///
 /// https://bulma.io/documentation/form/input/
-#[derive(Clone, Debug, Display, PartialEq)]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum InputType {
-    #[display(fmt = "text")]
+    #[strum(to_string = "text")]
     Text,
-    #[display(fmt = "password")]
+    #[strum(to_string = "password")]
     Password,
-    #[display(fmt = "email")]
+    #[strum(to_string = "email")]
     Email,
-    #[display(fmt = "tel")]
+    #[strum(to_string = "tel")]
     Tel,
-    #[display(fmt = "date")]
+    #[strum(to_string = "date")]
     Date,
 }

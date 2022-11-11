@@ -1,10 +1,20 @@
 #![allow(clippy::redundant_closure_call)]
-use derive_more::{Deref, Display};
+use std::ops::Deref;
+
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 /// Reducer to keep menu active state.
-#[derive(Copy, Clone, Debug, Deref, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 struct NavbarActive(bool);
+
+impl Deref for NavbarActive {
+    type Target = bool;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 enum NavbarActiveAction {
     Toggle,
@@ -163,31 +173,24 @@ pub fn navbar(
 ///
 /// NOTE WELL: in order to work properly, the root `html` or `body` element must be configured with
 /// the corresponding `has-navbar-fixed-top` or `has-navbar-fixed-bottom` class.
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum NavbarFixed {
-    #[display(fmt = "fixed-top")]
+    #[strum(to_string = "is-fixed-top")]
     Top,
-    #[display(fmt = "fixed-bottom")]
+    #[strum(to_string = "is-fixed-bottom")]
     Bottom,
 }
 
-impl From<NavbarFixed> for Classes {
-    fn from(fixed: NavbarFixed) -> Self {
-        fixed.to_string().into()
-    }
-}
+impl_classes_from!(NavbarFixed);
 
 //////////////////////////////////////////////////////////////////////////////
 
 /// The two HTML tags allowed for a navbar-item.
 ///
 /// [https://bulma.io/documentation/components/navbar/#navbar-item](https://bulma.io/documentation/components/navbar/#navbar-item)
-#[derive(Clone, Debug, Display, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum NavbarItemTag {
-    #[display(fmt = "a")]
     A,
-    #[display(fmt = "div")]
     Div,
 }
 
@@ -215,13 +218,13 @@ pub struct NavbarItemProps {
     pub active: bool,
     /// An optional `href` for when this element is using the `a` tag.
     #[prop_or_default]
-    pub href: Option<String>,
+    pub href: Option<AttrValue>,
     /// An optional `rel` for when this element is using the `a` tag.
     #[prop_or_default]
-    pub rel: Option<String>,
+    pub rel: Option<AttrValue>,
     /// An optional `target` for when this element is using the `a` tag.
     #[prop_or_default]
-    pub target: Option<String>,
+    pub target: Option<AttrValue>,
 }
 
 /// A single element of the navbar.
@@ -252,21 +255,8 @@ pub fn navbar_item(
     );
 
     match tag {
-        NavbarItemTag::A => html! {
-            <a
-                class={classes}
-                href={href.clone().unwrap_or_default()}
-                rel={rel.clone().unwrap_or_default()}
-                target={target.clone().unwrap_or_default()}
-            >
-                {children.clone()}
-            </a>
-        },
-        NavbarItemTag::Div => html! {
-            <div class={classes}>
-                {children.clone()}
-            </div>
-        },
+        NavbarItemTag::A => basic_comp!(<a [{href} {rel} {target}]>, children, classes),
+        NavbarItemTag::Div => basic_comp!(<div>, children, classes),
     }
 }
 

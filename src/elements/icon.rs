@@ -25,14 +25,9 @@ pub struct IconProps {
 /// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
 #[function_component(Icon)]
 pub fn icon(IconProps { children, classes, onclick, size, alignment }: &IconProps) -> Html {
-    let classes = classes!(classes.clone(), "icon", size, alignment);
-
-    html! {
-        <span class={classes} {onclick}>
-            {children.clone()}
-        </span>
-    }
+    basic_comp!(<span [{onclick}]>, children, classes.clone(), "icon", size, alignment)
 }
+
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct IconTextProps {
     #[prop_or_default]
@@ -49,11 +44,5 @@ pub struct IconTextProps {
 /// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
 #[function_component(IconText)]
 pub fn icon_text(IconTextProps { children, classes, onclick }: &IconTextProps) -> Html {
-    let classes = classes!(classes.clone(), "icon-text");
-
-    html! {
-        <span class={classes} {onclick}>
-            {children.clone()}
-        </span>
-    }
+    basic_comp!(<span [{onclick}]>, children, classes.clone(), "icon-text")
 }

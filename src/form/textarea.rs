@@ -6,9 +6,9 @@ use crate::Size;
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct TextAreaProps {
     /// The `name` attribute for this form element.
-    pub name: String,
+    pub name: AttrValue,
     /// The controlled value of this form element.
-    pub value: String,
+    pub value: AttrValue,
     /// The callback to be used for propagating changes to this element's value.
     #[prop_or_default]
     pub update: Callback<String>,
@@ -17,7 +17,7 @@ pub struct TextAreaProps {
     pub classes: Classes,
     /// The placeholder value for this component.
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     /// The number of rows to which this component will be locked.
     #[prop_or_default]
     pub rows: u32,
@@ -49,50 +49,42 @@ pub struct TextAreaProps {
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
 /// component via callback.
-pub struct TextArea;
+#[function_component(TextArea)]
+pub fn text_area(
+    TextAreaProps {
+        name,
+        value,
+        update,
+        classes,
+        placeholder,
+        rows,
+        size,
+        fixed_size,
+        loading,
+        disabled,
+        readonly,
+        r#static,
+    }: &TextAreaProps,
+) -> Html {
+    let classes = classes!(
+        classes.clone(),
+        "textarea",
+        size,
+        loading.then_some("is-loading"),
+        r#static.then_some("is-static"),
+        fixed_size.then_some("has-fixed-size")
+    );
 
-impl Component for TextArea {
-    type Message = String;
-    type Properties = TextAreaProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        ctx.props().update.emit(msg);
-        false
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let link = ctx.link();
-        let mut classes = Classes::from("textarea");
-        classes.push(props.classes.clone());
-        if let Some(size) = &props.size {
-            classes.push(&size.to_string());
-        }
-        if props.loading {
-            classes.push("is-loading");
-        }
-        if props.r#static {
-            classes.push("is-static");
-        }
-        if props.fixed_size {
-            classes.push("has-fixed-size");
-        }
-
-        html! {
-            <textarea
-                name={props.name.clone()}
-                value={props.value.clone()}
-                oninput={link.callback(|e: InputEvent| e.data().unwrap_or_default())}
-                class={classes}
-                rows={props.rows.to_string()}
-                placeholder={props.placeholder.clone()}
-                disabled={props.disabled}
-                readonly={props.readonly}
-                />
-        }
+    html! {
+        <textarea
+            class={classes}
+            {name}
+            {value}
+            oninput={update.reform(|e: InputEvent| e.data().unwrap_or_default())}
+            rows={rows.to_string()}
+            {placeholder}
+            disabled={*disabled}
+            readonly={*readonly}
+            />
     }
 }

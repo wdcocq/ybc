@@ -10,144 +10,50 @@ pub struct LevelProps {
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "nav".into())]
-    pub tag: String,
+    pub tag: AttrValue,
 }
 
 /// A multi-purpose horizontal level, which can contain almost any other element.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct Level;
-
-impl Component for Level {
-    type Message = ();
-    type Properties = LevelProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("level");
-        classes.push(props.classes.clone());
-        html! {
-            <@{props.tag.clone()} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
+#[function_component(Level)]
+pub fn level(LevelProps { children, classes, tag }: &LevelProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "level")
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Debug, Properties, PartialEq)]
-pub struct LevelLeftProps {
+pub struct LevelChildProps {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
-    pub tag: String,
+    pub tag: AttrValue,
 }
 
 /// A container for level elements to be grouped to the left of the container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelLeft;
-
-impl Component for LevelLeft {
-    type Message = ();
-    type Properties = LevelLeftProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("level-left");
-        classes.push(props.classes.clone());
-        html! {
-            <@{props.tag.clone()} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-#[derive(Clone, Debug, Properties, PartialEq)]
-pub struct LevelRightProps {
-    #[prop_or_default]
-    pub children: Children,
-    #[prop_or_default]
-    pub classes: Classes,
-    /// The HTML tag to use for this component.
-    #[prop_or_else(|| "div".into())]
-    pub tag: String,
+#[function_component(LevelLeft)]
+pub fn level_left(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "level-left")
 }
 
 /// A container for level elements to be grouped to the right of the container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelRight;
-
-impl Component for LevelRight {
-    type Message = ();
-    type Properties = LevelRightProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("level-right");
-        classes.push(props.classes.clone());
-        html! {
-            <@{props.tag.clone()} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-#[derive(Clone, Debug, Properties, PartialEq)]
-pub struct LevelItemProps {
-    #[prop_or_default]
-    pub children: Children,
-    #[prop_or_default]
-    pub classes: Classes,
-    /// The HTML tag to use for this component.
-    #[prop_or_else(|| "div".into())]
-    pub tag: String,
+#[function_component(LevelRight)]
+pub fn level_right(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "level-right")
 }
 
 /// An individual element of a level container.
 ///
 /// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
-pub struct LevelItem;
-
-impl Component for LevelItem {
-    type Message = ();
-    type Properties = LevelItemProps;
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let mut classes = Classes::from("level-item");
-        classes.push(props.classes.clone());
-        html! {
-            <@{props.tag.clone()} class={classes}>
-                {props.children.clone()}
-            </@>
-        }
-    }
+#[function_component(LevelItem)]
+pub fn level_item(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
+    basic_comp!(<@tag>, children, classes.clone(), "level-item")
 }

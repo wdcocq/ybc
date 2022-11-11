@@ -1,4 +1,4 @@
-use derive_more::Display;
+use strum::IntoStaticStr;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Properties, PartialEq)]
@@ -117,55 +117,36 @@ pub fn field(
 /// The two alignment options available for field addons.
 ///
 /// https://bulma.io/documentation/form/general/
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "has-addons-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum AddonsAlign {
-    #[display(fmt = "centered")]
+    #[strum(to_string = "has-addons-centered")]
     Centered,
-    #[display(fmt = "right")]
+    #[strum(to_string = "has-addons-right")]
     Right,
-}
-
-impl From<AddonsAlign> for Classes {
-    fn from(align: AddonsAlign) -> Self {
-        align.to_string().into()
-    }
 }
 
 /// The two alignment options available for grouped field controls.
 ///
 /// https://bulma.io/documentation/form/general/
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-grouped-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum GroupedAlign {
-    #[display(fmt = "centered")]
+    #[strum(to_string = "is-grouped-centered")]
     Centered,
-    #[display(fmt = "right")]
+    #[strum(to_string = "is-grouped-right")]
     Right,
-}
-
-impl From<GroupedAlign> for Classes {
-    fn from(align: GroupedAlign) -> Self {
-        align.to_string().into()
-    }
 }
 
 /// The three sizes available for horizontal field labels.
 ///
 /// https://bulma.io/documentation/form/general/#horizontal-form
-#[derive(Clone, Debug, Display, PartialEq)]
-#[display(fmt = "is-{}")]
+#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
 pub enum LabelSize {
-    #[display(fmt = "small")]
+    #[strum(to_string = "is-small")]
     Small,
-    #[display(fmt = "medium")]
+    #[strum(to_string = "is-medium")]
     Medium,
-    #[display(fmt = "large")]
+    #[strum(to_string = "is-large")]
     Large,
 }
 
-impl From<LabelSize> for Classes {
-    fn from(size: LabelSize) -> Self {
-        size.to_string().into()
-    }
-}
+impl_classes_from!(AddonsAlign, GroupedAlign, LabelSize);

@@ -43,11 +43,7 @@ pub struct PanelTabsProps {
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
 #[function_component(PanelTabs)]
 pub fn panel_tabs(PanelTabsProps { children }: &PanelTabsProps) -> Html {
-    html! {
-        <p class="panel-tabs">
-            {children.clone()}
-        </p>
-    }
+    basic_comp!(<p>, children, "panel-tabs")
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -58,7 +54,7 @@ pub struct PanelBlockProps {
     pub children: Children,
     /// The HTML tag to use for this component.
     #[prop_or_else(|| "div".into())]
-    pub tag: String,
+    pub tag: AttrValue,
     /// Make this element the active / highlighted element.
     #[prop_or_default]
     pub active: bool,
@@ -72,11 +68,5 @@ pub struct PanelBlockProps {
 /// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
 #[function_component(PanelBlock)]
 pub fn panel_block(PanelBlockProps { children, tag, active, onclick }: &PanelBlockProps) -> Html {
-    let classes = classes!("panel-block", active.then_some("is-active"));
-
-    html! {
-        <@{tag.clone()} class={classes} {onclick}>
-            {children.clone()}
-        </@>
-    }
+    basic_comp!(<@tag [{onclick}]>, children, "panel-block", active.then_some("is-active"))
 }

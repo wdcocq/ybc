@@ -15,7 +15,7 @@ pub struct ColumnsProps {
     /// Center all child columns within their row.
     #[prop_or_default]
     pub centered: bool,
-    // Remove gaps between columns
+    /// Remove gaps between columns
     #[prop_or_default]
     pub gapless: bool,
 }
@@ -34,20 +34,16 @@ pub fn columns(
         gapless,
     }: &ColumnsProps,
 ) -> Html {
-    let classes = classes!(
+    basic_comp!(
+        <div>,
+        children,
         classes.clone(),
         "columns",
         vcentered.then_some("is-vcentered"),
         multiline.then_some("is-multiline"),
         centered.then_some("is-centered"),
-        gapless.then_some("is-gapless"),
-    );
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+        gapless.then_some("is-gapless")
+    )
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -58,6 +54,7 @@ pub struct ColumnProps {
     pub children: Children,
     #[prop_or_default]
     pub classes: Classes,
+    /// Limit width to content
     #[prop_or_default]
     pub narrow: bool,
 }
@@ -71,11 +68,5 @@ pub struct ColumnProps {
 /// add classes to this Component manually via the `classes` prop.
 #[function_component(Column)]
 pub fn column(ColumnProps { children, classes, narrow }: &ColumnProps) -> Html {
-    let classes = classes!(classes.clone(), "column", narrow.then_some("is-narrow"));
-
-    html! {
-        <div class={classes}>
-            {children.clone()}
-        </div>
-    }
+    basic_comp!(<div>, children, classes.clone(), "column", narrow.then_some("is-narrow"))
 }
