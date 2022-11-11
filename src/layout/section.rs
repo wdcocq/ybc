@@ -23,7 +23,7 @@ pub fn section(SectionProps { children, classes, size }: &SectionProps) -> Html 
 /// The 2 sizes available for sections, which controls spacing.
 ///
 /// [https://bulma.io/documentation/layout/section/](https://bulma.io/documentation/layout/section/)
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum SectionSize {
     #[strum(to_string = "is-medium")]
     Medium,

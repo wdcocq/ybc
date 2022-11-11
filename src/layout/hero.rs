@@ -86,7 +86,7 @@ pub fn hero(
 /// The 4 sizes available for heros.
 ///
 /// [https://bulma.io/documentation/layout/hero/#sizes](https://bulma.io/documentation/layout/hero/#sizes)
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum HeroSize {
     #[strum(to_string = "is-medium")]
     Medium,

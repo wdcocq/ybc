@@ -25,7 +25,7 @@ pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html 
 /// The 3 sizes available for a button group.
 ///
 /// https://bulma.io/documentation/elements/button/#sizes
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum ButtonGroupSize {
     #[strum(to_string = "are-small")]
     Small,

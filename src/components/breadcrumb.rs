@@ -40,7 +40,7 @@ pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separato
 /// The 3 sizes available for a breadcrumb.
 ///
 /// https://bulma.io/documentation/components/breadcrumb/#sizes
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum BreadcrumbSize {
     #[strum(to_string = "is-small")]
     Small,
@@ -53,7 +53,7 @@ pub enum BreadcrumbSize {
 /// The 4 additional separators for a breadcrump.
 ///
 /// https://bulma.io/documentation/components/breadcrumb/#alternative-separators
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum BreadcrumbSeparator {
     #[strum(to_string = "has-arrow-seperator")]
     Arrow,

@@ -55,7 +55,7 @@ pub fn subtitle(SubtitleProps { children, classes, tag, size }: &SubtitleProps) 
 /// The six sizes available for titles & subtitles.
 ///
 /// https://bulma.io/documentation/elements/title/#sizes
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum HeaderSize {
     #[strum(to_string = "is-1")]
     Is1,

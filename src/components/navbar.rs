@@ -5,7 +5,7 @@ use strum::IntoStaticStr;
 use yew::prelude::*;
 
 /// Reducer to keep menu active state.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct NavbarActive(bool);
 
 impl Deref for NavbarActive {
@@ -16,6 +16,7 @@ impl Deref for NavbarActive {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum NavbarActiveAction {
     Toggle,
     Open,
@@ -173,7 +174,7 @@ pub fn navbar(
 ///
 /// NOTE WELL: in order to work properly, the root `html` or `body` element must be configured with
 /// the corresponding `has-navbar-fixed-top` or `has-navbar-fixed-bottom` class.
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum NavbarFixed {
     #[strum(to_string = "is-fixed-top")]
     Top,
@@ -188,7 +189,7 @@ impl_classes_from!(NavbarFixed);
 /// The two HTML tags allowed for a navbar-item.
 ///
 /// [https://bulma.io/documentation/components/navbar/#navbar-item](https://bulma.io/documentation/components/navbar/#navbar-item)
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NavbarItemTag {
     A,
     Div,
@@ -262,7 +263,7 @@ pub fn navbar_item(
 
 //////////////////////////////////////////////////////////////////////////////
 
-#[derive(Clone, Debug, Properties, PartialEq)]
+#[derive(Clone, Debug, Properties, PartialEq, Eq)]
 pub struct NavbarDividerProps {
     #[prop_or_default]
     pub classes: Classes,

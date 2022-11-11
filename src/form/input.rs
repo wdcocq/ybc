@@ -121,7 +121,7 @@ pub fn input(
 /// The 4 allowed types for an input component.
 ///
 /// https://bulma.io/documentation/form/input/
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum InputType {
     #[strum(to_string = "text")]
     Text,

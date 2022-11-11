@@ -85,7 +85,7 @@ pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick
 }
 
 /// A pagination item type.
-#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum PaginationItemType {
     /// A pagination link for a specific page number.
     #[strum(to_string = "pagination-link")]

@@ -28,7 +28,7 @@ pub fn menu_list(MenuProps { children, classes }: &MenuProps) -> Html {
 
 //////////////////////////////////////////////////////////////////////////////
 
-#[derive(Clone, Debug, Properties, PartialEq)]
+#[derive(Clone, Debug, Properties, PartialEq, Eq)]
 pub struct MenuLabelProps {
     #[prop_or_default]
     pub classes: Classes,

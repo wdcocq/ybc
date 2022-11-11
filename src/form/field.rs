@@ -117,7 +117,7 @@ pub fn field(
 /// The two alignment options available for field addons.
 ///
 /// https://bulma.io/documentation/form/general/
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum AddonsAlign {
     #[strum(to_string = "has-addons-centered")]
     Centered,
@@ -128,7 +128,7 @@ pub enum AddonsAlign {
 /// The two alignment options available for grouped field controls.
 ///
 /// https://bulma.io/documentation/form/general/
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum GroupedAlign {
     #[strum(to_string = "is-grouped-centered")]
     Centered,
@@ -139,7 +139,7 @@ pub enum GroupedAlign {
 /// The three sizes available for horizontal field labels.
 ///
 /// https://bulma.io/documentation/form/general/#horizontal-form
-#[derive(Clone, Debug, IntoStaticStr, PartialEq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum LabelSize {
     #[strum(to_string = "is-small")]
     Small,
