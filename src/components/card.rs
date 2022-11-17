@@ -29,20 +29,22 @@ pub struct CardHeaderProps {
     pub classes: Classes,
     #[prop_or_default]
     pub icon: Option<Html>,
+    #[prop_or_else(|| "p".into())]
+    pub title_tag: AttrValue,
 }
 
 /// A container for card header content; rendered as a horizontal bar with a shadow.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardHeader)]
-pub fn card_header(CardHeaderProps { children, classes, icon }: &CardHeaderProps) -> Html {
+pub fn card_header(CardHeaderProps { children, classes, icon, title_tag }: &CardHeaderProps) -> Html {
     let classes = classes!(classes.clone(), "card-header");
 
     html! {
         <header class={classes}>
-            <p class="card-header-title">
+            <@{title_tag.clone()} class="card-header-title">
                 {children.clone()}
-            </p>
+            </@>
             if let Some(icon) = icon {
                 <span class="card-header-icon">
                     {icon.clone()}

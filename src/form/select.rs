@@ -29,6 +29,9 @@ pub struct SelectProps {
     /// The size of this component.
     #[prop_or_default]
     pub size: Option<Size>,
+    /// Fill the container's size
+    #[prop_or_default]
+    pub fullwidth: bool,
     /// Display a loading spinner within this component.
     #[prop_or_default]
     pub loading: bool,
@@ -58,11 +61,18 @@ pub fn select(
         children,
         classes,
         size,
+        fullwidth,
         loading,
         disabled,
     }: &SelectProps,
 ) -> Html {
-    let classes = classes!(classes.clone(), "select", size, loading.then_some("is-loading"));
+    let classes = classes!(
+        classes.clone(),
+        "select",
+        size,
+        loading.then_some("is-loading"),
+        fullwidth.then_some("is-fullwidth")
+    );
 
     html! {
         <div class={classes}>
@@ -105,6 +115,9 @@ pub struct MultiSelectProps {
     /// Size of the list to display.
     #[prop_or_else(|| 4)]
     pub list_size: u32,
+    /// Fill the container's size
+    #[prop_or_default]
+    pub fullwidth: bool,
     /// Display a loading spinner within this component.
     #[prop_or_default]
     pub loading: bool,
@@ -135,11 +148,19 @@ pub fn multi_select(
         classes,
         size,
         list_size,
+        fullwidth,
         loading,
         disabled,
     }: &MultiSelectProps,
 ) -> Html {
-    let classes = classes!(classes.clone(), "select", "is-multiple", size, loading.then_some("is-loading"));
+    let classes = classes!(
+        classes.clone(),
+        "select",
+        "is-multiple",
+        size,
+        loading.then_some("is-loading"),
+        fullwidth.then_some("is-fullwidth")
+    );
 
     let onchange = update.reform(|e: Event| {
         let select = e.target_unchecked_into::<HtmlSelectElement>();

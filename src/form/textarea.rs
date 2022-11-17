@@ -8,7 +8,8 @@ pub struct TextAreaProps {
     /// The `name` attribute for this form element.
     pub name: AttrValue,
     /// The controlled value of this form element.
-    pub value: AttrValue,
+    #[prop_or_default]
+    pub value: Option<AttrValue>,
     /// The callback to be used for propagating changes to this element's value.
     #[prop_or_default]
     pub update: Callback<String>,
