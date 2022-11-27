@@ -1,4 +1,4 @@
-use crate::Size;
+use crate::{Color, Size};
 use strum::IntoStaticStr;
 use yew::events::{Event, MouseEvent, SubmitEvent};
 use yew::prelude::*;
@@ -69,6 +69,10 @@ pub struct ButtonProps {
     /// Provide an outline
     #[prop_or_default]
     pub outline: bool,
+    #[prop_or_default]
+    pub fullwidth: bool,
+    #[prop_or_default]
+    pub color: Option<Color>,
 }
 
 /// A button element.
@@ -88,6 +92,8 @@ pub fn button(
         rounded,
         inverted,
         outline,
+        fullwidth,
+        color,
     }: &ButtonProps,
 ) -> Html {
     basic_comp!(
@@ -96,11 +102,13 @@ pub fn button(
         classes.clone(),
         "button",
         size,
+        color,
         loading.then_some("is-loading"),
         r#static.then_some("is-static"),
         inverted.then_some("is-inverted"),
         outline.then_some("is-outline"),
-        rounded.then_some("is-rounded")
+        rounded.then_some("is-rounded"),
+        fullwidth.then_some("is-fullwidth")
     )
 }
 

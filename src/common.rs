@@ -1,5 +1,5 @@
 use strum::IntoStaticStr;
-use yew::prelude::*;
+use yew::{html::ImplicitClone, prelude::*};
 
 /// Common alignment classes.
 #[derive(Clone, Debug, IntoStaticStr, PartialEq, Eq)]
@@ -108,6 +108,8 @@ pub enum BaseColor<const P: usize> {
     #[strum(to_string = "danger-dark")]
     DangerDark,
 }
+
+impl<const P: usize> ImplicitClone for BaseColor<P> {}
 
 impl From<Color> for Classes {
     fn from(color: Color) -> Self {
