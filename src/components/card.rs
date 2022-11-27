@@ -33,13 +33,25 @@ pub struct CardHeaderProps {
     pub title_tag: AttrValue,
     #[prop_or_default]
     pub header_ref: NodeRef,
+    // onclick handler for when an icon is present
+    #[prop_or_default]
+    pub onclick: Callback<MouseEvent>,
 }
 
 /// A container for card header content; rendered as a horizontal bar with a shadow.
 ///
 /// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
 #[function_component(CardHeader)]
-pub fn card_header(CardHeaderProps { children, classes, icon, title_tag, header_ref }: &CardHeaderProps) -> Html {
+pub fn card_header(
+    CardHeaderProps {
+        children,
+        classes,
+        icon,
+        title_tag,
+        header_ref,
+        onclick,
+    }: &CardHeaderProps,
+) -> Html {
     let classes = classes!(classes.clone(), "card-header");
 
     html! {
@@ -48,7 +60,7 @@ pub fn card_header(CardHeaderProps { children, classes, icon, title_tag, header_
                 {children.clone()}
             </@>
             if let Some(icon) = icon {
-                <span class="card-header-icon">
+                <span class="card-header-icon" {onclick}>
                     {icon.clone()}
                 </span>
             }
