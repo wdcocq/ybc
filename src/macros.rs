@@ -1,3 +1,7 @@
+use std::borrow::Cow;
+
+use yew::AttrValue;
+
 #[macro_export]
 macro_rules! impl_classes_from (
     ($($t:ty),+) => {
@@ -31,7 +35,7 @@ macro_rules! basic_comp {
     };
     (<@$tag:ident [$($attr:tt)*]>, $children:expr, $($classes:expr),*) => {
         html! {
-            <@{$tag.clone()} $($attr)* class={::yew::classes!($($classes),*)}>
+            <@{$crate::macros::convert($tag)} $($attr)* class={::yew::classes!($($classes),*)}>
                 {$children.clone()}
             </@>
         }
@@ -41,9 +45,9 @@ macro_rules! basic_comp {
     };
 }
 
-// pub(crate) fn convert(val: &AttrValue) -> Cow<'static, str> {
-//     match val {
-//         AttrValue::Static(s) => Cow::Borrowed(s),
-//         AttrValue::Rc(s) => Cow::Owned((**s).to_owned()),
-//     }
-// }
+pub(crate) fn convert(val: &AttrValue) -> Cow<'static, str> {
+    match val {
+        AttrValue::Static(s) => Cow::Borrowed(s),
+        AttrValue::Rc(s) => Cow::Owned((**s).to_owned()),
+    }
+}

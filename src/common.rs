@@ -2,7 +2,7 @@ use strum::IntoStaticStr;
 use yew::{html::ImplicitClone, prelude::*};
 
 /// Common alignment classes.
-#[derive(Clone, Debug, IntoStaticStr, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum Alignment {
     #[strum(to_string = "is-left")]
     Left,
@@ -11,6 +11,8 @@ pub enum Alignment {
     #[strum(to_string = "is-right")]
     Right,
 }
+
+impl ImplicitClone for Alignment {}
 
 /// Common size classes.
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
@@ -24,6 +26,8 @@ pub enum Size {
     #[strum(to_string = "is-large")]
     Large,
 }
+
+impl ImplicitClone for Size {}
 
 impl_classes_from!(Alignment, Size);
 

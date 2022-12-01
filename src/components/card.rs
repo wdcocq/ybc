@@ -1,5 +1,7 @@
 use yew::prelude::*;
 
+use crate::macros::convert;
+
 #[derive(Clone, Debug, Properties, PartialEq)]
 pub struct CardProps {
     #[prop_or_default]
@@ -56,7 +58,7 @@ pub fn card_header(
 
     html! {
         <header ref={header_ref} class={classes}>
-            <@{title_tag.clone()} class="card-header-title">
+            <@{convert(title_tag)} class="card-header-title">
                 {children.clone()}
             </@>
             if let Some(icon) = icon {

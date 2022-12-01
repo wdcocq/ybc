@@ -21,12 +21,12 @@ web-sys = { version = "0.3", features = [
     "HtmlSelectElement",
     "HtmlInputElement",
 ] }
-yew = { git = "https://github.com/yewstack/yew" }
-yew-agent = { git = "https://github.com/yewstack/yew" }
-yew-router = { git = "https://github.com/yewstack/yew", optional = true }
+yew = "0.20"
+yew-agent = "0.1"
+yew-router = { version = "0.17", optional = true }
 
 [features]
-default = ["router"]
+default = []
 docinclude = [] # Used only for activating `doc(include="...")` on nightly.
 router = ["yew-router", "dep:serde"]
 
