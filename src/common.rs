@@ -31,104 +31,147 @@ impl ImplicitClone for Size {}
 
 impl_classes_from!(Alignment, Size);
 
-enum ColorPrinter {
-    Common,
-    Text,
-    Background,
+macro_rules! color_str {
+    ($prefix:literal, $base:literal) => {
+        concat!($prefix, $base)
+    };
+    ("is-", $base:literal, $tint:literal) => {
+        concat!("is-", $base, " is-", $tint)
+    };
+    ($prefix:literal, $base:literal, $tint:literal) => {
+        concat!($prefix, $base, '-', $tint)
+    };
 }
 
-/// Common color classes
-pub type Color = BaseColor<{ ColorPrinter::Common as usize }>;
+macro_rules! colors {
+    ($(($variant:ident: $($base:tt)+),)*) => {
+        #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+        /// Color classes for elements
+        pub enum Color {
+            $( $variant, )*
+            /// Define a custom color with a base and tint, will result in the classes 'is-{base} is-{tint}' or 'is-{base}' if tint is None.
+            Custom(
+                /// Base color
+                &'static str,
+                /// Tint
+                Option<&'static str>),
+        }
 
-/// Text color classes
-pub type TextColor = BaseColor<{ ColorPrinter::Text as usize }>;
+        impl From<Color> for Classes {
+            fn from(color: Color) -> Classes {
+                match color {
+                    $( Color::$variant => color_str!("is-", $($base)+).into(), )*
+                    Color::Custom(base, Some(tint)) => format!("is-{base} is-{tint}").into(),
+                    Color::Custom(base, _) => format!("is-{base}").into(),
+                }
+            }
+        }
 
-/// Background color classes
-pub type BackgroundColor = BaseColor<{ ColorPrinter::Background as usize }>;
+        #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+        /// Color classes for elment text
+        pub enum TextColor {
+            $( $variant, )*
+            /// Define a custom color with a base and tint, will result in the class 'has-text-{base}-{tint}' or 'has-text-{base}' if tint is None.
+            Custom(
+                /// Base color
+                &'static str,
+                /// Tint
+                Option<&'static str>)
+        }
 
-/// Don't use this type directly, use [`Color`], [`TextColor`] or [`BackgroundColor`] instead
-#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
-pub enum BaseColor<const P: usize> {
-    #[strum(to_string = "white")]
-    White,
-    #[strum(to_string = "white-bis")]
-    WhiteBis,
-    #[strum(to_string = "white-ter")]
-    WhiteTer,
-    #[strum(to_string = "grey")]
-    Grey,
-    #[strum(to_string = "grey-lighter")]
-    GreyLighter,
-    #[strum(to_string = "grey-light")]
-    GreyLight,
-    #[strum(to_string = "grey-dark")]
-    GreyDark,
-    #[strum(to_string = "grey-darker")]
-    GreyDarker,
-    #[strum(to_string = "black-ter")]
-    BlackTer,
-    #[strum(to_string = "black-bis")]
-    BlackBis,
-    #[strum(to_string = "black")]
-    Black,
-    #[strum(to_string = "light")]
-    Light,
-    #[strum(to_string = "dark")]
-    Dark,
-    #[strum(to_string = "primary")]
-    Primary,
-    #[strum(to_string = "primary-light")]
-    PrimaryLight,
-    #[strum(to_string = "primary-dark")]
-    PrimaryDark,
-    #[strum(to_string = "link")]
-    Link,
-    #[strum(to_string = "link-light")]
-    LinkLight,
-    #[strum(to_string = "link-dark")]
-    LinkDark,
-    #[strum(to_string = "info")]
-    Info,
-    #[strum(to_string = "info-light")]
-    InfoLight,
-    #[strum(to_string = "info-dark")]
-    InfoDark,
-    #[strum(to_string = "success")]
-    Success,
-    #[strum(to_string = "success-light")]
-    SuccessLight,
-    #[strum(to_string = "success-dark")]
-    SuccessDark,
-    #[strum(to_string = "warning")]
-    Warning,
-    #[strum(to_string = "warning-light")]
-    WarningLight,
-    #[strum(to_string = "warning-dark")]
-    WarningDark,
-    #[strum(to_string = "danger")]
-    Danger,
-    #[strum(to_string = "danger-light")]
-    DangerLight,
-    #[strum(to_string = "danger-dark")]
-    DangerDark,
+        impl From<TextColor> for Classes {
+            fn from(color: TextColor) -> Classes {
+                match color {
+                    $( TextColor::$variant => color_str!("has-text-", $($base)+).into(), )*
+                    TextColor::Custom(base, Some(tint)) => format!("has-text-{base}-{tint}").into(),
+                    TextColor::Custom(base, _) => format!("has-text-{base}").into(),
+                }
+            }
+        }
+
+        #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+        /// Color classes for element backgrounds
+        pub enum BackgroundColor {
+            $( $variant, )*
+            /// Define a custom color with a base and tint, will result in the class 'has-background-{base}-{tint}' or 'has-background-{base}' if tint is None.
+            Custom(
+                /// Base color
+                &'static str,
+                /// Tint
+                Option<&'static str>)
+        }
+
+        impl From<BackgroundColor> for Classes {
+            fn from(color: BackgroundColor) -> Classes {
+                match color {
+                    $( BackgroundColor::$variant => color_str!("has-background-", $($base)+).into(), )*
+                    BackgroundColor::Custom(base, Some(tint)) => format!("has-background-{base}-{tint}").into(),
+                    BackgroundColor::Custom(base, _) => format!("has-background-{base}").into(),
+                }
+            }
+        }
+    };
 }
 
-impl<const P: usize> ImplicitClone for BaseColor<P> {}
-
-impl From<Color> for Classes {
-    fn from(color: Color) -> Self {
-        format!("is-{}", <&'static str>::from(color)).into()
-    }
+colors! {
+    (White: "white"),
+    (WhiteBis: "white-bis"),
+    (WhiteTer: "white-ter"),
+    (Grey: "grey"),
+    (GreyLighter: "grey-lighter"),
+    (GreyLight: "grey-light"),
+    (GreyDark: "grey-dark"),
+    (GreyDarker: "grey-darker"),
+    (Black: "black"),
+    (BlackBis: "black-bis"),
+    (BlackTer: "black-ter"),
+    (Light: "light"),
+    (Dark: "dark"),
+    (Primary: "primary"),
+    (PrimaryLight: "primary", "light"),
+    (PrimaryDark: "primary", "dark"),
+    (Link: "link"),
+    (LinkLight: "link", "light"),
+    (LinkDark: "link", "dark"),
+    (Info: "info"),
+    (InfoLight: "info", "light"),
+    (InfoDark: "info", "dark"),
+    (Success: "success"),
+    (SuccessLight: "success", "light"),
+    (SuccessDark: "success", "dark"),
+    (Warning: "warning"),
+    (WarningLight: "warning", "light"),
+    (WarningDark: "warning", "dark"),
+    (Danger: "danger"),
+    (DangerLight: "danger", "light"),
+    (DangerDark: "danger", "dark"),
+    (Ghost: "ghost"),
 }
 
-impl From<TextColor> for Classes {
-    fn from(color: TextColor) -> Self {
-        format!("has-text-{}", <&'static str>::from(color)).into()
-    }
-}
+impl ImplicitClone for Color {}
+impl ImplicitClone for TextColor {}
+impl ImplicitClone for BackgroundColor {}
 
-impl From<BackgroundColor> for Classes {
-    fn from(color: BackgroundColor) -> Self {
-        format!("has-background-{}", <&'static str>::from(color)).into()
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_colors() {
+        assert_eq!(Classes::from(Color::Primary), classes!("is-primary"));
+        assert_eq!(Classes::from(Color::PrimaryDark), classes!("is-primary", "is-dark"));
+        assert_eq!(Classes::from(Color::Custom("secondary", None)), classes!("is-secondary"));
+        assert_eq!(
+            Classes::from(Color::Custom("secondary", Some("light"))),
+            classes!("is-secondary", "is-light")
+        );
+        assert_eq!(Classes::from(TextColor::Info), classes!("has-text-info"));
+        assert_eq!(Classes::from(TextColor::InfoLight), classes!("has-text-info-light"));
+        assert_eq!(Classes::from(TextColor::Custom("secondary", None)), classes!("has-text-secondary"));
+        assert_eq!(Classes::from(BackgroundColor::Success), classes!("has-background-success"));
+        assert_eq!(
+            Classes::from(BackgroundColor::Custom("secondary", Some("light"))),
+            classes!("has-background-secondary-light")
+        );
     }
 }
