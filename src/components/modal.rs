@@ -219,7 +219,7 @@ pub fn modal_agent_provider(ModalAgentProviderProps { children }: &ModalAgentPro
 }
 
 /// Hook to retrieve a [`ModalAgent`].
-/// Returns `None`` if no [`ModalAgentProvider`] is present.
+/// Returns `None` if no [`ModalAgentProvider`] is present.
 #[hook]
 pub fn use_modal_agent() -> Option<ModalAgent> {
     use_context::<ModalAgent>()
