@@ -2,7 +2,6 @@ use std::borrow::Cow;
 
 use yew::AttrValue;
 
-#[macro_export]
 macro_rules! impl_classes_from (
     ($($t:ty),+) => {
         $(
@@ -21,7 +20,6 @@ macro_rules! impl_classes_from (
     }
 );
 
-#[macro_export]
 macro_rules! basic_comp {
     (<$tag:tt [$($attr:tt)*]>, $children:expr, $($classes:expr),*) => {
         html! {
@@ -31,7 +29,7 @@ macro_rules! basic_comp {
         }
     };
     (<$tag:tt>, $children:expr, $($classes:expr),*) => {
-        $crate::basic_comp!(<$tag []>, $children, $($classes),*)
+        $crate::macros::basic_comp!(<$tag []>, $children, $($classes),*)
     };
     (<@$tag:ident [$($attr:tt)*]>, $children:expr, $($classes:expr),*) => {
         html! {
@@ -41,9 +39,11 @@ macro_rules! basic_comp {
         }
     };
     (<@$tag:ident>, $children:expr, $($classes:expr),*) => {
-        $crate::basic_comp!(<@$tag []>, $children, $($classes),*)
+        $crate::macros::basic_comp!(<@$tag []>, $children, $($classes),*)
     };
 }
+
+pub(crate) use basic_comp;
 
 pub(crate) fn convert(val: &AttrValue) -> Cow<'static, str> {
     match val {
