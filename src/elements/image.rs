@@ -14,7 +14,7 @@ pub struct ImageProps {
 
 /// A container for responsive images.
 ///
-/// [https://bulma.io/documentation/elements/image/](https://bulma.io/documentation/elements/image/)
+/// <https://bulma.io/documentation/elements/image/>
 #[function_component(Image)]
 pub fn image(ImageProps { children, classes, size }: &ImageProps) -> Html {
     basic_comp!(<figure>, children, classes.clone(), "image", size)
@@ -22,7 +22,7 @@ pub fn image(ImageProps { children, classes, size }: &ImageProps) -> Html {
 
 /// Available placeholder sizes for figures.
 ///
-/// https://bulma.io/documentation/elements/image/
+/// <https://bulma.io/documentation/elements/image/>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum ImageSize {
     #[strum(to_string = "is-16x16")]

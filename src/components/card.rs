@@ -15,7 +15,7 @@ pub struct CardProps {
 
 /// An all-around flexible and composable component; this is the card container.
 ///
-/// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
+/// <https://bulma.io/documentation/components/card/>
 #[function_component(Card)]
 pub fn card(CardProps { children, classes, card_ref }: &CardProps) -> Html {
     basic_comp!(<div [ref={card_ref}]>, children, classes.clone(), "card")
@@ -42,7 +42,7 @@ pub struct CardHeaderProps {
 
 /// A container for card header content; rendered as a horizontal bar with a shadow.
 ///
-/// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
+/// <https://bulma.io/documentation/components/card/>
 #[function_component(CardHeader)]
 pub fn card_header(
     CardHeaderProps {
@@ -82,7 +82,7 @@ pub struct CardChildProps {
 
 /// A fullwidth container for a responsive image.
 ///
-/// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
+/// <https://bulma.io/documentation/components/card/>
 #[function_component(CardImage)]
 pub fn card_image(CardChildProps { children, classes }: &CardChildProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "card-image")
@@ -90,7 +90,7 @@ pub fn card_image(CardChildProps { children, classes }: &CardChildProps) -> Html
 
 /// A container for any other content as the body of the card.
 ///
-/// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
+/// <https://bulma.io/documentation/components/card/>
 #[function_component(CardContent)]
 pub fn card_content(CardChildProps { children, classes }: &CardChildProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "card-content")
@@ -98,7 +98,7 @@ pub fn card_content(CardChildProps { children, classes }: &CardChildProps) -> Ht
 
 /// A container for card footer content; rendered as a horizontal list of controls.
 ///
-/// [https://bulma.io/documentation/components/card/](https://bulma.io/documentation/components/card/)
+/// <https://bulma.io/documentation/components/card/>
 #[function_component(CardFooter)]
 pub fn card_footer(CardChildProps { children, classes }: &CardChildProps) -> Html {
     basic_comp!(<footer>, children, classes.clone(), "card-footer")

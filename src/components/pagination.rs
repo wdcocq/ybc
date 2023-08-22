@@ -29,7 +29,7 @@ pub struct PaginationProps {
 
 /// A responsive, usable, and flexible pagination component.
 ///
-/// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
+/// <https://bulma.io/documentation/components/pagination/>
 #[function_component(Pagination)]
 pub fn pagination(
     PaginationProps {
@@ -72,7 +72,7 @@ pub struct PaginationItemProps {
 
 /// A pagination element representing a link to a page number, the previous page or the next page.
 ///
-/// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
+/// <https://bulma.io/documentation/components/pagination/>
 #[function_component(PaginationItem)]
 pub fn pagination_item(PaginationItemProps { children, item_type, label, onclick }: &PaginationItemProps) -> Html {
     let classes = classes!(*item_type);
@@ -103,7 +103,7 @@ impl_classes_from!(PaginationItemType);
 
 /// A horizontal ellipsis for pagination range separators.
 ///
-/// [https://bulma.io/documentation/components/pagination/](https://bulma.io/documentation/components/pagination/)
+/// <https://bulma.io/documentation/components/pagination/>
 #[function_component(PaginationEllipsis)]
 pub fn pagination_ellipsis() -> Html {
     html! {<span class="pagination-ellipsis">{"&hellip;"}</span>}

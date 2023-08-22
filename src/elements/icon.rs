@@ -22,7 +22,7 @@ pub struct IconProps {
 
 /// A container for any type of icon font.
 ///
-/// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
+/// <https://bulma.io/documentation/elements/icon/>
 #[function_component(Icon)]
 pub fn icon(IconProps { children, classes, onclick, size, alignment }: &IconProps) -> Html {
     basic_comp!(<span [{onclick}]>, children, classes.clone(), "icon", size, alignment)
@@ -39,9 +39,9 @@ pub struct IconTextProps {
     pub onclick: Callback<MouseEvent>,
 }
 
-/// A wrapper to combine text with icons. Text should be wrapped in a <span> tag
+/// A wrapper to combine text with icons. Text should be wrapped in a `<span>` tag
 ///
-/// [https://bulma.io/documentation/elements/icon/](https://bulma.io/documentation/elements/icon/)
+/// <https://bulma.io/documentation/elements/icon/>
 #[function_component(IconText)]
 pub fn icon_text(IconTextProps { children, classes, onclick }: &IconTextProps) -> Html {
     basic_comp!(<span [{onclick}]>, children, classes.clone(), "icon-text")

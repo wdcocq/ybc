@@ -42,7 +42,7 @@ pub struct SelectProps {
 
 /// A wrapper around an HTML `select` tag.
 ///
-/// [https://bulma.io/documentation/form/select/](https://bulma.io/documentation/form/select/)
+/// <https://bulma.io/documentation/form/select/>
 ///
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent
@@ -128,7 +128,7 @@ pub struct MultiSelectProps {
 
 /// A wrapper around an HTML `select` tag with the `multiple=true` attribute.
 ///
-/// [https://bulma.io/documentation/form/select/](https://bulma.io/documentation/form/select/)
+/// <https://bulma.io/documentation/form/select/>
 ///
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent

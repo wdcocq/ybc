@@ -23,7 +23,7 @@ pub struct BreadcrumbProps {
 
 /// A simple breadcrumb component to improve your navigation experience.
 ///
-/// [https://bulma.io/documentation/components/breadcrumb/](https://bulma.io/documentation/components/breadcrumb/)
+/// <https://bulma.io/documentation/components/breadcrumb/>
 #[function_component(Breadcrumb)]
 pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separator }: &BreadcrumbProps) -> Html {
     let classes = classes!(classes.clone(), "breadcrumb", size, alignment, separator);
@@ -39,7 +39,7 @@ pub fn breadcrumb(BreadcrumbProps { children, classes, size, alignment, separato
 
 /// The 3 sizes available for a breadcrumb.
 ///
-/// https://bulma.io/documentation/components/breadcrumb/#sizes
+/// <https://bulma.io/documentation/components/breadcrumb/#sizes>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum BreadcrumbSize {
     #[strum(to_string = "is-small")]
@@ -52,7 +52,7 @@ pub enum BreadcrumbSize {
 
 /// The 4 additional separators for a breadcrump.
 ///
-/// https://bulma.io/documentation/components/breadcrumb/#alternative-separators
+/// <https://bulma.io/documentation/components/breadcrumb/#alternative-separators>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum BreadcrumbSeparator {
     #[strum(to_string = "has-arrow-seperator")]

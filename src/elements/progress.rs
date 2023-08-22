@@ -16,7 +16,7 @@ pub struct ProgressProps {
 
 /// A native HTML progress bar.
 ///
-/// [https://bulma.io/documentation/elements/progress/](https://bulma.io/documentation/elements/progress/)
+/// <https://bulma.io/documentation/elements/progress/>
 #[function_component(Progress)]
 pub fn progress(ProgressProps { classes, max, value }: &ProgressProps) -> Html {
     basic_comp!(<progress [max={max.to_string()} value={value.to_string()}]>, {format!("{value}%")}, classes.clone())

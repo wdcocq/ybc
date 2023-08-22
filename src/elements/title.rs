@@ -22,7 +22,7 @@ pub struct TitleProps {
 
 /// A simple heading to add depth to your page.
 ///
-/// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
+/// <https://bulma.io/documentation/elements/title/>
 #[function_component(Title)]
 pub fn title(TitleProps { children, classes, tag, is_spaced, size }: &TitleProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "title", size, is_spaced.then_some("is-spaced"))
@@ -46,7 +46,7 @@ pub struct SubtitleProps {
 
 /// A simple heading to add depth to your page.
 ///
-/// [https://bulma.io/documentation/elements/title/](https://bulma.io/documentation/elements/title/)
+/// <https://bulma.io/documentation/elements/title/>
 #[function_component(Subtitle)]
 pub fn subtitle(SubtitleProps { children, classes, tag, size }: &SubtitleProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "subtitle", size)
@@ -54,7 +54,7 @@ pub fn subtitle(SubtitleProps { children, classes, tag, size }: &SubtitleProps) 
 
 /// The six sizes available for titles & subtitles.
 ///
-/// https://bulma.io/documentation/elements/title/#sizes
+/// <https://bulma.io/documentation/elements/title/#sizes>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum HeaderSize {
     #[strum(to_string = "is-1")]

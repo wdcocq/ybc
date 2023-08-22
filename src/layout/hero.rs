@@ -23,11 +23,11 @@ pub struct HeroProps {
     /// Optional classes to add to the hero-foot container.
     #[prop_or_default]
     pub foot_classes: Classes,
-    /// If you are using a [fixed navbar](https://bulma.io/documentation/components/navbar/#fixed-navbar),
+    /// If you are using a [fixed navbar](<https://bulma.io/documentation/components/navbar/#fixed-navbar),>
     /// you can use the `fixed_nav=true` modifier on the hero for it to occupy the viewport height
     /// minus the navbar height.
     ///
-    /// https://bulma.io/documentation/layout/hero/#fullheight-with-navbar
+    /// <https://bulma.io/documentation/layout/hero/#fullheight-with-navbar>
     #[prop_or_default]
     pub fixed_nav: bool,
     /// Generate a subtle gradient for the hero.
@@ -40,7 +40,7 @@ pub struct HeroProps {
 
 /// An imposing hero banner to showcase something.
 ///
-/// [https://bulma.io/documentation/layout/hero/](https://bulma.io/documentation/layout/hero/)
+/// <https://bulma.io/documentation/layout/hero/>
 #[function_component(Hero)]
 pub fn hero(
     HeroProps {
@@ -85,7 +85,7 @@ pub fn hero(
 
 /// The 4 sizes available for heros.
 ///
-/// [https://bulma.io/documentation/layout/hero/#sizes](https://bulma.io/documentation/layout/hero/#sizes)
+/// <https://bulma.io/documentation/layout/hero/#sizes>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum HeroSize {
     #[strum(to_string = "is-medium")]

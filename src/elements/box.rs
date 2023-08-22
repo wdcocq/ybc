@@ -10,7 +10,7 @@ pub struct BoxProps {
 
 /// A white box to contain other elements.
 ///
-/// [https://bulma.io/documentation/elements/box/](https://bulma.io/documentation/elements/box/)
+/// <https://bulma.io/documentation/elements/box/>
 #[function_component(Box)]
 pub fn r#box(BoxProps { children, classes }: &BoxProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "box")

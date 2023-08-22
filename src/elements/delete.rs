@@ -18,7 +18,7 @@ pub struct DeleteProps {
 
 /// A versatile delete cross.
 ///
-/// [https://bulma.io/documentation/elements/delete/](https://bulma.io/documentation/elements/delete/)
+/// <https://bulma.io/documentation/elements/delete/>
 #[function_component(Delete)]
 pub fn delete(DeleteProps { children, classes, tag, onclick }: &DeleteProps) -> Html {
     basic_comp!(<@tag [{onclick}]>, children, classes.clone(), "delete")

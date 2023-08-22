@@ -50,7 +50,7 @@ pub struct FileProps {
 
 /// A custom file upload input.
 ///
-/// [https://bulma.io/documentation/form/file/](https://bulma.io/documentation/form/file/)
+/// <https://bulma.io/documentation/form/file/>
 ///
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent

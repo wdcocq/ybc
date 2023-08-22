@@ -14,7 +14,7 @@ pub struct ControlledDropdownProps {
     pub hoverable: bool,
     /// The content of the trigger.
     #[prop_or_default]
-    pub trigger_html: Html,
+    pub trigger_html: Option<Html>,
     /// Whether to provide a background trigger to close the dropdown
     #[prop_or(true)]
     pub close_trigger: bool,
@@ -28,7 +28,7 @@ pub struct ControlledDropdownProps {
 /// An interactive dropdown menu for discoverable content. Can be controlled from outside through
 /// the active property.
 ///
-/// [https://bulma.io/documentation/components/dropdown/](https://bulma.io/documentation/components/dropdown/)
+/// <https://bulma.io/documentation/components/dropdown/>
 #[function_component(ControlledDropdown)]
 pub fn controlled_dropdown(
     ControlledDropdownProps {
@@ -54,9 +54,11 @@ pub fn controlled_dropdown(
                 <div onclick={activated.reform(|_| false)}
                      style="z-index:10;background-color:rgba(0,0,0,0);position:fixed;top:0;bottom:0;left:0;right:0;"/>
             }
-            <div class="dropdown-trigger" onclick={activated.reform(|_| true)}>
-                {trigger_html.clone()}
-            </div>
+            if let Some(trigger_html) = trigger_html {
+                <div class="dropdown-trigger" onclick={activated.reform(|_| true)}>
+                    {trigger_html.clone()}
+                </div>
+            }
             <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                     {children.clone()}
@@ -85,7 +87,7 @@ pub struct DropdownProps {
 
 /// An interactive dropdown menu for discoverable content.
 ///
-/// [https://bulma.io/documentation/components/dropdown/](https://bulma.io/documentation/components/dropdown/)
+/// <https://bulma.io/documentation/components/dropdown/>
 #[function_component(Dropdown)]
 pub fn dropdown(DropdownProps { children, classes, hoverable, trigger_html }: &DropdownProps) -> Html {
     let active = use_state_eq(|| false);

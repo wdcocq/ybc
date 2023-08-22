@@ -22,7 +22,7 @@ pub struct ControlProps {
 
 /// A container with which you can wrap the form controls.
 ///
-/// [https://bulma.io/documentation/form/general/](https://bulma.io/documentation/form/general/)
+/// <https://bulma.io/documentation/form/general/>
 #[function_component(Control)]
 pub fn conttrol(
     ControlProps {

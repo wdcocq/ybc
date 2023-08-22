@@ -15,7 +15,7 @@ pub struct LevelProps {
 
 /// A multi-purpose horizontal level, which can contain almost any other element.
 ///
-/// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
+/// <https://bulma.io/documentation/layout/level/>
 #[function_component(Level)]
 pub fn level(LevelProps { children, classes, tag }: &LevelProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "level")
@@ -36,7 +36,7 @@ pub struct LevelChildProps {
 
 /// A container for level elements to be grouped to the left of the container.
 ///
-/// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
+/// <https://bulma.io/documentation/layout/level/>
 #[function_component(LevelLeft)]
 pub fn level_left(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "level-left")
@@ -44,7 +44,7 @@ pub fn level_left(LevelChildProps { children, classes, tag }: &LevelChildProps) 
 
 /// A container for level elements to be grouped to the right of the container.
 ///
-/// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
+/// <https://bulma.io/documentation/layout/level/>
 #[function_component(LevelRight)]
 pub fn level_right(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "level-right")
@@ -52,7 +52,7 @@ pub fn level_right(LevelChildProps { children, classes, tag }: &LevelChildProps)
 
 /// An individual element of a level container.
 ///
-/// [https://bulma.io/documentation/layout/level/](https://bulma.io/documentation/layout/level/)
+/// <https://bulma.io/documentation/layout/level/>
 #[function_component(LevelItem)]
 pub fn level_item(LevelChildProps { children, classes, tag }: &LevelChildProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "level-item")

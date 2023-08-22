@@ -10,6 +10,9 @@ pub struct LabelProps {
     pub horizontal: bool,
 }
 
+/// A label for a field
+///
+/// <https://bulma.io/documentation/form/general/#form-field>
 #[function_component(Label)]
 pub fn label(LabelProps { children, classes, horizontal }: &LabelProps) -> Html {
     if *horizontal {

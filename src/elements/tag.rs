@@ -29,7 +29,7 @@ pub struct TagProps {
 
 /// A small tag label to insert anywhere.
 ///
-/// [https://bulma.io/documentation/elements/tag/](https://bulma.io/documentation/elements/tag/)
+/// <https://bulma.io/documentation/elements/tag/>
 #[function_component(Tag)]
 pub fn tag(
     TagProps {
@@ -68,7 +68,7 @@ pub struct TagsProps {
 
 /// A container for a list of tags.
 ///
-/// [https://bulma.io/documentation/elements/tag/](https://bulma.io/documentation/elements/tag/)
+/// <https://bulma.io/documentation/elements/tag/>
 #[function_component(Tags)]
 pub fn tags(TagsProps { children, classes, has_addons }: &TagsProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "tags", has_addons.then_some("has-addons"))

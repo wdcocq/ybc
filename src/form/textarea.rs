@@ -45,7 +45,7 @@ pub struct TextAreaProps {
 
 /// A multiline textarea component.
 ///
-/// [https://bulma.io/documentation/form/textarea/](https://bulma.io/documentation/form/textarea/)
+/// <https://bulma.io/documentation/form/textarea/>
 ///
 /// All YBC form components are controlled components. This means that the value of the field must
 /// be provided from a parent component, and changes to this component are propagated to the parent

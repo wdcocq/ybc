@@ -10,7 +10,7 @@ pub struct BlockProps {
 
 /// Bulma’s most basic spacer block
 ///
-/// [https://bulma.io/documentation/elements/block/](https://bulma.io/documentation/elements/block/)
+/// <https://bulma.io/documentation/elements/block/>
 #[function_component(Block)]
 pub fn block(BlockProps { children, classes }: &BlockProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "block")

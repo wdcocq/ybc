@@ -17,7 +17,7 @@ pub struct PanelProps {
 
 /// A composable panel, for compact controls.
 ///
-/// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
+/// <https://bulma.io/documentation/components/panel/>
 #[function_component(Panel)]
 pub fn panel(PanelProps { children, classes, heading }: &PanelProps) -> Html {
     let classes = classes!(classes.clone(), "panel");
@@ -40,7 +40,7 @@ pub struct PanelTabsProps {
 
 /// A container for the navigation tabs of a panel.
 ///
-/// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
+/// <https://bulma.io/documentation/components/panel/>
 #[function_component(PanelTabs)]
 pub fn panel_tabs(PanelTabsProps { children }: &PanelTabsProps) -> Html {
     basic_comp!(<p>, children, "panel-tabs")
@@ -65,7 +65,7 @@ pub struct PanelBlockProps {
 
 /// An individual element of the panel.
 ///
-/// [https://bulma.io/documentation/components/panel/](https://bulma.io/documentation/components/panel/)
+/// <https://bulma.io/documentation/components/panel/>
 #[function_component(PanelBlock)]
 pub fn panel_block(PanelBlockProps { children, tag, active, onclick }: &PanelBlockProps) -> Html {
     basic_comp!(<@tag [{onclick}]>, children, "panel-block", active.then_some("is-active"))

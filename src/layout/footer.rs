@@ -10,7 +10,7 @@ pub struct FooterProps {
 
 /// A simple responsive footer which can include anything.
 ///
-/// [https://bulma.io/documentation/layout/footer/](https://bulma.io/documentation/layout/footer/)
+/// <https://bulma.io/documentation/layout/footer/>
 #[function_component(Footer)]
 pub fn footer(FooterProps { children, classes }: &FooterProps) -> Html {
     basic_comp!(<footer>, children, classes.clone(), "footer")

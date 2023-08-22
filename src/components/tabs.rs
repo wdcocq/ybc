@@ -30,7 +30,7 @@ pub struct TabsProps {
 
 /// Simple responsive horizontal navigation tabs, with different styles.
 ///
-/// [https://bulma.io/documentation/components/tabs/](https://bulma.io/documentation/components/tabs/)
+/// <https://bulma.io/documentation/components/tabs/>
 ///
 /// For integration with Yew Router, it is recommended that the `RouterButton` or `RouterAnchor`
 /// components be used as the individual tab elements for this component.
@@ -69,7 +69,7 @@ pub fn tabs(
 
 /// A tab item for the Tabs component
 ///
-/// [https://bulma.io/documentation/components/tabs/](https://bulma.io/documentation/components/tabs/)
+/// <https://bulma.io/documentation/components/tabs/>
 ///
 /// For integration with Yew Router, it is recommended that the `RouterButton` or `RouterAnchor`
 /// components be used as the individual tab elements for this component.

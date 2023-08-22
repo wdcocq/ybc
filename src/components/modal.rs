@@ -18,7 +18,7 @@ pub struct ModalProps {
 
 /// A classic modal overlay, in which you can include any content you want.
 ///
-/// [https://bulma.io/documentation/components/modal/](https://bulma.io/documentation/components/modal/)
+/// <https://bulma.io/documentation/components/modal/>
 ///
 /// See the docs on [`ModalAgent`] to be able to open and close your modal instance from anywhere
 /// in your app for maximum flexibility.
@@ -99,7 +99,7 @@ pub struct ModalCardProps {
 
 /// A classic modal with a header, body, and footer section.
 ///
-/// [https://bulma.io/documentation/components/modal/](https://bulma.io/documentation/components/modal/)
+/// <https://bulma.io/documentation/components/modal/>
 ///
 /// See the docs on [`ModalAgent`] to be able to open and close your modal instance from anywhere
 /// in your app for maximum flexibility.

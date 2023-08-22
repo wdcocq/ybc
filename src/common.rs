@@ -43,6 +43,67 @@ macro_rules! color_str {
     };
 }
 
+/// Common flex grow classes.
+///
+/// <https://bulma.io/documentation/helpers/flexbox-helpers/#flex-grow-and-flex-shrink>
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
+pub enum FlexGrow {
+    #[strum(to_string = "is-flex-grow-0")]
+    Zero,
+    #[strum(to_string = "is-flex-grow-1")]
+    One,
+    #[strum(to_string = "is-flex-grow-2")]
+    Two,
+    #[strum(to_string = "is-flex-grow-3")]
+    Three,
+    #[strum(to_string = "is-flex-grow-4")]
+    Four,
+    #[strum(to_string = "is-flex-grow-5")]
+    Five,
+}
+
+/// Common flex shrink classes.
+///
+/// <https://bulma.io/documentation/helpers/flexbox-helpers/#flex-grow-and-flex-shrink>
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
+pub enum FlexShrink {
+    #[strum(to_string = "is-flex-shrink-0")]
+    Zero,
+    #[strum(to_string = "is-flex-shrink-1")]
+    One,
+    #[strum(to_string = "is-flex-shrink-2")]
+    Two,
+    #[strum(to_string = "is-flex-shrink-3")]
+    Three,
+    #[strum(to_string = "is-flex-shrink-4")]
+    Four,
+    #[strum(to_string = "is-flex-shrink-5")]
+    Five,
+}
+
+impl ImplicitClone for FlexGrow {}
+impl ImplicitClone for FlexShrink {}
+
+impl_classes_from!(FlexGrow, FlexShrink);
+
+#[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
+pub enum Breakpoint {
+    #[strum(to_string = "mobile")]
+    Mobile,
+    #[strum(to_string = "tablet")]
+    Tablet,
+    #[strum(to_string = "touch")]
+    Touch,
+    #[strum(to_string = "desktop")]
+    Desktop,
+    #[strum(to_string = "widescreen")]
+    Widescreen,
+    #[strum(to_string = "fullhd")]
+    FullHD,
+}
+
+impl ImplicitClone for Breakpoint {}
+
 macro_rules! colors {
     ($(($variant:ident: $($base:tt)+),)*) => {
         #[derive(Clone, Copy, Debug, PartialEq, Eq)]

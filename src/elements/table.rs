@@ -31,7 +31,7 @@ pub struct TableProps {
 
 /// An HTML table component.
 ///
-/// [https://bulma.io/documentation/elements/table/](https://bulma.io/documentation/elements/table/)
+/// <https://bulma.io/documentation/elements/table/>
 
 #[function_component(Table)]
 pub fn table(

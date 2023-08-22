@@ -16,7 +16,7 @@ pub struct ButtonsProps {
 
 /// A container for a group of buttons.
 ///
-/// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
+/// <https://bulma.io/documentation/elements/button/>
 #[function_component(Buttons)]
 pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html {
     basic_comp!(<div>, children, classes.clone(), "buttons", size)
@@ -24,7 +24,7 @@ pub fn buttons(ButtonsProps { children, classes, size }: &ButtonsProps) -> Html 
 
 /// The 3 sizes available for a button group.
 ///
-/// https://bulma.io/documentation/elements/button/#sizes
+/// <https://bulma.io/documentation/elements/button/#sizes>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum ButtonGroupSize {
     #[strum(to_string = "are-small")]
@@ -77,7 +77,7 @@ pub struct ButtonProps {
 
 /// A button element.
 ///
-/// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
+/// <https://bulma.io/documentation/elements/button/>
 
 #[function_component(Button)]
 pub fn button(
@@ -239,7 +239,7 @@ pub struct ButtonAnchorProps {
 
 /// An anchor element styled as a button.
 ///
-/// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
+/// <https://bulma.io/documentation/elements/button/>
 #[function_component(ButtonAnchor)]
 pub fn button_anchor(
     ButtonAnchorProps {
@@ -301,7 +301,7 @@ pub struct ButtonInputSubmitProps {
 
 /// An input element with `type="submit"` styled as a button.
 ///
-/// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
+/// <https://bulma.io/documentation/elements/button/>
 #[function_component(ButtonInputSubmit)]
 pub fn button_input(
     ButtonInputSubmitProps {
@@ -361,7 +361,7 @@ pub struct ButtonInputResetProps {
 
 /// An input element with `type="reset"` styled as a button.
 ///
-/// [https://bulma.io/documentation/elements/button/](https://bulma.io/documentation/elements/button/)
+/// <https://bulma.io/documentation/elements/button/>
 #[function_component(ButtonInputReset)]
 pub fn button_input_reset(
     ButtonInputResetProps {

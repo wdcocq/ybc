@@ -50,24 +50,24 @@ pub struct NavbarProps {
     pub fixed: Option<NavbarFixed>,
     /// Seamlessly integrate the navbar in any visual context.
     ///
-    /// [https://bulma.io/documentation/components/navbar/#transparent-navbar](https://bulma.io/documentation/components/navbar/#transparent-navbar)
+    /// <https://bulma.io/documentation/components/navbar/#transparent-navbar>
     #[prop_or_default]
     pub transparent: bool,
     /// Sets **top** and **bottom** paddings with **1rem**, **left** and **right** paddings with
     /// **2rem**.
     ///
-    /// [https://bulma.io/documentation/components/navbar/#navbar-helper-classes](https://bulma.io/documentation/components/navbar/#navbar-helper-classes)
+    /// <https://bulma.io/documentation/components/navbar/#navbar-helper-classes>
     #[prop_or_default]
     pub spaced: bool,
     /// Adds a small amount of box-shadow around the navbar
     ///
-    /// [https://bulma.io/documentation/components/navbar/#navbar-helper-classes](https://bulma.io/documentation/components/navbar/#navbar-helper-classes)
+    /// <https://bulma.io/documentation/components/navbar/#navbar-helper-classes>
     #[prop_or_default]
     pub shading: bool,
     /// The contents of the navbar brand. The `navbar-burger` is automatically appended to the
     /// end of this content.
     ///
-    /// [https://bulma.io/documentation/components/navbar/#navbar-brand](https://bulma.io/documentation/components/navbar/#navbar-brand)
+    /// <https://bulma.io/documentation/components/navbar/#navbar-brand>
     /// If true, the contents of the navbar will be wrapped in a container.
     #[prop_or_default]
     pub padded: bool,
@@ -93,7 +93,7 @@ pub struct NavbarProps {
 
 /// A responsive horizontal navbar that can support images, links, buttons, and dropdowns.
 ///
-/// [https://bulma.io/documentation/components/navbar/](https://bulma.io/documentation/components/navbar/)
+/// <https://bulma.io/documentation/components/navbar/>
 #[function_component(Navbar)]
 pub fn navbar(
     NavbarProps {
@@ -170,7 +170,7 @@ pub fn navbar(
 
 /// The 2 possible fixed positions available for a navbar.
 ///
-/// [https://bulma.io/documentation/components/navbar/#fixed-navbar](https://bulma.io/documentation/components/navbar/#fixed-navbar)
+/// <https://bulma.io/documentation/components/navbar/#fixed-navbar>
 ///
 /// NOTE WELL: in order to work properly, the root `html` or `body` element must be configured with
 /// the corresponding `has-navbar-fixed-top` or `has-navbar-fixed-bottom` class.
@@ -188,7 +188,7 @@ impl_classes_from!(NavbarFixed);
 
 /// The two HTML tags allowed for a navbar-item.
 ///
-/// [https://bulma.io/documentation/components/navbar/#navbar-item](https://bulma.io/documentation/components/navbar/#navbar-item)
+/// <https://bulma.io/documentation/components/navbar/#navbar-item>
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NavbarItemTag {
     A,
@@ -230,7 +230,7 @@ pub struct NavbarItemProps {
 
 /// A single element of the navbar.
 ///
-/// [https://bulma.io/documentation/components/navbar/](https://bulma.io/documentation/components/navbar/)
+/// <https://bulma.io/documentation/components/navbar/>
 #[function_component(NavbarItem)]
 pub fn navbar_item(
     NavbarItemProps {
@@ -271,7 +271,7 @@ pub struct NavbarDividerProps {
 
 /// An element to display a horizontal rule in a navbar-dropdown.
 ///
-/// [https://bulma.io/documentation/components/navbar/#dropdown-menu](https://bulma.io/documentation/components/navbar/#dropdown-menu)
+/// <https://bulma.io/documentation/components/navbar/#dropdown-menu>
 #[function_component(NavbarDivider)]
 pub fn navbar_divider(NavbarDividerProps { classes }: &NavbarDividerProps) -> Html {
     let classes = classes!(classes.clone(), "navbar-divider");
@@ -313,7 +313,7 @@ pub struct NavbarDropdownProps {
 /// This component is a composite of all of the elements needed in order to properly generate
 /// a navbar dropdown component.
 ///
-/// [https://bulma.io/documentation/components/navbar/#dropdown-menu](https://bulma.io/documentation/components/navbar/#dropdown-menu)
+/// <https://bulma.io/documentation/components/navbar/#dropdown-menu>
 #[function_component(NavbarDropdown)]
 pub fn navbar_dropdown(
     NavbarDropdownProps {

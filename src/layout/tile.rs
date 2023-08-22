@@ -14,24 +14,24 @@ pub struct TileProps {
     pub tag: AttrValue,
     /// The context modifier to use for this tile element, else none.
     ///
-    /// https://bulma.io/documentation/layout/tiles/#modifiers
+    /// <https://bulma.io/documentation/layout/tiles/#modifiers>
     #[prop_or_default]
     pub ctx: Option<TileCtx>,
     /// Stack tiles vertically.
     ///
-    /// https://bulma.io/documentation/layout/tiles/#modifiers
+    /// <https://bulma.io/documentation/layout/tiles/#modifiers>
     #[prop_or_default]
     pub vertical: bool,
     /// The size to assign to this tile element.
     ///
-    /// https://bulma.io/documentation/layout/tiles/#modifiers
+    /// <https://bulma.io/documentation/layout/tiles/#modifiers>
     #[prop_or_default]
     pub size: Option<TileSize>,
 }
 
 /// A single tile element to build 2-dimensional whatever-you-like grids.
 ///
-/// [https://bulma.io/documentation/layout/tiles/](https://bulma.io/documentation/layout/tiles/)
+/// <https://bulma.io/documentation/layout/tiles/>
 #[function_component(Tile)]
 pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProps) -> Html {
     basic_comp!(<@tag>, children, classes.clone(), "tile", ctx, size, vertical.then_some("is-vertical"))
@@ -39,7 +39,7 @@ pub fn tile(TileProps { children, classes, tag, ctx, vertical, size }: &TileProp
 
 /// Tile context modifiers.
 ///
-/// https://bulma.io/documentation/layout/tiles/#modifiers
+/// <https://bulma.io/documentation/layout/tiles/#modifiers>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum TileCtx {
     #[strum(to_string = "is-ancestor")]
@@ -52,7 +52,7 @@ pub enum TileCtx {
 
 /// Tile size modifiers.
 ///
-/// https://bulma.io/documentation/layout/tiles/#modifiers
+/// <https://bulma.io/documentation/layout/tiles/#modifiers>
 #[derive(Clone, Copy, Debug, IntoStaticStr, PartialEq, Eq)]
 pub enum TileSize {
     #[strum(to_string = "is-1")]
