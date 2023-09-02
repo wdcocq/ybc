@@ -385,10 +385,16 @@ mod router {
         /// Add a bottom border on hover, and show the bottom border using `is_active=true`.
         #[prop_or_default]
         pub tab: bool,
+        /// Wether to show link is active, overrides the default behavior of active links when value
+        /// is `Some`.
+        #[prop_or_default]
+        pub active: Option<bool>,
     }
 
+    /// A navbar item that uses a router to navigate. Will show as active when the route matches,
+    /// unless `active` is provided.
     #[function_component(NavbarItemRouter)]
-    pub fn navbar_item_router<R>(RouterProps::<R> { to, children, classes, expanded, tab }: &RouterProps<R>) -> Html
+    pub fn navbar_item_router<R>(RouterProps::<R> { to, children, classes, expanded, tab, active }: &RouterProps<R>) -> Html
     where
         R: Routable + 'static,
     {
@@ -398,7 +404,9 @@ mod router {
             "navbar-item",
             expanded.then_some("is-expanded"),
             tab.then_some("is-tab"),
-            route.filter(|route| route == to).map(|_| "is-active")
+            (*active)
+                .or(route.map(|route| route == *to))
+                .and_then(|a| a.then_some("is-active"))
         );
 
         html! {
